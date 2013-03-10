@@ -62,7 +62,6 @@ void EntityManager :: pulseUrchin(int index){
     environment->splash( urchins.at(index)->global, urchins.at(index)->radius, 25 );
 }
 
-
 void EntityManager :: createSpore(){
     int r = int(rand(0,3));
     Vec2f loc = hero->global;

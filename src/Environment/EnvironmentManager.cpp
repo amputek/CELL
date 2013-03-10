@@ -55,7 +55,6 @@ void EnvironmentManager :: update( Vec2f heroLoc ){
     
 }
 
-
 void EnvironmentManager :: updateSplashes(){
 
     for( vector<Splash*>::iterator p = splashes.begin(); p != splashes.end(); ){
