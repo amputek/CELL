@@ -1,8 +1,9 @@
 Cellv0
 ======
 
-Undergraduate Final Year Project: CELL, an audio-visual game built in Cinder and SuperCollider
-
+CELL, an audio-visual game built in Cinder and SuperCollider
+Contains XCode project and Resource files.
 SuperCollider parts to come later...
 
-Requires OSC to communicate between Cinder and SuperCollider
+
+Requires OSC CinderBlock to communicate between Cinder and SuperCollider
