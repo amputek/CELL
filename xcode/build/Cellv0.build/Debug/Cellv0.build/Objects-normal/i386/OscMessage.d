@@ -1,0 +1,43 @@
+dependencies: \
+  /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../../../../../../Applications/cinder_0.8.4_mac/blocks/osc/src/OscMessage.cpp \
+  /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../../../../../../Applications/cinder_0.8.4_mac/blocks/osc/include/OscMessage.h \
+  ../../../../../../Applications/cinder_0.8.4_mac/include/cinder/Cinder.h \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/cstdint.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/config.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/config/user.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/config/select_compiler_config.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/config/compiler/clang.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/config/select_stdlib_config.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/config/no_tr1/utility.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/config/stdlib/libstdcpp3.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/config/select_platform_config.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/config/platform/macos.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/config/posix_features.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/config/suffix.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/version.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/shared_ptr.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/smart_ptr/shared_ptr.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/config/no_tr1/memory.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/assert.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/current_function.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/checked_delete.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/throw_exception.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/exception/detail/attribute_noreturn.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/detail/workaround.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/exception/exception.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/smart_ptr/detail/shared_count.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/smart_ptr/bad_weak_ptr.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/smart_ptr/detail/sp_counted_base.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/smart_ptr/detail/sp_has_sync.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/smart_ptr/detail/sp_counted_base_gcc_x86.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/detail/sp_typeinfo.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/smart_ptr/detail/sp_counted_impl.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/smart_ptr/detail/sp_convertible.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/smart_ptr/detail/spinlock_pool.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/smart_ptr/detail/spinlock.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/smart_ptr/detail/spinlock_sync.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/smart_ptr/detail/yield_k.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/memory_order.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/boost/boost/smart_ptr/detail/operator_bool.hpp \
+  ../../../../../../Applications/cinder_0.8.4_mac/include/cinder/Exception.h \
+  ../../../../../../Applications/cinder_0.8.4_mac/blocks/osc/include/OscArg.h

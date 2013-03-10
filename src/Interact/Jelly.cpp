@@ -1,0 +1,65 @@
+#include "Jelly.h"
+
+Jelly :: Jelly(Vec2f loc, gl::Texture* tex) : Swimmer(loc){
+    speed = 0.002;
+    radius = int(rand(15,30));
+    for(int i = 0; i < int(rand(6,10)); i++){
+        feelers.push_back( new Feeler(Vec2f(global.x, global.y), int(rand(5,8)), 1.0));
+        jellyContacts.push_back(false);
+    }
+    counter = 0;
+    img = tex;
+}
+
+void Jelly :: collide(Vec2f loc){
+    for(int i = 0; i < feelers.size(); i++){
+        feelers.at(i)->collide(loc);
+        jellyContacts.at(i) = feelers.at(i)->contact();
+    }
+}
+
+void Jelly :: draw(){
+    
+    if(onScreen() == true){
+        
+        gl::color(Color(1,1,1));
+        float width  = radius*2 + sin(counter)*2;
+        float height = radius*2 + cos(counter)*3;
+        gl::draw( *img, Rectf(local.x - width, local.y - height, local.x + width, local.y + height )) ;
+        
+        for(int i = 0; i < paths.size(); i++){
+            gl::color(ColorA8u(150,255,200,40));
+            gl::draw( paths.at(i) ) ;
+            gl::drawSolidCircle( paths.at(i).getPosition(0), 2);
+            
+            float si = 5;
+            for(int t = 30; t > 1; t -= 1){
+                gl::color(ColorA8u(200-t,100+t,200,25));
+                if(t == counter*10){
+                    gl::drawSolidCircle(paths.at(i).getPoint(t), (5-si)*0.75);
+                }
+                si-=0.1;
+            }
+        }
+    }
+    
+    
+}
+
+
+void Jelly :: update(){
+    
+    Swimmer::update();
+    counter += 0.1;
+    
+    paths.clear();
+    
+    for(int i = 0; i < feelers.size(); i++){
+        feelers.at(i)->addForce( Vec2f(rand(-5,5), rand(18,24)) );
+        float pos = (0.5*M_PI * i / (feelers.size()-1)) - 0.25*M_PI;
+        feelers.at(i)->global = global + Vec2f(sin(pos) * radius*0.6, cos(pos) * radius*0.6);
+        feelers.at(i)->update();
+        
+        paths.push_back( feelers.at(i)->getPath() );
+    }
+}
