@@ -1085,4 +1085,6 @@ dependencies: \
   /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../src/Dust.h \
   /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../src/Images.h \
   ../../../../../../Applications/cinder_0.8.4_mac/include/cinder/ImageIo.h \
-  ../../../../../../Applications/cinder_0.8.4_mac/include/cinder/DataTarget.h
+  ../../../../../../Applications/cinder_0.8.4_mac/include/cinder/DataTarget.h \
+  /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../src/Mask.h \
+  ../../../../../../Applications/cinder_0.8.4_mac/include/cinder/gl/Fbo.h

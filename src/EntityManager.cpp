@@ -1,38 +1,34 @@
 #include "EntityManager.h"
 
 //Constructor initialises the hero, the floor and surface, and some starting entities
-EntityManager :: EntityManager( OSCManager* osc){
+EntityManager :: EntityManager( Images* img){
     
-    oscManager = osc;
-    image = new Images();
+    //set up OSC
+    oscManager = new OSCManager();
+    oscManager->entities = this;
+    
+    //set up managers
+    image = img;
     environment = new EnvironmentManager( image );
     
-    hero = new Player(Vec2f(-200,-1000), image->player() ) ;
-    
+    //first entities
+    hero = new Player(Vec2f(-400,-1200), image->player() );
     offset = hero->global;
     
-    //friendlies.push_back( new Friendly(Vec2f(100,-100), image->friendly() ) );
     eggs.push_back( new Egg(Vec2f(-200,-1000), image->egg() ) );
-    
-   // jellies.push_back( new Jelly( hero->global, image->jelly(1) ) );
-    
     colliders.push_back(hero);
-    
-   // colliders.push_back( jellies.back() );
-    //colliders.insert( colliders.end(), friendlies.begin() , friendlies.end() );
-    colliders.insert( colliders.end(), eggs.begin(),    eggs.end() );
-    
-//    floor = new Floor();
-//    surface = new SeaSurface();
-    surfaceY = -5000;
 
+    //initialise counters
     urchinLastSeen = 0;
-    sporeLastSeen = 0;
-    starLastSeen = 0;
-    jellyLastSeen = 0;
-    eggLastSeen = 0;
+    sporeLastSeen  = 0;
+    starLastSeen   = 0;
+    jellyLastSeen  = 0;
+    eggLastSeen    = 0;
 }
 
+void EntityManager :: quit(){
+    oscManager->quit();
+}
 
 //Update loop called from the Main App class
 //Checks for incoming messages from OSC
@@ -41,93 +37,7 @@ EntityManager :: EntityManager( OSCManager* osc){
 void EntityManager :: update(){
     
     oscManager->recieveMessage();
-    updateEntities();
-    updateOffset( );
-    environment->update( hero->global );
-    entityGenerator();
-}
 
-
-//RECIEVERS FROM OSC MANAGER
-void EntityManager :: pulseFriendly(int index){
-    environment->splash( friendlies.at(index)->global, 10, 30 );
-}
-
-void EntityManager :: pulseSpark(int index){
-    sparks.at(index)->radius = 10;
-    environment->splash( sparks.at(index)->global, 10, 25 );
-}
-
-void EntityManager :: pulseUrchin(int index){
-    environment->splash( urchins.at(index)->global, urchins.at(index)->radius, 25 );
-}
-
-void EntityManager :: createSpore(){
-    int r = int(rand(0,3));
-    Vec2f loc = hero->global;
-    
-    for(int i = 0; i < rand(10,35); i++){
-        spores.push_back(new Spore(loc + Vec2f(rand(-200,200), rand(-200,200)), rand(0.1,1.1), r, image->spore(r) ) );
-    }
-    sporeLastSeen = 0;
-    
-}
-
-void EntityManager :: createStarfish(){
-    cout << "Creating new Starfish" << "\n";
-    starfish.push_back( new Starfish( hero->global + Vec2f(100,100)) );
-    colliders.push_back( starfish.back() );
-    starLastSeen = 0;
-}
-
-//Updates the Main Character, moving them towards the mouse position
-void EntityManager :: updateHero(Vec2f mousePos){
-    
-    if(mousePos.x < 0){    mousePos.x = 0;   }
-    if(mousePos.x > 800){  mousePos.x = 800; }
-    if(mousePos.y < 0){    mousePos.y = 0;   }
-    if(mousePos.y > 600){  mousePos.y = 600; }
-    
-    hero->moveTo( globalise(mousePos, 1) );
-    hero->update();
-    depth = ((500 - hero->global.y) / 7000);
-    if(hero->global.y < -5000){
-        if(aboveSurface == false){
-            aboveSurface = true;
-        //    oscManager->surface(1);
-        }
-    } else {
-        environment->splash( hero->global, hero->radius+2, 12);
-        
-        if(aboveSurface == true){
-            aboveSurface = false;
-            for(int i = 0; i < 10; i++){
-                environment->splash( hero->global + Vec2f(rand(-20,20), rand(-20,20)), 0, rand(5,40) );
-            }
-            
-         //   oscManager->surface(0);
-        }
-    }
-    
-    if(hero->levelling() == true){
-        environment->splash(hero->global + Vec2f(rand(-20,20), rand(-20,20)), 0, rand(5,40));
-    }
-}
-
-//Removes a specified entity from the collider list
-void EntityManager :: removeFromColliders(GameObject* collider){
-    cout << "erasing " << collider << "\n";
-    for( vector<GameObject*>::iterator p = colliders.begin(); p < colliders.end(); ){
-        if(collider == (*p)){
-            p = colliders.erase(p);
-        } else {
-            ++p;
-        }
-    }
-}
-
-//Update Entities
-void EntityManager :: updateEntities(){
     updatePlankton();
     updateUrchins();
     updateSparks();
@@ -137,6 +47,93 @@ void EntityManager :: updateEntities(){
     updateJellies();
     updateFriendlies();
     updateGrass();
+    
+    updateOffset( );
+    environment->update( hero->global );
+    entityGenerator();
+}
+
+
+void EntityManager :: create(string species){
+    if(species == "star"){
+        starfish.push_back( new Starfish(hero->global) );
+        colliders.push_back( starfish.back() );
+    }
+    
+    if(species == "egg"){
+        
+    }
+    
+    if(species == "jelly"){
+        
+    }
+    
+    if(species == "spores"){
+        
+    }
+}
+
+//RECIEVERS FROM OSC MANAGER
+void EntityManager :: pulse(string species, int index){
+    if(species == "friendly"){
+        environment->splash( friendlies.at(index)->global, 10, 30 );
+    }
+    if(species == "spark"){
+        sparks.at(index)->radius = 10;
+        environment->splash( sparks.at(index)->global, 10, 25 );
+    }
+    if(species == "urchin"){
+        environment->splash( urchins.at(index)->global, urchins.at(index)->radius, 25 );
+    }
+}
+
+//Updates the Main Character, moving them towards the mouse position
+void EntityManager :: updateHero(Vec2f mousePos){
+
+    hero->moveTo(mousePos);
+    hero->update();
+    
+    oscManager->setDepth( (-hero->global.y) / 7000 );
+    
+    
+    //Check if Hero is above or below surface
+    if(hero->global.y < surfaceY){
+        if(aboveSurface == false){
+            aboveSurface = true;
+            oscManager->surface(1);
+        }
+    } else {
+        environment->splash( hero->global, hero->radius+2, 12);
+        
+        if(aboveSurface == true){
+            aboveSurface = false;
+            for(int i = 0; i < 10; i++){
+                environment->splash( hero->global + vrand(20), 0, rand(5,40) );
+            }
+            
+            oscManager->surface(0);
+        }
+    }
+    
+    if(hero->levelling() == true){
+        environment->splash(hero->global + vrand(20), 0, rand(5,40));
+    }
+}
+
+//Removes a specified entity from the collider list
+void EntityManager :: removeFromColliders(GameObject* collider){
+    for( vector<GameObject*>::iterator p = colliders.begin(); p < colliders.end(); ){
+        if(collider == (*p)){
+            p = colliders.erase(p);
+        } else {
+            ++p;
+        }
+    }
+}
+
+
+bool EntityManager :: farFromHero( Vec2f location ){
+    return ( dist(hero->global, location) > 10000 );
 }
 
 void EntityManager :: updatePlankton(){
@@ -146,35 +143,32 @@ void EntityManager :: updatePlankton(){
         
         bool ended = false;
         
-        if(((*p)->global - hero->global).lengthSquared() > 500000.0f){
-            delete *p;
-            p = plankton.erase(p);
-            ended = true;
+        if( farFromHero( (*p)->global ) == true ){
+            ended = true;       //if plankton is far enough away from hero, delete
         } else {
             int i = 0;
             while(ended == false && i < colliders.size()){
-                float d = ((*p)->global - colliders.at(i)->global).lengthSquared();
-                if(d < 200.0f){
+                if(dist( (*p)->global, colliders.at(i)->global) < 10 ){
                     environment->bubble( (*p)->local, 4);
                     environment->splash( (*p)->global, 1, 50 );
-                    oscManager->eatPlankton(depth, (*p)->type(), (*p)->radius);
+                    oscManager->eatPlankton( 0.0, (*p)->type(), (*p)->radius);
                     if(i == 0){
                         hero->incEaten( (*p)->type() );
                         if(hero->getEaten() % 8 == 0){
                             environment->splash( hero->global, 0, 100 );
-                            //oscManager->eighthPlankton();
-                            hero->levelUp();
+                            oscManager->eighthPlankton();
                         }
                     }
-                    delete *p;
-                    p = plankton.erase(p);
                     ended = true;
                 }
                 i++;
             }
         }
         
-        if(ended == false){
+        if(ended == true){
+            delete *p;
+            p = plankton.erase(p);
+        } else {
             ++p;
         }
     }
@@ -185,7 +179,7 @@ void EntityManager :: updateUrchins(){
     for( vector<Urchin*>::iterator p = urchins.begin(); p != urchins.end(); ){
         
         //if Urchin is far enough away from hero
-        if(((*p)->global - hero->global).lengthSquared() > 1000000){
+        if( farFromHero( (*p)->global ) == true){
             //remove from collider list, then delete from urchin list and erase object
             removeFromColliders((GameObject*)(*p));
             delete *p;
@@ -197,7 +191,7 @@ void EntityManager :: updateUrchins(){
             (*p)->updateTarget(colliders);
             if((*p)->inSpace == true){
                 if(plankton.size() > 0){
-                    if(plankton.at(0)->global.y > -1000 && (plankton.at(0)->global - (*p)->global).lengthSquared() < 100000){
+                    if(plankton.at(0)->global.y > -1000 && dist(plankton.at(0)->global, (*p)->global ) < 800 ){
                         (*p)->setDestination( plankton.at(0)->global );
                     } else {
                         (*p)->setDestination( Vec2f((*p)->global.x + rand(-100,100), rand(0,300)) );
@@ -224,38 +218,51 @@ void EntityManager :: updateSpores(){
     
     for( vector<Spore*>::iterator p = spores.begin(); p < spores.end(); ){
         
-        (*p)->update();
-        (*p)->collide(hero->global);
+        bool ended = false;
         
-        //sound happens if there's any contact with the field
-        if((*p)->contact() == true){
-            environment->splash( (*p)->global, 22*(*p)->depth, 30 );
-        //    oscManager->sporeBoop( (*p)->health );
-        }
-        
-        //reset field counter if the character is near enough to any field
-        if(((*p)->global - hero->global).lengthSquared() < 7000000){
-            sporeLastSeen = 0;
-        }
-        
-        
-        if((*p)->alive() == false){
-            cout << "new Spark" << "\n";
-            sparks.push_back(new Spark((*p)->global, (*p)->type() ) );
-        //    oscManager->newSpark( (*p)->type );
-            colliders.push_back( sparks.back() );
-            environment->bubble( (*p)->local, 15 );
-
-            for(int i = 0; i < 10; i++){
-                environment->splash( (*p)->global + Vec2f(rand(-10,10), rand(-10,10)), rand(5,20), rand(5,35) );
+        if( farFromHero( (*p)->global ) == true ){
+            ended = true;
+        } else {
+    
+            (*p)->update();
+            (*p)->collide(hero->global);
+            
+            //sound happens if there's any contact with the field
+            if((*p)->contact() == true){
+                environment->splash( (*p)->global, 22*(*p)->depth, 30 );
+                oscManager->sporeBoop( (*p)->health );
             }
             
+            //reset field counter if the character is near enough to any field
+            if(((*p)->onScreen() == true)){
+                sporeLastSeen = 0;
+            }
+            
+            if((*p)->alive() == false){
+                cout << "Creating new Spark" << "\n";
+                
+                ended = true;
+
+                sparks.push_back(new Spark((*p)->global, (*p)->type() ) );
+            
+                oscManager->newSpark( (*p)->type() );
+                colliders.push_back( sparks.back() );
+                
+                environment->bubble( (*p)->local, 15 );
+                for(int i = 0; i < 10; i++){
+                    environment->splash( (*p)->global + vrand(10), rand(5,20), rand(5,35) );
+                }
+            }
+        }
+        
+        
+        if(ended == true){
             delete *p;
             p = spores.erase(p);
-            
         } else {
             ++p;
         }
+        
     }
     
     sporeLastSeen++;
@@ -266,11 +273,11 @@ void EntityManager :: updateSparks(){
         sparks.at(i)->update();
         sparks.at(i)->setDestination( hero->global );
         for(int n = 0; n < urchins.size(); n++){
-            if((sparks.at(i)->global - urchins.at(n)->global).length() < 1000){
+            if( dist(sparks.at(i)->global, urchins.at(n)->global) < 100){
                 sparks.at(i)->setDestination(urchins.at(n)->global);
             }
         }
-        if((sparks.at(i)->global - hero->global).length() > 1000){
+        if( dist(sparks.at(i)->global, hero->global) > 100){
             sparks.at(i)->setDestination( hero-> global );
         }
         
@@ -280,41 +287,65 @@ void EntityManager :: updateSparks(){
 
 void EntityManager :: updateEggs(){
     
-    for(int i = 0; i < eggs.size(); i++){
-        eggs.at(i)->update();
-        eggs.at(i)->collide(hero->global);
-        // oscManager->egg(eggs.at(i)->inside());
-        if(eggs.at(i)->inside() == true){
-            if(hero->speed > 0.005){
-                hero->speed -= 0.0005;
-            }
-        } else {
-            
-            hero->speed = 0.015;
-        }
+    
+    for( vector<Egg*>::iterator p = eggs.begin(); p < eggs.end(); ){
         
-        if(eggs.at(i)->onScreen() == true){
-            eggLastSeen = 0;
+        if( farFromHero( (*p)->global ) == true ){
+            removeFromColliders((GameObject*)(*p));
+            delete *p;
+            p = eggs.erase(p);
+        } else {
+            (*p)->update();
+            (*p)->collide(hero->global);
+            
+            oscManager->egg( (*p)->inside() );
+            
+            if( (*p)->inside() == true ){
+            //    hero->slow();
+            }
+            
+            if( (*p)->onScreen() == true){
+                eggLastSeen = 0;
+            }
+            
+            ++p;
         }
     }
-
-    eggLastSeen++;    
+    
+    eggLastSeen++;
+   
 }
 
 void EntityManager :: updateStarfish(){
     
-    for(int i = 0; i < starfish.size(); i++){
-        starfish.at(i)->collide(hero->global);
-        starfish.at(i)->update();
-        starfish.at(i)->updateTarget(colliders);
-        starfish.at(i)->setDestination( starfish.at(i)->global + Vec2f(rand(-10,10), rand(-10,10)) );
+    
+    for( vector<Starfish*>::iterator p = starfish.begin(); p < starfish.end(); ){
+    
+        if( farFromHero( (*p)->global ) == true ){
+            removeFromColliders((GameObject*)(*p));
+            delete *p;
+            p = starfish.erase(p);
+            
+        } else {
+            (*p)->collide(hero->global);
+            (*p)->update();
+            (*p)->updateTarget(colliders);
+            (*p)->setDestination( (*p)->global + vrand(10) );
+            
+            if( (*p)->activated() == true){
+                cout << "activating " << "\n";
+                oscManager->changeChord();
+            }
 
-        if(starfish.at(i)->onScreen() == true){
-            starLastSeen = 0;
-        }
-        
-        if( getElapsedFrames() % 30 == 0){
-            environment->bubble( starfish.at(i)->local, 1 );
+            if( (*p)->onScreen() == true){
+                starLastSeen = 0;
+            }
+            
+            if( getElapsedFrames() % 30 == 0){
+                environment->bubble( (*p)->local, 1 );
+            }
+            
+            ++p;
         }
     }
     
@@ -325,25 +356,24 @@ void EntityManager :: updateStarfish(){
 void EntityManager :: updateJellies(){
     
     for( vector<Jelly*>::iterator j = jellies.begin(); j < jellies.end(); ){
+
         (*j)->update();
         (*j)->collide(hero->global);
-//        oscManager->jelly((*j)->contacts() );
+        (*j)->setDestination( (*j)-> global );
+        oscManager->jelly( (*j)->contacts() );
 
-        
         if((*j)->onScreen() == true){
             jellyLastSeen = 0;
         }
         
-        (*j)->setDestination( (*j)-> global );
-        
-        if( ((*j)->global - hero->global).lengthSquared() > 1000000){
-            cout << "Erasing Jellyfish" << "\n";
-            removeFromColliders((GameObject*)(*j));
+        if( farFromHero( (*j)->global ) == true ){
+            removeFromColliders( (GameObject*)(*j) );
             delete *j;
             j = jellies.erase(j);
         } else {
             ++j;
         }
+        
     }
     
     jellyLastSeen++;
@@ -351,120 +381,73 @@ void EntityManager :: updateJellies(){
 }
 
 void EntityManager :: updateFriendlies(){
-    for(int i = 0; i < friendlies.size(); i++){
-        friendlies.at(i)->update();
-        friendlies.at(i)->updateTarget(colliders);
-        if(friendlies.at(i)->inSpace == true){
-            if(plankton.size() > 0){
-                if(plankton.at(0)->global.y < 0){
-                    friendlies.at(i)->setDestination( plankton.at(0)->global );
-                } else {
-                    friendlies.at(i)->setDestination( Vec2f(friendlies.at(i)->global.x + rand(-100,100), rand(-100,100)) );
-                }
-            }
+    
+    for( vector<Friendly*>::iterator p = friendlies.begin(); p < friendlies.end(); ){
+    
+        (*p)->update();
+        (*p)->updateTarget(colliders);
+        
+        if( (*p)->inSpace == true && plankton.size() > 10){
+            (*p)->setDestination( plankton.at(9)->global );
         }
     }
 }
 
 void EntityManager :: updateGrass(){
-    // cout << longGrass.size() << "\n";
+    
     for( std::vector<Feeler*>::iterator p = longGrass.begin(); p != longGrass.end(); ){
         
-        (*p)->update();
-        (*p)->collide(hero->global);
-        (*p)->addForce(Vec2f(rand(-4,4), -15.0));
-        
-    //    oscManager->feeler( (*p)->contact(), (*p)->length() );
-        
-        if(abs((*p)->global.x - hero->global.x) > 5000){
-            //  cout << "deleting grass" << "\n";
+        if(farFromHero( (*p)->global ) == true ){
             delete *p;
             p = longGrass.erase(p);
         } else {
+            (*p)->update();
+            (*p)->collide(hero->global);
+            (*p)->addForce(Vec2f(rand(-4,4), -15.0));
+        
+            //oscManager->feeler( (*p)->contact(), (*p)->length() );
             ++p;
         }
-        
+
     }
 }
+
 
 //Updates the global Offset value depending on the Hero's location
 void EntityManager :: updateOffset(){
 
-    bool egg = false;
-//    
-//    for(int i = 0; i < eggs.size(); i++){
-//        if( eggs.at(i)->inside() == true ){
-//            insideEgg = true;
-//            egg = true;
-//            offset += 0.05f * (eggs.at(i)->local - Vec2f(getWindowWidth()/2, (getWindowHeight()/2) ) );
-//        }
-//    }
-    
-
-        float over = 0;
-        if(hero->global.y > 300){
-            over = hero->global.y - 300;
-        }
-        offset += 0.03f * (hero->local - Vec2f(getWindowWidth()/2, (getWindowHeight()/2)+over));
+    float over = 0;
+    if(hero->global.y > 300){
+        over = hero->global.y - 300;
+    }
+    offset += 0.03f * (hero->local - Vec2f(getWindowWidth()/2, (getWindowHeight()/2)+over));
 
 }
 
-
-int EntityManager :: distribute(){
-    vector<float> probabilities;
-    probabilities.push_back(10);
-    probabilities.push_back(8);
-    probabilities.push_back(6);
-    probabilities.push_back(5);
-    probabilities.push_back(3);
-    
-    float total = 0;
-    for(int i = 0; i < probabilities.size(); i++){
-        total+= probabilities.at(i);
-    }
-    float random = rand(0.0, total);
-    
-    for(int i = 0; i < probabilities.size(); i++){
-        if(random < probabilities.at(i)){
-            return i;
-        }
-        random -= probabilities.at(i);
-    }
-    return 0;
-}
 
 //Procedural Content Generation (PCG) method
 void EntityManager :: entityGenerator(){
     
     //PLANKTON
-    if(getElapsedFrames() % 150 == 0){
-        if(plankton.size() < 25){
+    if(getElapsedFrames() % 150 == 0 && plankton.size() < 25){
+        int index = irand(0,5);
         
-            int index = distribute();
-            
-            if(rand(0.0,1.0) < 0.5){
-                for(int i = 0; i < int(rand(0,10)); i++){
-                    plankton.push_back( new Plankton( inFront(hero->global, hero->direction, 600) + Vec2f(rand(-50,50), rand(-50,50)),  image->plankton(index), index ) );
-                }
+        if(rand(0.0,1.0) < 0.5){
+            for(int i = 0; i < irand(0,10); i++){
+                plankton.push_back( new Plankton( inFront(hero->global, hero->direction, 600) + vrand(50),  image->plankton(index), index ) );
             }
-            plankton.push_back( new Plankton( inFront(hero->global, hero->direction, 600), image->plankton(index), index) );
         }
+        plankton.push_back( new Plankton( inFront(hero->global, hero->direction, 600), image->plankton(index), index) );
     }
     
 
     //LONG GRASS
-    if(hero->global.y > 0){
-        if(longGrass.size() < 10){
-            if(rand(0.0,1.0) > 0.99){
-                float nx = inFront(hero->global, hero->direction, 600).x;
-                cout << "new grass" << "\n";
-                //   if(abs(nx - hero->global.x) > 450){
-                for(int i = 0; i < int(rand(3,6)); i++){
-                    longGrass.push_back( new Feeler( Vec2f(nx + int(rand(-40,40)), 500 ), int(rand(5,10)), rand(0.9,1.15)) );
-                    longGrass.back()->update();
-                }
-                //  }
-            }
+    if(hero->global.y > 0 && longGrass.size() < 10 && rand(0.0,1.0) > 0.99){
+        float nx = inFront(hero->global, hero->direction, 600).x;
+        cout << "Creaing new Grass" << "\n";
+        for(int i = 0; i < irand(3,6); i++){
+            longGrass.push_back( new Feeler( Vec2f(nx + irand(-40,40), 500 ), irand(5,10), rand(0.9,1.15)) );
+            longGrass.back()->update();
         }
     }
     
@@ -485,19 +468,18 @@ void EntityManager :: entityGenerator(){
     
     if(jellyLastSeen == 1500){
         cout << "Creating new Jelly" << "\n";
-        jellies.push_back( new Jelly( inFront(hero->global, hero->direction, 600), image->jelly(0) ) );
+        jellies.push_back( new Jelly( inFront(hero->global, hero->direction, 600), image->jelly( 2 ) ) );
         colliders.push_back( jellies.back() );
         jellyLastSeen = 0;
     }
     
     if(sporeLastSeen == 600){
         cout << "Creating new Field" << "\n";
-        int r = int(rand(0,3));
+        int r = irand(0,3);
         Vec2f loc = inFront(hero->global, hero->direction, 1600);
         
         for(int i = 0; i < rand(5,30); i++){
-            spores.push_back(new Spore(loc + Vec2f(rand(-100,100), rand(-100,100)),
-                                       rand(0.5,1.1), r, image->spore(r)) );
+            spores.push_back(new Spore(loc + vrand(100), rand(0.5,1.1), r, image->spore(r)) );
         }
         sporeLastSeen = 0;
     }
@@ -509,21 +491,39 @@ void EntityManager :: entityGenerator(){
         colliders.push_back( eggs.back() );
         eggLastSeen = 0;
     }
-    
 }
 
 
 Vec2f EntityManager :: inFront(Vec2f start, float direction, int inFrontBy){
     float x = start.x + sin(direction)*inFrontBy;
     float y = start.y + cos(direction)*inFrontBy;
-    if(y > 0){     y = 0; };
-    if(y < -4500){ y = 4500; };
+    if(y > 0){
+        y = 100;
+        x += 1000;
+    };
+    if(y < -6500){
+        y = -6000;
+        x -= 1000;
+    };
     
     return Vec2f(x,y);
 }
 
 //calls every entities' draw function
 void EntityManager :: drawEntities(){
+    
+    glBlendFunc(GL_SRC_ALPHA,GL_ONE);
+    
+    float widthMod = sin(hero->global.x*0.0001)*0.1;
+    
+    float depth = (-hero->global.y) / 7000;
+        
+    float r = depth*0.06 -widthMod;
+    float g = depth*0.3 + widthMod;
+    float b = depth*0.8;
+    
+    gl::clear( Color( r,g,b ) );
+
     
     if(hero->global.y > 100){
     //    floor->draw();
@@ -545,4 +545,6 @@ void EntityManager :: drawEntities(){
     if(hero->global.y < -2000){
    //     surface->draw();
     }
+    
+    environment->drawMask();
 }

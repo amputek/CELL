@@ -86,11 +86,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "../src/EntityManager.cpp"
-         timestampString = "384552181.810875"
+         timestampString = "384736092.56123"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "93"
-         endingLineNumber = "93"
+         startingLineNumber = "105"
+         endingLineNumber = "105"
          landmarkName = "EntityManager :: updateHero(Vec2f mousePos)"
          landmarkType = "5">
       </FileBreakpoint>

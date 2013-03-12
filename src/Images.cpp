@@ -30,4 +30,11 @@ Images :: Images(){
     urchinImg =             new gl::Texture( loadImage( loadResource( "twirl.png"          ) ) );
     eggImg =                new gl::Texture( loadImage( loadResource( "egg.png"            ) ) );
     
+    titleSplashScreen =     new gl::Texture( loadImage( loadResource( "cell-splashscreen.png" ) ) );
+    maskImg =               new gl::Texture( loadImage( loadResource( "mask-1.png"            ) ) );
+    
+    menuImg =               new gl::Texture( loadImage( loadResource( "menu.png"            ) ) );
+    menuYes =               new gl::Texture( loadImage( loadResource( "menu-yes.png"        ) ) );
+    menuNo =                new gl::Texture( loadImage( loadResource( "menu-no.png"         ) ) );
+    
 }

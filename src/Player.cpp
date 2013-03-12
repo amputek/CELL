@@ -19,7 +19,14 @@ Player :: Player(Vec2f loc, vector<gl::Texture*> texs) : Braitenberg(loc, true){
 
 
 //move to a specified location
-void Player :: moveTo(Vec2f dest){
+void Player :: moveTo(Vec2f mousePos){
+    
+    if(mousePos.x < 0                 ){  mousePos.x = 10;                     }
+    if(mousePos.x > getWindowWidth()  ){  mousePos.x = getWindowWidth() - 10;  }
+    if(mousePos.y < 0                 ){  mousePos.y = 10;                     }
+    if(mousePos.y > getWindowHeight() ){  mousePos.y = getWindowHeight() - 10; }
+    
+    Vec2f dest = globalise(mousePos, 1);
     
     if(falling == true){
         Braitenberg::moveTo( Vec2f(dest.x, 400) );
@@ -32,7 +39,7 @@ void Player :: moveTo(Vec2f dest){
 
 void Player :: update(){
     
-    falling = global.y < -5000;
+    falling = global.y < -7000;
 
     if(playerLevelling == true){
         levelCount++;
@@ -75,6 +82,13 @@ void Player:: draw(){
     longTail->draw();
 }
 
+void Player :: incEaten(int type){
+    planktonEaten.at(0)++;
+    
+    if(planktonEaten.at(0) % 8 == 0){
+        levelUp();
+    }
+};
 
 void Player :: levelUp(){
     level++;

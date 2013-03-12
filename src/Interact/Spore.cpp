@@ -2,7 +2,7 @@
 
 
 Spore :: Spore(Vec2f loc, float d, int t, gl::Texture* tex) : Dust(loc, Vec2f(0,0), d){
-    health = 10;
+    health = 4;
     radius = 30*depth;
     sporeContact = false;
     img = tex;

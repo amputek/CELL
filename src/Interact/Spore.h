@@ -23,10 +23,10 @@ public:
     int type(){ return sporeType; };
     bool contact(){ return sporeContact; };
     bool alive(){ return health > 0; };
-    
+    int health;
 private:
     gl::Texture* img;
-    int health;
+    
     int sporeType;
     bool sporeContact;
 };

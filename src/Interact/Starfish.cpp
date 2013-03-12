@@ -14,16 +14,29 @@ Starfish :: Starfish(Vec2f loc) : Swimmer(loc){
 void Starfish:: collide(Vec2f loc){
     if((loc - global).length() < 100){
         for(int i = 0; i < feelers.size(); i++){
-            if((loc-feelers.at(i)->global).lengthSquared() < 8000){
+            if( dist(loc,feelers.at(i)->global) < 30){
                 feelers.at(i)->addForce( (feelers.at(i)->global - loc) * 0.15 );
+                contacts++;
             }
         }
     }
 }
 
+bool Starfish :: activated(){
+    if(contacts >= 100){
+        contacts = 0;
+        return true;
+    }
+    return false;
+}
+
 void Starfish :: update(){
     
-    counter+=contacts * 0.0003;
+    counter+=contacts * 0.003;
+
+    if(contacts > 0){
+        contacts--;
+    }
 
     for(int i = 0; i < feelers.size(); i++){
         float angle = 2*M_PI * i / feelers.size();
@@ -47,7 +60,7 @@ void Starfish :: draw(){
             gl::drawSolidCircle(local, i);
         }
         
-        gl::color(ColorA8u(150,100 - contacts,10,100));
+        gl::color(ColorA8u(150,100 - contacts,10,60));
         
         for(int i = 1; i < radius; i+=2){
             gl::drawSolidCircle(local, i);
@@ -55,12 +68,12 @@ void Starfish :: draw(){
         
         for(int i = 0; i < feelers.size(); i++){
             vector<Vec2f> points = feelers.at(i)->getPoints();
-            float s = radius*0.5;
-            for(int n = 1; n < points.size(); n+=3){
+            float s = 15;
+            for(int n = 1; n < points.size(); n+=2){
                 gl::drawSolidCircle(points.at(n), s);
                 gl::drawSolidCircle(points.at(n), 2);
                 gl::drawSolidCircle(points.at(n), 2);
-                s -= (radius*0.02);
+                s -= 1.0;
             }
         }
     }

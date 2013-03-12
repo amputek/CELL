@@ -14,7 +14,7 @@
 #include "Beam.h"
 #include "Bubble.h"
 #include "Images.h"
-
+#include "Mask.h"
 
 using namespace std;
 
@@ -25,11 +25,14 @@ public:
     void bubble( Vec2f local, int amount );
     void update( Vec2f heroLoc);
     void draw();
+    void drawMask();
+    
 private:
     void updateBeams();
     void updateBubbles();
     void updateSplashes();
     
+    Mask* mask;
     //  SeaSurface* surface;
     //  Floor* floor;
     vector<Splash*> splashes;

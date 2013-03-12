@@ -19,6 +19,7 @@ public:
     void update();
     void draw();
     void collide(Vec2f loc);
+    bool activated();
 private:
     vector<Feeler*> feelers;
     float counter;

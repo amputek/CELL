@@ -1,12 +1,7 @@
 #include "cinder/app/AppBasic.h"
 #include "cinder/gl/gl.h"
-
-#include "Mask.h"
-#include "OSCManager.h"
 #include "EntityManager.h"
-#include "cinder/Utilities.h"
-#include "cinder/gl/Texture.h"
-
+#include "Images.h"
 
 using namespace ci::app;
 using namespace std;
@@ -20,40 +15,31 @@ public:
     
 	void update();
 	void draw();
-    void debugInfo();
-    
-    EntityManager* entityManager;
-    
+
     bool paused = false;
     bool gameStart = false;
+    bool quitScreen = false;
+    bool yesSelected = false;
+    bool noSelected = false;
     int gameFrames = 0;
+    int quitOpacity = 0;
     
-    Mask* mask;
+    EntityManager* entityManager;
     OSCManager* oscManager;
-    float r,g,b;
-    
-    gl::Texture* splashscreen;
-    
+    Images* image; 
 };
 
 
 void Cellv0App::prepareSettings( Settings *settings ){
-    settings->setWindowSize( 800, 600 );
+    settings->setWindowSize( 400, 300 );
     settings->setFrameRate(30.0f);
     settings->setTitle( "cell v0.1" );
 }
 
 
 void Cellv0App::setup(){
-    oscManager = new OSCManager();
-    entityManager = new EntityManager( oscManager );
-  //  oscManager->entities = entityManager;
-  //  oscManager->startLoop();
-    
-    splashscreen = new gl::Texture(loadImage(loadResource("cell-splashscreen.png") ) );
-    
-    mask = new Mask( gl::Texture( loadImage( loadResource( "mask-1.png" ) ) ) );
-    
+    image = new Images();
+    entityManager = new EntityManager( image );    
     gl::enableAdditiveBlending( );
     glBlendFunc(GL_SRC_ALPHA,GL_ONE);
 }
@@ -65,12 +51,22 @@ void Cellv0App::mouseDown( MouseEvent event ){
         hideCursor();
     }
     
-    cout << "fps: " << getAverageFps() << "\n";
+    if(yesSelected == true){
+        entityManager->quit();
+        quit();
+    }
+    if(noSelected == true){
+        quitScreen = false;
+        paused = false;
+        hideCursor();
+        quitOpacity = 0;
+    }
     
+    cout << "fps: " << getAverageFps() << "\n";
 }
 
 void Cellv0App::keyDown( KeyEvent event ){
-	if( event.getChar() == 'p' ){
+    if(event.getChar() == 'p'){
         if(paused == true){
             hideCursor();
             paused = false;
@@ -78,97 +74,94 @@ void Cellv0App::keyDown( KeyEvent event ){
             showCursor();
             paused = true;
         }
-        // paused = !paused;
     }
     
-    if( event.getChar() == 'z' ){
- //       oscManager->duck();
+    if(event.getChar() == 's'){
+        entityManager->create("star");
     }
     
-    if( event.getChar() == 'f' ){
-        entityManager->createSpore();
-    }
-    
-    if( event.getChar() == 'u' ){
-        entityManager->createStarfish();
+    if(event.getCode() == 27 || event.getChar() == 'q'){
+        //entityManager->quit();
+        //quit();
+        if(quitScreen == false){
+            paused = true;
+            quitScreen = true;
+            showCursor();
+        } else {
+            quitOpacity = 0;
+            paused = false;
+            quitScreen = false;
+            hideCursor();
+        }
     }
 }
 
 void Cellv0App::update(){
-    if(gameStart == true){
-        if(paused == false){
-            
-            
-            entityManager->updateHero( getMousePos() );
-            entityManager->update();
-            
-            float depth = entityManager->getDepth();
-            float widthMod = sin(entityManager->getX()*0.0001)*0.1;
-            
-            r = depth*0.06 -widthMod; //0.04
-            g = depth*0.3 + widthMod;
-            b = depth*0.8;  //0.4
-            
-         //   oscManager->setDepth( depth );
-            
-            mask->update(offset.x - entityManager->getX(),
-                         offset.y - entityManager->getY(),
-                         (entityManager->getDepth()+0.2) * 3.0);
-            
-        }
+    if(gameStart == true && paused == false){
+        entityManager->updateHero( getMousePos() );
+        entityManager->update();
+    }
+    
+    if(quitScreen == true && quitOpacity < 250){
+        quitOpacity += 5;
+    }
+    
+    if( (getMousePos() - Vec2f(getWindowWidth() * 0.3, getWindowHeight() * 0.65)).length() < 50){
+        noSelected = true;
+    } else {
+        noSelected = false;
+    }
+    
+    if( (getMousePos() - Vec2f(getWindowWidth() * 0.7, getWindowHeight() * 0.65)).length() < 50){
+        yesSelected = true;
+    } else {
+        yesSelected = false;
     }
 }
 
 void Cellv0App::draw(){
     glBlendFunc(GL_SRC_ALPHA,GL_ONE);
     
-    
     if(gameStart == true){
         gameFrames++;
-        gl::clear( Color( r,g,b ) );
         entityManager->drawEntities();
-        glBlendFunc(GL_DST_COLOR, GL_SRC_COLOR);
-        
-        mask->draw();
-        
-        if(gameFrames < 125){
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-            float g = sin( getElapsedFrames()*0.1 )*30;
-            gl::color( ColorA8u( 220+g, 220-g, 255, (255.0-gameFrames*2) ) );
-            gl::draw( *splashscreen, Rectf(0,0,getWindowWidth(),getWindowHeight() ) );
-           // gl::color(ColorA8u(0,0,0,(255.0-gameFrames)));
-          //  gl::drawSolidRect( Rectf( 0,0,800,600 ) );
+
+        if(paused == true){
+            gl::color( ColorA8u( 255,255,255,50) );
+            gl::draw( *image->title(), Rectf(0,0,getWindowWidth(),getWindowHeight() ) );
         }
-        
-        
-        glBlendFunc(GL_SRC_ALPHA,GL_ONE);
-        
-        gl::color( ColorA8u(255,255,255,200) );
-        gl::drawSolidCircle( getMousePos(), 2 );
-        
     } else {
-        float g = sin( getElapsedFrames()*0.1 )*30;
         gl::clear( Color(0,0,0) );
-        gl::color( ColorA8u( 220+g, 220-g, 255, 255 ) );
-        gl::draw( *splashscreen, Rectf(0,0,getWindowWidth(),getWindowHeight() ) );
-      // gl::drawStringCentered("CELL", (cinder::app::getWindowSize() / 2) );
-        
     }
     
+    //draw splash screen ("CELL")
+    if(gameStart == false || gameFrames < 125){
+        glBlendFunc(GL_SRC_ALPHA,GL_ONE);
+        float g = sin( getElapsedFrames()*0.1 )*30;
+        
+        gl::color( ColorA8u( 220+g, 220-g, 255, 255 - (gameFrames*2) ) );
+        gl::draw( *image->title(), Rectf(0,0,getWindowWidth(),getWindowHeight() ) );
+    }
+    
+    if(quitScreen == true){
+      //  glBlendFunc(GL_SRC_ALPHA,GL_ONE);
+        gl::enableAlphaBlending();
+        gl::color( ColorA8u( 225, 255, 255, quitOpacity ) );
+        gl::draw( *image->menu(),  Rectf(0,0,getWindowWidth(),getWindowHeight() ) );
+
+        if(yesSelected == true){
+            gl::draw( *image->menuy(), Rectf(0,0,getWindowWidth(),getWindowHeight() ) );
+        }
+        if(noSelected == true){
+            gl::draw( *image->menun(), Rectf(0,0,getWindowWidth(),getWindowHeight() ) );
+        }
+    }
+    
+    gl::color( ColorA8u(255,255,255,200) );
+    gl::drawSolidCircle( getMousePos(), 2 );
+
 }
 
 
-void Cellv0App::debugInfo(){
-    gl::color(Color(1,1,1));
-    //    gl::drawString("elapsed frames: " + toString(getElapsedFrames()), Vec2f( 10,20 ));
-    gl::drawString("fps     : " + toString(getAverageFps()), Vec2f( 10,35 ));
-    //    gl::drawString("global.y: " + toString(entityManager->getY()), Vec2f( 10,50 ));
-    //    gl::drawString("depth   : " + toString(entityManager->getDepth()), Vec2f( 10,65 ));
-    //    gl::drawString("global.x: " + toString(entityManager->getX()), Vec2f( 10,80 ));
-    //    gl::drawString("environment: " + toString(entityManager->getEntities()), Vec2f( 10,95 ));
-    //    gl::drawString("twirl counter: " + toString(entityManager->getTwirlCounter()), Vec2f( 10,110 ));
-    //    gl::drawString("field counter: " + toString(entityManager->getFieldCounter()), Vec2f( 10,125 ));
-    //    gl::drawString("colliders: " + toString(entityManager->getColliders()), Vec2f( 10,140 ));
-}
 
 CINDER_APP_BASIC( Cellv0App, RendererGl )

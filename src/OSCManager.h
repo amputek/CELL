@@ -27,21 +27,18 @@ public:
     void eighthPlankton();
     
     void startLoop();
+    void quit();
+    
     void setDepth(float d);
     
     void urchin(int density, int size, int length);
-    void puff(float dist);
     void changeChord();
     void jelly(vector<bool> feelers);
     void feeler(bool contact, int legnth);
     void sporeBoop(int health);
     void egg(int inside);
-    void chimes();
     void surface(int where);
     void newSpark(int type);
-    void duck();
-    void siren(float d);
-    void startManta();
     
     EntityManager* entities;
     void recieveMessage();
@@ -54,6 +51,9 @@ private:
     osc::Sender sender;
     string host;
 	int port;
+    
+    int waitCount = 0;
+    bool initialised = false;
     
 };
 

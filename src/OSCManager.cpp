@@ -6,6 +6,7 @@ OSCManager :: OSCManager(){
     port = 57120;
     sender.setup(host, port);
     listener.setup(12080);
+    sendMessage("/confirm");
 }
 
 void OSCManager :: sendMessage(osc::Message message, string addr){
@@ -30,21 +31,40 @@ void OSCManager :: recieveMessage(){
         
         listener.getNextMessage(&message);
         if(message.getAddress() == "/mantaPulse"){
-            entities->pulseFriendly(message.getArgAsInt32(0));
+            entities->pulse("friendly", message.getArgAsInt32(0));
         }
         if(message.getAddress() == "/twirlPulse"){
-            entities->pulseUrchin(0);
+            entities->pulse("urchin", 0);
         }
         if(message.getAddress() == "/sparkPulse"){
-            entities->pulseSpark(message.getArgAsInt32(0));
+            entities->pulse("spark", message.getArgAsInt32(0));
+        }
+        
+        if(message.getAddress() == "/confirmReply"){
+            sendMessage("/startLoop");
+            initialised = true;
+        }
+        
+    }
+    
+    if(initialised == false){
+        waitCount++;
+        if(waitCount == 2){
+            port = 57121;
+            sender.setup(host, port);
+            listener.setup(12080);
+            sendMessage("/confirm");
         }
     }
 }
 
 void OSCManager :: startLoop(){
     cout << "starting SC loop" << "\n";
-    sendMessage("/start");
     sendMessage("/startLoop");
+}
+
+void OSCManager :: quit(){
+    sendMessage("/quit");
 }
 
 void OSCManager :: newSpark(int type){
@@ -62,21 +82,7 @@ void OSCManager :: newSpark(int type){
     sendMessage(msg, "/planktonEat");
 }
 
-void OSCManager :: chimes(){
-    sendMessage("/chimes");
-}
 
-void OSCManager :: siren(float d){
-    
-}
-
-void OSCManager :: startManta(){
-    sendMessage("/startManta");
-}
-
-void OSCManager :: duck(){
-    sendMessage("/duck");
-}
 
 void OSCManager :: eighthPlankton(){
     sendMessage("/levelUp");
@@ -120,24 +126,22 @@ void  OSCManager :: surface(int where){
 }
 
 
-void OSCManager :: puff(float dist){
-    if(dist < 200){
-        osc::Message msg;
-        msg.addFloatArg(dist);
-        sendMessage(msg, "/puff");
-    }
-}
-
 void OSCManager :: changeChord(){
     sendMessage("/changeChord");
 }
 
 void OSCManager :: jelly(vector<bool> feelers){
+    bool send = false;
     osc::Message msg;
     for(int i = 0; i < feelers.size(); i++){
+        if( feelers.at(i) == true ){
+            send = true;
+        }
         msg.addIntArg(feelers.at(i));
     }
-    sendMessage(msg, "/jelly");
+    if(send == true){
+        sendMessage(msg, "/jelly");
+    }
 }
 
 void OSCManager :: setDepth(float d){

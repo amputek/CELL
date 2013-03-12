@@ -13,18 +13,22 @@
 #include "Braitenberg.h"
 #include "Tail.h"
 
+using namespace ci::app;
+
 class Player : public Braitenberg{
 public:
     Player(Vec2f loc, vector<gl::Texture*> texs);
     void draw();
     void update();
-    void levelUp();
-    void moveTo(Vec2f dest);
-    void incEaten(int type){ planktonEaten.at(0)++; };
+    
+    void moveTo(Vec2f mousePos);
+    void incEaten(int type);
     int getEaten(){ return planktonEaten.at(0); };
     bool levelling(){ return playerLevelling; };
     
 private:
+    void levelUp();
+    
     gl::Texture* img;
     vector<gl::Texture*> imgs;
     int levelCount;

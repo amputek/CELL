@@ -1107,4 +1107,6 @@ dependencies: \
   /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../src/Environment/EnvironmentManager.h \
   /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../src/Environment/Splash.h \
   /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../src/Environment/Beam.h \
-  /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../src/Environment/Bubble.h
+  /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../src/Environment/Bubble.h \
+  /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../src/Mask.h \
+  ../../../../../../Applications/cinder_0.8.4_mac/include/cinder/gl/Fbo.h

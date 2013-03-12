@@ -24,7 +24,7 @@
 #include "Player.h"
 #include "Spark.h"
 
-// IO
+// IO + Managers
 #include "Images.h"
 #include "OscManager.h"
 #include "EnvironmentManager.h"
@@ -36,31 +36,21 @@ using namespace std;
 class EntityManager {
     
 public:
-    EntityManager( OSCManager* osc );
+    EntityManager( Images* img );
     
 	void update();
     void updateHero(Vec2f mouseLoc);
-
     void drawEntities();
     
-    //getters
-    float getY(){ return hero->global.y; };
-    float getX(){ return hero->global.x; };
-    float getDepth(){ return depth; };
-    
     //pulsers (triggers sent from OSC)
-    void pulseFriendly(int index);
-    void pulseUrchin(int index);
-    void pulseSpark(int index);
+    void pulse(string species, int index);
+    void create(string species);
     
-    void createSpore();
-    void createStarfish();
-    
+    void quit();
 private:
-    Images* image;
-    void updateOffset();
     
-    void updateEntities();
+    void updateOffset();
+
     void updatePlankton();
     void updateUrchins();
     void updateSpores();
@@ -71,17 +61,16 @@ private:
     void updateFriendlies();
     void updateGrass();
     
-    
     void entityGenerator();
     
     
-    int distribute();
-    
+    //Private functions
     void removeFromColliders(GameObject* collider);
-    
     Vec2f inFront(Vec2f start, float diretion, int inFrontBy);
+    bool farFromHero( Vec2f location );
     
     
+    //Collections
     Player* hero;
     vector<Friendly*> friendlies;
     vector<Feeler*> longGrass;
@@ -95,10 +84,9 @@ private:
     vector<GameObject*> colliders;
 
     //environment
-    int surfaceY;
+    const int surfaceY = -7000;
     
     //game values + counters
-    float depth;
     int urchinLastSeen;
     int sporeLastSeen;
     int starLastSeen;
@@ -107,9 +95,10 @@ private:
     bool aboveSurface;
     bool insideEgg;
     
-    //OSC stuff
+    //Managers etc
     OSCManager* oscManager;
     EnvironmentManager* environment;
+    Images* image;
 };
 
 #endif /* defined(__Cellv0__EntityManager__) */

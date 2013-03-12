@@ -28,6 +28,12 @@ public:
     cinder::gl::Texture* urchin(){        return urchinImg;          };
     cinder::gl::Texture* egg(){           return eggImg;             };
     vector<cinder::gl::Texture*> player(){return playerImgs;         };
+    cinder::gl::Texture* title(){         return titleSplashScreen;  };
+    cinder::gl::Texture* cinder(){        return cinderSplashScreen; };
+    cinder::gl::Texture* mask(){          return maskImg;            };
+    cinder::gl::Texture* menu(){          return menuImg;            };
+    cinder::gl::Texture* menuy(){         return menuYes;            };
+    cinder::gl::Texture* menun(){         return menuNo;             };
     
 private:
     vector<gl::Texture*> planktonImgs;
@@ -39,6 +45,13 @@ private:
     gl::Texture* urchinImg;
     gl::Texture* eggImg;
     vector<gl::Texture*> playerImgs;
+    gl::Texture* titleSplashScreen;
+    gl::Texture* cinderSplashScreen;
+    gl::Texture* maskImg;
+    
+    gl::Texture* menuImg;
+    gl::Texture* menuYes;
+    gl::Texture* menuNo;
 
 };
 

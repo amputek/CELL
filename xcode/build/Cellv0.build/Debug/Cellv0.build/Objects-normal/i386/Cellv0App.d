@@ -490,15 +490,6 @@ dependencies: \
   ../../../../../../Applications/cinder_0.8.4_mac/include/cinder/Timer.h \
   ../../../../../../Applications/cinder_0.8.4_mac/include/cinder/Function.h \
   ../../../../../../Applications/cinder_0.8.4_mac/include/cinder/app/TouchEvent.h \
-  /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../src/Mask.h \
-  ../../../../../../Applications/cinder_0.8.4_mac/include/cinder/gl/Fbo.h \
-  ../../../../../../Applications/cinder_0.8.4_mac/include/cinder/gl/Texture.h \
-  /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../src/OSCManager.h \
-  /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../../../../../../Applications/cinder_0.8.4_mac/blocks/osc/include/OscSender.h \
-  ../../../../../../Applications/cinder_0.8.4_mac/blocks/osc/include/OscBundle.h \
-  ../../../../../../Applications/cinder_0.8.4_mac/blocks/osc/include/OscMessage.h \
-  ../../../../../../Applications/cinder_0.8.4_mac/blocks/osc/include/OscArg.h \
-  /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../../../../../../Applications/cinder_0.8.4_mac/blocks/osc/include/OscListener.h \
   /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../src/EntityManager.h \
   /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../src/Interact/Plankton.h \
   /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../src/GameObject.h \
@@ -1106,8 +1097,16 @@ dependencies: \
   /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../src/Interact/Spark.h \
   /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../src/Images.h \
   ../../../../../../Applications/cinder_0.8.4_mac/include/cinder/ImageIo.h \
+  ../../../../../../Applications/cinder_0.8.4_mac/include/cinder/gl/Texture.h \
+  /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../src/OscManager.h \
+  /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../../../../../../Applications/cinder_0.8.4_mac/blocks/osc/include/OscSender.h \
+  ../../../../../../Applications/cinder_0.8.4_mac/blocks/osc/include/OscBundle.h \
+  ../../../../../../Applications/cinder_0.8.4_mac/blocks/osc/include/OscMessage.h \
+  ../../../../../../Applications/cinder_0.8.4_mac/blocks/osc/include/OscArg.h \
+  /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../../../../../../Applications/cinder_0.8.4_mac/blocks/osc/include/OscListener.h \
   /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../src/Environment/EnvironmentManager.h \
   /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../src/Environment/Splash.h \
   /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../src/Environment/Beam.h \
   /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../src/Environment/Bubble.h \
-  ../../../../../../Applications/cinder_0.8.4_mac/include/cinder/Utilities.h
+  /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../src/Mask.h \
+  ../../../../../../Applications/cinder_0.8.4_mac/include/cinder/gl/Fbo.h
