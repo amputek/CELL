@@ -3,16 +3,18 @@
 Starfish :: Starfish(Vec2f loc) : Swimmer(loc){
     radius = int(rand(20,30));
     speed = 0.001;
+    //random feeler length and random number of feelers
     int feelerLength = int(rand(3,5));
     for(int i = 0; i < int(rand(4,7)); i++){
         feelers.push_back(new Feeler(loc, feelerLength, 1));
     }
-    counter = 0;
+    spinCounter = 0;
     contacts = 0;
 }
 
+//feelers move away from Player
 void Starfish:: collide(Vec2f loc){
-    if((loc - global).length() < 100){
+    if( dist(loc,global) < 100){
         for(int i = 0; i < feelers.size(); i++){
             if( dist(loc,feelers.at(i)->global) < 30){
                 feelers.at(i)->addForce( (feelers.at(i)->global - loc) * 0.15 );
@@ -22,6 +24,7 @@ void Starfish:: collide(Vec2f loc){
     }
 }
 
+// true if enough contact has happened
 bool Starfish :: activated(){
     if(contacts >= 100){
         contacts = 0;
@@ -32,24 +35,32 @@ bool Starfish :: activated(){
 
 void Starfish :: update(){
     
-    counter+=contacts * 0.003;
+    //spin amount 
+    spinCounter+=contacts * 0.003;
 
+    //reduce amount of contact
     if(contacts > 0){
         contacts--;
     }
 
+    //update feelers
     for(int i = 0; i < feelers.size(); i++){
+        
+        //spin legs, depending on amount of contact. Distribute legs equally around the center
         float angle = 2*M_PI * i / feelers.size();
-        feelers.at(i)->global = global + Vec2f(sin(angle + counter) * 10, cos(angle + counter) * 10);
+        feelers.at(i)->global = global + Vec2f(sin(angle + spinCounter) * 10, cos(angle + spinCounter) * 10);
+        
         feelers.at(i)->update();
+        
+        //legs move away from the center of the starfish (push outwards)
         feelers.at(i)->addForce( (feelers.at(i)->global - global) * 0.7 );
-        feelers.at(i)->addForce( Vec2f(rand(-4,4), rand(-4,4) ) );
+        
+        //random force added, which stops things being static - looks like the flow of underwater currents
+        feelers.at(i)->addForce( Vec2f(rand(-4,4), rand(-4,4) ) );  
     }
     
     Swimmer::update();
 }
-
-
 
 void Starfish :: draw(){
     

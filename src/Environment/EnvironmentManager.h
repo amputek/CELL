@@ -15,6 +15,7 @@
 #include "Bubble.h"
 #include "Images.h"
 #include "Mask.h"
+#include "SeaSurface.h"
 
 using namespace std;
 
@@ -33,7 +34,7 @@ private:
     void updateSplashes();
     
     Mask* mask;
-    //  SeaSurface* surface;
+    SeaSurface* surface;
     //  Floor* floor;
     vector<Splash*> splashes;
     vector<Beam*> beams;

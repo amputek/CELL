@@ -73,12 +73,21 @@
 		D4609AEE16EA400B0066DEFF /* Images.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4609AEC16EA40090066DEFF /* Images.cpp */; };
 		D4609AF016EA486B0066DEFF /* mask-1.png in Resources */ = {isa = PBXBuildFile; fileRef = D4609AEF16EA486B0066DEFF /* mask-1.png */; };
 		D4609AF616EA4CD90066DEFF /* Spring.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4609AF416EA4CD80066DEFF /* Spring.cpp */; };
+		D461A93C16EF66300035AC50 /* SeaSurface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D461A93A16EF66300035AC50 /* SeaSurface.cpp */; };
+		D474FDCF16F14C8C00CCCF99 /* button_600.png in Resources */ = {isa = PBXBuildFile; fileRef = D474FDC916F14C8C00CCCF99 /* button_600.png */; };
+		D474FDD016F14C8C00CCCF99 /* button_800.png in Resources */ = {isa = PBXBuildFile; fileRef = D474FDCA16F14C8C00CCCF99 /* button_800.png */; };
+		D474FDD116F14C8C00CCCF99 /* button_quit.png in Resources */ = {isa = PBXBuildFile; fileRef = D474FDCB16F14C8C00CCCF99 /* button_quit.png */; };
+		D474FDD216F14C8C00CCCF99 /* button_resume.png in Resources */ = {isa = PBXBuildFile; fileRef = D474FDCC16F14C8C00CCCF99 /* button_resume.png */; };
+		D474FDD316F14C8C00CCCF99 /* buttun_1200.png in Resources */ = {isa = PBXBuildFile; fileRef = D474FDCD16F14C8C00CCCF99 /* buttun_1200.png */; };
+		D474FDD416F14C8C00CCCF99 /* menu_back.png in Resources */ = {isa = PBXBuildFile; fileRef = D474FDCE16F14C8C00CCCF99 /* menu_back.png */; };
+		D474FDD616F1581D00CCCF99 /* settingsmenu.png in Resources */ = {isa = PBXBuildFile; fileRef = D474FDD516F1581D00CCCF99 /* settingsmenu.png */; };
 		D4BDE7C316EB6CF900FF6E76 /* osc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D4BDE77E16EB6CF700FF6E76 /* osc.a */; };
 		D4BDE7C416EB6CF900FF6E76 /* osc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D4BDE78016EB6CF700FF6E76 /* osc.a */; };
 		D4BDE7DE16EB6CF900FF6E76 /* OscBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4BDE7BF16EB6CF900FF6E76 /* OscBundle.cpp */; };
 		D4BDE7DF16EB6CF900FF6E76 /* OscListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4BDE7C016EB6CF900FF6E76 /* OscListener.cpp */; };
 		D4BDE7E016EB6CF900FF6E76 /* OscMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4BDE7C116EB6CF900FF6E76 /* OscMessage.cpp */; };
 		D4BDE7E116EB6CF900FF6E76 /* OscSender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4BDE7C216EB6CF900FF6E76 /* OscSender.cpp */; };
+		D4E7B18A16F0F9A3008C7410 /* Menu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4E7B18816F0F9A3008C7410 /* Menu.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -180,6 +189,15 @@
 		D4609AEF16EA486B0066DEFF /* mask-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "mask-1.png"; path = "../resources/images/mask-1.png"; sourceTree = "<group>"; };
 		D4609AF416EA4CD80066DEFF /* Spring.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Spring.cpp; path = ../src/Spring.cpp; sourceTree = "<group>"; };
 		D4609AF516EA4CD80066DEFF /* Spring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Spring.h; path = ../src/Spring.h; sourceTree = "<group>"; };
+		D461A93A16EF66300035AC50 /* SeaSurface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SeaSurface.cpp; path = ../src/Environment/SeaSurface.cpp; sourceTree = "<group>"; };
+		D461A93B16EF66300035AC50 /* SeaSurface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SeaSurface.h; path = ../src/Environment/SeaSurface.h; sourceTree = "<group>"; };
+		D474FDC916F14C8C00CCCF99 /* button_600.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_600.png; sourceTree = "<group>"; };
+		D474FDCA16F14C8C00CCCF99 /* button_800.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_800.png; sourceTree = "<group>"; };
+		D474FDCB16F14C8C00CCCF99 /* button_quit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_quit.png; sourceTree = "<group>"; };
+		D474FDCC16F14C8C00CCCF99 /* button_resume.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_resume.png; sourceTree = "<group>"; };
+		D474FDCD16F14C8C00CCCF99 /* buttun_1200.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttun_1200.png; sourceTree = "<group>"; };
+		D474FDCE16F14C8C00CCCF99 /* menu_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_back.png; sourceTree = "<group>"; };
+		D474FDD516F1581D00CCCF99 /* settingsmenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settingsmenu.png; sourceTree = "<group>"; };
 		D4BDE76916EB6CF700FF6E76 /* IpEndpointName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IpEndpointName.h; sourceTree = "<group>"; };
 		D4BDE76A16EB6CF700FF6E76 /* NetworkingUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkingUtils.h; sourceTree = "<group>"; };
 		D4BDE76B16EB6CF700FF6E76 /* PacketListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PacketListener.h; sourceTree = "<group>"; };
@@ -204,6 +222,8 @@
 		D4BDE7C016EB6CF900FF6E76 /* OscListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OscListener.cpp; sourceTree = "<group>"; };
 		D4BDE7C116EB6CF900FF6E76 /* OscMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OscMessage.cpp; sourceTree = "<group>"; };
 		D4BDE7C216EB6CF900FF6E76 /* OscSender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OscSender.cpp; sourceTree = "<group>"; };
+		D4E7B18816F0F9A3008C7410 /* Menu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Menu.cpp; path = ../src/Menu.cpp; sourceTree = "<group>"; };
+		D4E7B18916F0F9A3008C7410 /* Menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Menu.h; path = ../src/Menu.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,6 +258,7 @@
 				D43FC2DE16EBB4080088577B /* EnvironmentManager.cpp */,
 				D4609AC116EA2CED0066DEFF /* OSCManager.cpp */,
 				D4609AEC16EA40090066DEFF /* Images.cpp */,
+				D4E7B18816F0F9A3008C7410 /* Menu.cpp */,
 				D4609A5516EA1B380066DEFF /* GameObject.cpp */,
 				D4609A5816EA1BAE0066DEFF /* Braitenberg.cpp */,
 				D4609A5B16EA1BEE0066DEFF /* Player.cpp */,
@@ -300,6 +321,8 @@
 		29B97315FDCFA39411CA2CEA /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				D4E7B18916F0F9A3008C7410 /* Menu.h */,
+				D461A93B16EF66300035AC50 /* SeaSurface.h */,
 				32CA4F630368D1EE00C91783 /* Cellv0_Prefix.pch */,
 				D4609A8C16EA21D70066DEFF /* Globals.h */,
 				D4609A5F16EA1C410066DEFF /* EntityManager.h */,
@@ -319,6 +342,13 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D474FDD516F1581D00CCCF99 /* settingsmenu.png */,
+				D474FDC916F14C8C00CCCF99 /* button_600.png */,
+				D474FDCA16F14C8C00CCCF99 /* button_800.png */,
+				D474FDCB16F14C8C00CCCF99 /* button_quit.png */,
+				D474FDCC16F14C8C00CCCF99 /* button_resume.png */,
+				D474FDCD16F14C8C00CCCF99 /* buttun_1200.png */,
+				D474FDCE16F14C8C00CCCF99 /* menu_back.png */,
 				D40EF5C416EEB5CC00A7C673 /* menu-no.png */,
 				D40EF5C516EEB5CC00A7C673 /* menu-yes.png */,
 				D40EF5C616EEB5CC00A7C673 /* menu.png */,
@@ -411,6 +441,7 @@
 			children = (
 				D4609A8216EA1EF30066DEFF /* Dust.cpp */,
 				D4609A8516EA1F930066DEFF /* Splash.cpp */,
+				D461A93A16EF66300035AC50 /* SeaSurface.cpp */,
 				D43FC2DB16EBAAF80088577B /* Bubble.cpp */,
 				D4609AE916EA3F300066DEFF /* Beam.cpp */,
 				D4609AE616EA3EC20066DEFF /* Mask.cpp */,
@@ -598,6 +629,13 @@
 				D40EF5C716EEB5CC00A7C673 /* menu-no.png in Resources */,
 				D40EF5C816EEB5CC00A7C673 /* menu-yes.png in Resources */,
 				D40EF5C916EEB5CC00A7C673 /* menu.png in Resources */,
+				D474FDCF16F14C8C00CCCF99 /* button_600.png in Resources */,
+				D474FDD016F14C8C00CCCF99 /* button_800.png in Resources */,
+				D474FDD116F14C8C00CCCF99 /* button_quit.png in Resources */,
+				D474FDD216F14C8C00CCCF99 /* button_resume.png in Resources */,
+				D474FDD316F14C8C00CCCF99 /* buttun_1200.png in Resources */,
+				D474FDD416F14C8C00CCCF99 /* menu_back.png in Resources */,
+				D474FDD616F1581D00CCCF99 /* settingsmenu.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -639,6 +677,8 @@
 				D4BDE7E116EB6CF900FF6E76 /* OscSender.cpp in Sources */,
 				D43FC2DD16EBAAF80088577B /* Bubble.cpp in Sources */,
 				D43FC2E016EBB4090088577B /* EnvironmentManager.cpp in Sources */,
+				D461A93C16EF66300035AC50 /* SeaSurface.cpp in Sources */,
+				D4E7B18A16F0F9A3008C7410 /* Menu.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

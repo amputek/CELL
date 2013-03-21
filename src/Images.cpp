@@ -33,8 +33,12 @@ Images :: Images(){
     titleSplashScreen =     new gl::Texture( loadImage( loadResource( "cell-splashscreen.png" ) ) );
     maskImg =               new gl::Texture( loadImage( loadResource( "mask-1.png"            ) ) );
     
-    menuImg =               new gl::Texture( loadImage( loadResource( "menu.png"            ) ) );
-    menuYes =               new gl::Texture( loadImage( loadResource( "menu-yes.png"        ) ) );
-    menuNo =                new gl::Texture( loadImage( loadResource( "menu-no.png"         ) ) );
+    
+    menu =                  new gl::Texture( loadImage( loadResource( "settingsmenu.png"            ) ) );
+    res6 =                  new gl::Texture( loadImage( loadResource( "button_600.png"        ) ) );
+    res8 =                  new gl::Texture( loadImage( loadResource( "button_800.png"           ) ) );
+    res12 =                 new gl::Texture( loadImage( loadResource( "buttun_1200.png"            ) ) );
+    quit =                  new gl::Texture( loadImage( loadResource( "button_quit.png"       ) ) );
+    resume =                new gl::Texture( loadImage( loadResource( "button_resume.png"         ) ) );
     
 }

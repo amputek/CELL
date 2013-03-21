@@ -1087,4 +1087,6 @@ dependencies: \
   ../../../../../../Applications/cinder_0.8.4_mac/include/cinder/ImageIo.h \
   ../../../../../../Applications/cinder_0.8.4_mac/include/cinder/DataTarget.h \
   /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../src/Mask.h \
-  ../../../../../../Applications/cinder_0.8.4_mac/include/cinder/gl/Fbo.h
+  ../../../../../../Applications/cinder_0.8.4_mac/include/cinder/gl/Fbo.h \
+  /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../src/Environment/SeaSurface.h \
+  ../../../../../../Applications/cinder_0.8.4_mac/include/cinder/Perlin.h

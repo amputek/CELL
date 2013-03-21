@@ -25,12 +25,14 @@ void Spore :: draw(){
 
 void Spore :: collide(Vec2f loc){
     sporeContact = false;
+    
+    //only collides with entity if on a similar depth-plane
     if(abs(depth - 1.0) < 0.25){
-        if( (global - loc).length() < (radius*0.75 + 10 )){
-            velocity += (global - loc) * 0.2;
-            sporeContact = true;
+        if( dist(global, loc) < (radius*0.75 + 10 )){
+            velocity += (global - loc) * 0.2;    //incrememnt velocity
+            sporeContact = true;                 //variable for OSC
             health-=1;
-            radius+=1;
+            radius+=1;                           //grow in size on each hit
         }
     }
 }

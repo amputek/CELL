@@ -1,11 +1,3 @@
-//
-//  Finite.h
-//  Cellv0
-//
-//  Created by Rob on 08/03/2013.
-//
-//
-
 #ifndef __Cellv0__Finite__
 #define __Cellv0__Finite__
 

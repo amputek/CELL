@@ -18,14 +18,14 @@ public:
     Beam(Vec2f start, gl::Texture* tex);
     void draw();
     void update();
-    bool alive();
-    gl::Texture* img;
+    bool alive(){ return !(local.x < -1000 || local.x > 1800); };
+    
     
 private:
     float counter;
     float op;
-    float width;
     float life;
+    gl::Texture* img;
     
 };
 

@@ -2,8 +2,6 @@
 
 Braitenberg :: Braitenberg(Vec2f loc, bool sl) : GameObject(loc, 1){
     speed = 0.022;
-   // turnLimit = 0.3;
-   // turnSpeed = 0.05;
     direction = 0.0;
     slows = sl;
 }
@@ -12,13 +10,13 @@ Braitenberg :: Braitenberg(Vec2f loc, bool sl) : GameObject(loc, 1){
 void Braitenberg :: moveTo(Vec2f target){
     
     //make sure target is above ground
-    if(target.y > 500){ target.y = 500; }
+    if(target.y > 0){ target.y = 0; }
     
-    
-    //either braitenberg eases towards target or maintains speed (useful for NPCs)
+    //initialise speed modifier
     float d = 0;
     
-    //'slows' means braitenberg does not ease
+    //either braitenberg eases towards target or maintains speed (useful for NPCs)
+    //slows = does not ease
     if(slows == true){
         d = ((global-target).length() * speed);
     } else {

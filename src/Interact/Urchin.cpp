@@ -12,9 +12,9 @@ Urchin :: Urchin(Vec2f loc, gl::Texture* tex) : Swimmer(loc){
 
 void Urchin :: collide(Vec2f loc){
     contacts = 0;
-    if((loc - global).length() < 100){
+    if( dist(loc,global) < 100){
         for(int i = 0; i < feelers.size(); i++){
-            if((loc-feelers.at(i)->global).lengthSquared() < 5000){
+            if( dist(loc, feelers.at(i)->global) < 75){
            //  feelers.at(i)->addForce( (loc - feelers.at(i)->global) * 0.1 );
             feelers.at(i)->collide( loc );
              contacts++;
@@ -62,7 +62,6 @@ void Urchin :: update(){
 
 void Urchin :: draw(){
     
-
     glLineWidth(0.1);
     gl::color(ColorA(1,0.5,1,0.5));
     

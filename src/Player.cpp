@@ -3,9 +3,9 @@
 
 Player :: Player(Vec2f loc, vector<gl::Texture*> texs) : Braitenberg(loc, true){
     speed = 0.02;
-    radius = 5;
+    radius = 20;
     level = 1;
-    longTail = new Tail( 3, false, 1, false );
+    longTail = new Tail( 20, true, 3, false);
     playerLevelling = false;
     falling = false;
     
@@ -21,6 +21,7 @@ Player :: Player(Vec2f loc, vector<gl::Texture*> texs) : Braitenberg(loc, true){
 //move to a specified location
 void Player :: moveTo(Vec2f mousePos){
     
+    //make sure mouse location is within window boundaries
     if(mousePos.x < 0                 ){  mousePos.x = 10;                     }
     if(mousePos.x > getWindowWidth()  ){  mousePos.x = getWindowWidth() - 10;  }
     if(mousePos.y < 0                 ){  mousePos.y = 10;                     }
@@ -29,9 +30,9 @@ void Player :: moveTo(Vec2f mousePos){
     Vec2f dest = globalise(mousePos, 1);
     
     if(falling == true){
-        Braitenberg::moveTo( Vec2f(dest.x, 400) );
+        Braitenberg::moveTo( Vec2f(dest.x, 400) );  //falls back towards water
     } else {
-        Braitenberg::moveTo(dest);
+        Braitenberg::moveTo(dest);                  //standard movement
     }
 }
 
@@ -40,21 +41,16 @@ void Player :: moveTo(Vec2f mousePos){
 void Player :: update(){
     
     falling = global.y < -7000;
-
+    
+    //check if player is in the process of 'levelling up'
     if(playerLevelling == true){
         levelCount++;
-        if(levelCount >= 40){
+        if(levelCount >= 40){       //player levels up for 40 ticks
             playerLevelling = false;
         }
     }
     
-
-   // leftTail->addPoint(Vec2f(global.x - sin(direction-M_PI/4) * radius, global.y - cos(direction-M_PI/4) * radius), direction-M_PI/4);
-   // rightTail->addPoint(Vec2f(global.x - sin(direction+M_PI/4) * radius, global.y - cos(direction+M_PI/4) * radius), direction+M_PI/4);
     longTail->update(Vec2f(global.x - sin(direction) * radius, global.y - cos(direction) * radius), direction);
-   // leftTail->update();
-   // rightTail->update();
-    
     Braitenberg::update();
 }
 
@@ -77,15 +73,13 @@ void Player:: draw(){
         }
     }
     
-   // leftTail->draw();
-   // rightTail->draw();
     longTail->draw();
 }
 
 void Player :: incEaten(int type){
-    planktonEaten.at(0)++;
+    planktonEaten.at(type)++;
     
-    if(planktonEaten.at(0) % 8 == 0){
+    if(planktonEaten.at(type) % 8 == 0){
         levelUp();
     }
 };
@@ -104,7 +98,4 @@ void Player :: levelUp(){
         longTail->setFins();
     }
 
-    
-   // rightTail->length += 0.6;
-   // leftTail->length += 0.6;
 }

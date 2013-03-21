@@ -3,11 +3,14 @@
 Swimmer :: Swimmer(Vec2f loc) : Braitenberg(loc, false){
     targetLocation = loc;
     targetDestination = loc;
+    inSpace = true;
 }
 
 //The Swimmer will constantly move towards it's target
 void Swimmer :: update(){
-    targetLocation += (targetDestination - targetLocation) * 0.2;
+    if( dist(targetLocation, targetDestination) > 0.2){
+        targetLocation += (targetDestination - targetLocation) * 0.2;
+    }
     moveTo(targetLocation);
     Braitenberg::update();
 }
@@ -36,7 +39,6 @@ void Swimmer :: updateTarget(vector<GameObject*> movers) {
                         //iterations means AI will not get stuck in a loop, trying to find a new position for too long
                         int iterations = 0;
                         while(targetFound == false && iterations < 3){
-                            // cout << iterations << "\n";
                             if(checkInSpace(newLoc, movers) == true){
                                 targetFound = true;
                                 targetDestination = newLoc;

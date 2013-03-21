@@ -31,9 +31,13 @@ public:
     cinder::gl::Texture* title(){         return titleSplashScreen;  };
     cinder::gl::Texture* cinder(){        return cinderSplashScreen; };
     cinder::gl::Texture* mask(){          return maskImg;            };
-    cinder::gl::Texture* menu(){          return menuImg;            };
-    cinder::gl::Texture* menuy(){         return menuYes;            };
-    cinder::gl::Texture* menun(){         return menuNo;             };
+    
+    cinder::gl::Texture* menuback(){      return menu;            };
+    cinder::gl::Texture* res_six(){       return res6;             };
+    cinder::gl::Texture* res_eight(){       return res6;             };
+    cinder::gl::Texture* res_twelve(){       return res6;             };
+    cinder::gl::Texture* b_quit(){         return quit;            };
+    cinder::gl::Texture* b_resume(){         return resume;             };
     
 private:
     vector<gl::Texture*> planktonImgs;
@@ -49,9 +53,12 @@ private:
     gl::Texture* cinderSplashScreen;
     gl::Texture* maskImg;
     
-    gl::Texture* menuImg;
-    gl::Texture* menuYes;
-    gl::Texture* menuNo;
+    gl::Texture* menu;
+    gl::Texture* res6;
+    gl::Texture* res8;
+    gl::Texture* res12;
+    gl::Texture* quit;
+    gl::Texture* resume;
 
 };
 

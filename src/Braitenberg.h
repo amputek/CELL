@@ -1,8 +1,5 @@
-//
-//  Braitenberg.h
-//  Cellv0
-//
-//  Created by Rob on 08/03/2013.
+// Follows braitenberg vehicle type movement
+// Has two sensors which affect two motors
 //
 //
 

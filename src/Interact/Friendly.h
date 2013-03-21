@@ -18,11 +18,18 @@ public:
     Friendly(Vec2f loc, gl::Texture* tex);
     void draw();
     void update();
+    void birth();
+    
+    //getters
+    bool born(){return mborn;};
     
 private:
     int levelCount;
     Tail* tail;
     gl::Texture* img;
+    bool mborn;
+    bool birthing;
+    int birthCount = 0;
 };
 
 

@@ -3,7 +3,6 @@
 Beam :: Beam(Vec2f start, gl::Texture* tex): GameObject(start, rand(0.4,1.6)){
     counter = 0;
     op = 0.0;
-    width = 10*depth;
     life = 0;
     img = tex;
 }
@@ -12,18 +11,13 @@ Beam :: Beam(Vec2f start, gl::Texture* tex): GameObject(start, rand(0.4,1.6)){
 //new 'born' beams rise to full opacity over a period of 20 frames
 void Beam :: update(){
     GameObject :: update();
-    counter+=(rand(0.01,0.1));
+    counter+= rand(0.01,0.1);
     if(life < 1.0){
         op = (0.2+sin(counter)*0.05) * depth * life;
         life+=0.05;
     } else {
         op = (0.2+sin(counter)*0.05) * depth;
     }
-}
-
-
-bool Beam :: alive(){
-    return !(local.x < -1000 || local.x > 1800);
 }
 
 

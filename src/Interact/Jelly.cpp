@@ -11,6 +11,8 @@ Jelly :: Jelly(Vec2f loc, gl::Texture* tex) : Swimmer(loc){
     img = tex;
 }
 
+
+
 void Jelly :: collide(Vec2f loc){
     for(int i = 0; i < feelers.size(); i++){
         feelers.at(i)->collide(loc);
@@ -22,17 +24,20 @@ void Jelly :: draw(){
     
     if(onScreen() == true){
         
+        //draw the main body of the Jellyfish. the counter enables the body to pulse in size
         gl::color(Color(1,1,1));
         float width  = radius*2 + sin(counter)*2;
         float height = radius*2 + cos(counter)*3;
         gl::draw( *img, Rectf(local.x - width, local.y - height, local.x + width, local.y + height )) ;
         
+        //draw the feelers
         for(int i = 0; i < paths.size(); i++){
             gl::color(ColorA8u(150,255,200,40));
             gl::draw( paths.at(i) ) ;
             gl::drawSolidCircle( paths.at(i).getPosition(0), 2);
             
             float si = 5;
+            //jellyfish's feelers have glowing elements that pass along them
             for(int t = 30; t > 1; t -= 1){
                 gl::color(ColorA8u(200-t,100+t,200,25));
                 if(t == counter*10){
@@ -52,6 +57,7 @@ void Jelly :: update(){
     Swimmer::update();
     counter += 0.1;
     
+    //update feelers, load them into Path2D collection
     paths.clear();
     
     for(int i = 0; i < feelers.size(); i++){

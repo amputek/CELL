@@ -2,7 +2,7 @@
 
 Spring :: Spring(Vec2f loc, float dep, float dmp, float stf, float ms) : Dust(loc, Vec2f(0,0), dep){
     damping = dmp;
-    stiffness = stf; //0.5
+    stiffness = stf;
     mass = ms;
     springContact = false;
 }
@@ -10,14 +10,15 @@ Spring :: Spring(Vec2f loc, float dep, float dmp, float stf, float ms) : Dust(lo
 
 //Collide with an outside object (generally the player's location)
 void Spring :: collide(Vec2f heroLoc){
-    Vec2f d = heroLoc - global;
-    float dist = (heroLoc-global).lengthSquared();
-    if(dist < 400){
-        float angle = atan2(d.y,d.x);
+    
+    if(dist(heroLoc, global) < collisionDistance){
+        Vec2f d = heroLoc - global;
+        float angle = atan2(d.y, d.x);
         Vec2f target = Vec2f(global.x + cos(angle) * 20, global.y + sin(angle) * 20);
         Vec2f accel = (target - heroLoc) * (stiffness * 3);
-        velocity -= accel;
-        springContact = true;
+        
+        velocity -= accel;         //increment velocity vector
+        springContact = true;      //allows parent to see if spring has been contacted
     } else {
         springContact = false;
     }

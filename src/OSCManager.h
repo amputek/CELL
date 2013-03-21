@@ -16,18 +16,20 @@
 using namespace ci;
 using namespace std;
 
-//forward decleration
+//forward decleration of Entity Manager - stops Entity/OSC referencing each other
 class EntityManager;
 
 class OSCManager{
 public:
     OSCManager();
     
-    void eatPlankton(float depth, int type, float radius);
-    void eighthPlankton();
-    
+    EntityManager* entities;
+    void recieveMessage();
     void startLoop();
     void quit();
+    
+    void eatPlankton(int type, float pan, float dist);
+    void eighthPlankton();
     
     void setDepth(float d);
     
@@ -40,8 +42,11 @@ public:
     void surface(int where);
     void newSpark(int type);
     
-    EntityManager* entities;
-    void recieveMessage();
+    void newFriendly();
+    void bornFriendly( int index );
+    void updateFriendly(int index, float pan, float dist);
+    
+
     
 private:
     void sendMessage(osc::Message message, string addr);

@@ -2,7 +2,8 @@
 
 EnvironmentManager :: EnvironmentManager( Images* imgs ){
     image = imgs;
-    mask = new Mask( *imgs->mask() );    
+    mask = new Mask( *imgs->mask() );
+    surface = new SeaSurface();
 }
 
 
@@ -20,36 +21,21 @@ void EnvironmentManager :: bubble( Vec2f local, int amount){
 }
 
 
+
+
 //Updates Bubbles, Beams, Floor, Surface and Splashes
 void EnvironmentManager :: update( Vec2f heroLoc ){
-    
-    //floor
-//    if(hero->global.y > 100){
-//        // floor->update(hero);
-//    }
-//    if(hero->global.y < -4000){
-//        // surface->update(hero);
-//    }
+
+    if(heroLoc.y < -6000){
+        surface->update();
+    }
     
     updateSplashes();
     updateBeams();
     updateBubbles();
-    
-    //BUBBLES
-    if(getElapsedFrames() % 40 == 0){
-        bubble( Vec2f( rand(-400,400), 400 ), 2);
-    }
-    
-    
-    //BEAMS
-    if(getElapsedFrames() % 20 == 0){
-        if(beams.size() < 25){
-            beams.push_back( new Beam( Vec2f(offset.x + rand(-1000,1000), 500), image->beam() ) );
-        }
-    }
+
     
     float depth = (((500 - heroLoc.y) / 5500) + 0.2) * 3.0;
-
     mask->update(offset.x - heroLoc.x, offset.y - heroLoc.y, depth );
     
 }
@@ -68,7 +54,15 @@ void EnvironmentManager :: updateSplashes(){
 }
 
 void EnvironmentManager :: updateBeams(){
-    //light beams
+    
+    //Generate new beams
+    if(getElapsedFrames() % 20 == 0){
+        if(beams.size() < 25){
+            beams.push_back( new Beam( Vec2f(offset.x + rand(-1000,1000), 500), image->beam() ) );
+        }
+    }
+    
+    //Update/Delete existing beams
     for(vector<Beam*>::iterator p = beams.begin(); p != beams.end(); ){
         (*p)->update();
         if((*p)->alive() == false){
@@ -82,7 +76,13 @@ void EnvironmentManager :: updateBeams(){
 
 void EnvironmentManager :: updateBubbles(){
     
-    //bubbles
+    //Generate new Bubbles
+    if(getElapsedFrames() % 20 == 0){
+        float depth = rand(0.2,1.2);
+        bubbles.push_back( new Bubble( globalise( Vec2f(rand(-400,400), 500), depth ), vrand(10), depth, image->bubble() ) );
+    }
+    
+    //Update/Delete existing bubbles
     for(vector<Bubble*>::iterator p = bubbles.begin(); p != bubbles.end(); ){
         (*p)->update();
         (*p)->global.y -= (*p)->radius * 0.3;
@@ -93,10 +93,14 @@ void EnvironmentManager :: updateBubbles(){
             ++p;
         }
     }
+    
+    
+    
 }
 
-//calls every entities' draw function
 void EnvironmentManager :: draw(){
+    
+    surface->draw();
     
     for(int i = 0; i < beams.size();      i++){ beams.at(i)->draw();      }
     //for(int i = 0; i < longGrass.size();  i++){ longGrass.at(i)->draw();  }

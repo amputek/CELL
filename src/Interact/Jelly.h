@@ -23,15 +23,12 @@ public:
     vector<bool> contacts(){ return jellyContacts; };
     
 private:
-
     vector<Feeler*> feelers;
     vector<Path2d> paths;
     vector<bool> jellyContacts;
     
     float counter;
     gl::Texture* img;
-    
-    
 };
 
 #endif /* defined(__Cellv0__Jelly__) */

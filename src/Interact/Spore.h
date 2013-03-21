@@ -1,9 +1,5 @@
-//
-//  Spore.h
-//  Cellv0
-//
-//  Created by Rob on 08/03/2013.
-//
+//Spores are circular egg-like objects that react to collisions
+//After certain number of collisions, spores will hatch eggs
 //
 
 #ifndef __Cellv0__Spore__
@@ -20,15 +16,18 @@ public:
     void update();
     void draw();
     void collide(Vec2f loc);
+    
+    //getters
     int type(){ return sporeType; };
     bool contact(){ return sporeContact; };
     bool alive(){ return health > 0; };
+    
+    
     int health;
 private:
     gl::Texture* img;
-    
-    int sporeType;
-    bool sporeContact;
+    int sporeType;      //three different types of Spore
+    bool sporeContact;  //allows EntityManager to check if contact has been made
 };
 
 

@@ -18,10 +18,5 @@ void GameObject :: update(){
 
 bool GameObject :: onScreen(){
     return !(local.x < -200 || local.x > cinder::app::getWindowWidth() + 200 || local.y < -200 || local.y > cinder::app::getWindowHeight() + 200);
-//    
-//    if(local.x < -200 || local.x > 1000 || local.y < -200 || local.y > 800){
-//        return false;
-//    }
-//    return true;
 }
 

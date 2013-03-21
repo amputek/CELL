@@ -22,20 +22,22 @@ void OSCManager :: sendMessage(string addr){
     sender.sendMessage(message);
 }
 
+
 void OSCManager :: recieveMessage(){
+    //continuously checks for new messages from SuperCollider
     
     while(listener.hasWaitingMessages()){
         osc::Message message;
         
-        //cout << &message << "\n";
-        
         listener.getNextMessage(&message);
-        if(message.getAddress() == "/mantaPulse"){
+        if(message.getAddress() == "/friendlyPulse"){
             entities->pulse("friendly", message.getArgAsInt32(0));
         }
+        
         if(message.getAddress() == "/twirlPulse"){
             entities->pulse("urchin", 0);
         }
+        
         if(message.getAddress() == "/sparkPulse"){
             entities->pulse("spark", message.getArgAsInt32(0));
         }
@@ -47,6 +49,8 @@ void OSCManager :: recieveMessage(){
         
     }
     
+    //Checks multiple ports for a responce from SuperCollider, which tends to initialise itself on either 57120 or 57121
+    //Waits for a response from 57120 for two ticks. If no response, try 57121
     if(initialised == false){
         waitCount++;
         if(waitCount == 2){
@@ -74,15 +78,13 @@ void OSCManager :: newSpark(int type){
 }
 
 //
- void OSCManager :: eatPlankton(float depth, int type, float radius){
+void OSCManager :: eatPlankton(int type, float pan, float dist){
     osc::Message msg;
-    msg.addFloatArg(depth);
     msg.addIntArg(type);
-    msg.addFloatArg(radius);
+    msg.addFloatArg(pan);
+    msg.addFloatArg(dist);
     sendMessage(msg, "/planktonEat");
 }
-
-
 
 void OSCManager :: eighthPlankton(){
     sendMessage("/levelUp");
@@ -90,7 +92,7 @@ void OSCManager :: eighthPlankton(){
 
 void OSCManager :: sporeBoop(int health){
     osc::Message msg;
-    msg.addIntArg(10 - health);
+    msg.addIntArg(4 - health);
     sendMessage(msg, "/sporeBoop");
 }
 
@@ -123,6 +125,26 @@ void  OSCManager :: surface(int where){
     osc::Message msg;
     msg.addIntArg(where);
     sendMessage(msg, "/surface");
+}
+
+
+void OSCManager :: newFriendly(){
+    sendMessage("/newFriendly");
+}
+
+void OSCManager :: bornFriendly( int index ){
+    osc::Message msg;
+    msg.addIntArg(index);
+    sendMessage(msg, "/bornFriendly");
+}
+
+
+void OSCManager :: updateFriendly(int index, float pan, float dist){
+    osc::Message msg;
+    msg.addIntArg(index);
+    msg.addFloatArg(pan);
+    msg.addFloatArg(dist);
+    sendMessage(msg, "/updateFriendly");
 }
 
 

@@ -19,7 +19,10 @@ void Egg :: collide(Vec2f loc){
     for(int i = 0; i < springs.size(); i++){
         springs.at(i)->collide(loc);
     }
-    ins = (loc - global).length() < radius;
+}
+
+void Egg :: setInside(Vec2f loc){
+    ins = dist(loc, global)  < radius;
 }
 
 void Egg :: update(){
@@ -54,21 +57,22 @@ void Egg :: update(){
     //create shape from spring locations
     mShape.clear();
     
+    //draw shape
     mShape.moveTo( springs.at(0)->local );
-    
     for(int i = 1; i < springs.size(); i++){
         mShape.lineTo( springs.at(i)->local );
     }
-    
     mShape.close();
     
     //create mesh from shape
     mesh = Triangulator( mShape ).calcMesh();
 }
 
+
 void Egg :: draw(){
     
     gl::color(ColorA(1,1,1,0.5) );
+    
     gl::draw( *img, Rectf(local.x - ratio, local.y - ratio, local.x + ratio, local.y + ratio) );
     
     gl::color(ColorA (1,0.5,0.3,0.2)) ;

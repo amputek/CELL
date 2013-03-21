@@ -9,11 +9,14 @@ Tail :: Tail( int ln, bool wt, float wd, bool fn ){
 
 void Tail :: update(Vec2f location, float d){
     
+    //add a new Finite to the tail collection. The 'length' of the tail is equal to the finite's life.
     direction = d;
     tail.push_back( new Finite(location, length, d ) );
     
+    //update the Path2Ds, ready for drawing
     updateTailPaths();
     
+    //update all finites, checking they are still 'alive'
     for( vector <Finite*>::iterator p = tail.begin(); p != tail.end(); ){
         (*p)->update();
         if((*p)->alive() == false){

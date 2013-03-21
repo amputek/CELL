@@ -20,17 +20,18 @@ public:
     void update();
     void draw();
     void collide(Vec2f loc);
-    bool inside(){ return ins; };
+    void setInside( Vec2f loc);
     
+    //getters
+    bool inside(){ return ins; };
+
 private:
     vector<Spring*> springs;
-    int ratio;
-    Shape2d mShape;
-    TriMesh2d mesh;
+    int ratio;          //constant value - ratio between png and shape size
+    Shape2d mShape;     //The shape - connected points
+    TriMesh2d mesh;     //The solid shape craeted by the Shape2D
     gl::Texture* img;
-    bool ins;
-    
-    
+    bool ins;           //allows EntityManager to check if player is inside
 };
 
 #endif /* defined(__Cellv0__Egg__) */

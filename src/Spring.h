@@ -22,6 +22,8 @@ public:
     void update(Vec2f target);
     void collide(Vec2f heroLoc);
     void addForce(Vec2f force);
+    
+    //getters
     bool contact(){ return springContact; };
     
 private:
@@ -29,6 +31,7 @@ private:
     float mass;
     float stiffness;
     bool springContact;
+    const int collisionDistance = 20;
 };
 
 #endif /* defined(__Cellv0__Spring__) */

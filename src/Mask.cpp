@@ -13,7 +13,7 @@ Mask :: Mask( gl::Texture tex){
     
     gl::setViewport(mFbo.getBounds() );
     gl::setMatricesWindow( mFbo.getSize(), false );
-    gl::enableAlphaBlending();
+    gl::enableAlphaBlending();  //no additive blending when drawing to Fbo
     
     gl::clear(ColorA(0,0,0,0.5));
     gl::color( ColorA(1.0f, 1.0f, 1.0f, 0.5f) );
@@ -28,7 +28,8 @@ void Mask :: draw(){
 }
 
 void Mask :: update(float xo, float yo, float mod){
-    //location depends on depth
+    //center of mask will sit above the player's location (which is not neccesarily the center of the screen)
+    //mask's size will increase in shallower waters
     x1 = -(cinder::app::getWindowWidth()*mod)-xo;
     y1 = -(cinder::app::getWindowHeight()*mod)-yo;
     x2 = cinder::app::getWindowWidth() + (cinder::app::getWindowWidth()*mod)-xo;

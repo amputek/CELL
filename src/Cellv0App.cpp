@@ -2,6 +2,7 @@
 #include "cinder/gl/gl.h"
 #include "EntityManager.h"
 #include "Images.h"
+#include "Menu.h"
 
 using namespace ci::app;
 using namespace std;
@@ -11,6 +12,7 @@ public:
     void prepareSettings(Settings *settings);
 	void setup();
 	void mouseDown( MouseEvent event );
+    void mouseUp( MouseEvent event );
     void keyDown( KeyEvent event );
     
 	void update();
@@ -18,20 +20,20 @@ public:
 
     bool paused = false;
     bool gameStart = false;
-    bool quitScreen = false;
-    bool yesSelected = false;
-    bool noSelected = false;
+
     int gameFrames = 0;
     int quitOpacity = 0;
     
     EntityManager* entityManager;
     OSCManager* oscManager;
-    Images* image; 
+    Images* image;
+    
+    Menu* menu;
 };
 
 
 void Cellv0App::prepareSettings( Settings *settings ){
-    settings->setWindowSize( 400, 300 );
+    settings->setWindowSize( 800, 600 );
     settings->setFrameRate(30.0f);
     settings->setTitle( "cell v0.1" );
 }
@@ -39,7 +41,8 @@ void Cellv0App::prepareSettings( Settings *settings ){
 
 void Cellv0App::setup(){
     image = new Images();
-    entityManager = new EntityManager( image );    
+    entityManager = new EntityManager( image );
+    menu = new Menu(image);
     gl::enableAdditiveBlending( );
     glBlendFunc(GL_SRC_ALPHA,GL_ONE);
 }
@@ -50,19 +53,20 @@ void Cellv0App::mouseDown( MouseEvent event ){
         gameStart = true;
         hideCursor();
     }
-    
-    if(yesSelected == true){
-        entityManager->quit();
-        quit();
-    }
-    if(noSelected == true){
-        quitScreen = false;
-        paused = false;
-        hideCursor();
-        quitOpacity = 0;
+
+    if(menu->active == true){
+        menu->mouseDown = true;
     }
     
     cout << "fps: " << getAverageFps() << "\n";
+}
+
+void Cellv0App::mouseUp( MouseEvent event ){
+
+    
+    if(menu->active == true){
+        menu->mouseDown = false;
+    }
 }
 
 void Cellv0App::keyDown( KeyEvent event ){
@@ -80,20 +84,19 @@ void Cellv0App::keyDown( KeyEvent event ){
         entityManager->create("star");
     }
     
-    if(event.getCode() == 27 || event.getChar() == 'q'){
-        //entityManager->quit();
-        //quit();
-        if(quitScreen == false){
-            paused = true;
-            quitScreen = true;
-            showCursor();
-        } else {
-            quitOpacity = 0;
-            paused = false;
-            quitScreen = false;
-            hideCursor();
-        }
+    if(event.getChar() == 'e'){
+        entityManager->create("egg");
     }
+    
+    if(event.getChar() == 'f'){
+        entityManager->create("spores");
+    }
+    
+    if(event.getChar() == 'm'){
+        menu->activate();
+    }
+
+
 }
 
 void Cellv0App::update(){
@@ -101,21 +104,9 @@ void Cellv0App::update(){
         entityManager->updateHero( getMousePos() );
         entityManager->update();
     }
-    
-    if(quitScreen == true && quitOpacity < 250){
-        quitOpacity += 5;
-    }
-    
-    if( (getMousePos() - Vec2f(getWindowWidth() * 0.3, getWindowHeight() * 0.65)).length() < 50){
-        noSelected = true;
-    } else {
-        noSelected = false;
-    }
-    
-    if( (getMousePos() - Vec2f(getWindowWidth() * 0.7, getWindowHeight() * 0.65)).length() < 50){
-        yesSelected = true;
-    } else {
-        yesSelected = false;
+
+    if(menu->active == true){
+        menu->update( getMousePos() );
     }
 }
 
@@ -125,11 +116,6 @@ void Cellv0App::draw(){
     if(gameStart == true){
         gameFrames++;
         entityManager->drawEntities();
-
-        if(paused == true){
-            gl::color( ColorA8u( 255,255,255,50) );
-            gl::draw( *image->title(), Rectf(0,0,getWindowWidth(),getWindowHeight() ) );
-        }
     } else {
         gl::clear( Color(0,0,0) );
     }
@@ -143,18 +129,10 @@ void Cellv0App::draw(){
         gl::draw( *image->title(), Rectf(0,0,getWindowWidth(),getWindowHeight() ) );
     }
     
-    if(quitScreen == true){
-      //  glBlendFunc(GL_SRC_ALPHA,GL_ONE);
-        gl::enableAlphaBlending();
-        gl::color( ColorA8u( 225, 255, 255, quitOpacity ) );
-        gl::draw( *image->menu(),  Rectf(0,0,getWindowWidth(),getWindowHeight() ) );
-
-        if(yesSelected == true){
-            gl::draw( *image->menuy(), Rectf(0,0,getWindowWidth(),getWindowHeight() ) );
-        }
-        if(noSelected == true){
-            gl::draw( *image->menun(), Rectf(0,0,getWindowWidth(),getWindowHeight() ) );
-        }
+    
+    if(menu->active == true){
+        
+        menu->draw();
     }
     
     gl::color( ColorA8u(255,255,255,200) );

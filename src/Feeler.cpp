@@ -9,7 +9,7 @@ Feeler :: Feeler(Vec2f loc, int joints, float d) : GameObject(loc, d){
 };
 
 void Feeler :: collide(Vec2f heroLoc){
-    feelerContact = false;
+
     for(int i = 0; i < springs.size(); i++){
         springs.at(i)->collide(heroLoc);
         if(springs.at(i)->contact() == true){
@@ -27,6 +27,7 @@ void Feeler :: addForce(Vec2f force){
 
 
 void Feeler :: update(){
+        feelerContact = false;
     
     //a Feeler's 'global' position is it's BASE point, the first spring gets updated agains this position
     if(springs.size() > 0){

@@ -49,6 +49,7 @@ public:
     void quit();
 private:
     
+    //private update functions
     void updateOffset();
 
     void updatePlankton();
@@ -64,7 +65,7 @@ private:
     void entityGenerator();
     
     
-    //Private functions
+    //General purpose Functions
     void removeFromColliders(GameObject* collider);
     Vec2f inFront(Vec2f start, float diretion, int inFrontBy);
     bool farFromHero( Vec2f location );

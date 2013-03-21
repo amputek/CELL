@@ -12,11 +12,16 @@ EntityManager :: EntityManager( Images* img){
     environment = new EnvironmentManager( image );
     
     //first entities
-    hero = new Player(Vec2f(-400,-1200), image->player() );
+    hero = new Player(Vec2f(-400,-6000), image->player() );
     offset = hero->global;
     
-    eggs.push_back( new Egg(Vec2f(-200,-1000), image->egg() ) );
+ //   eggs.push_back( new Egg(Vec2f(-200,-1000), image->egg() ) );
     colliders.push_back(hero);
+//    colliders.push_back( eggs.back() );
+//    
+//    friendlies.push_back( new Friendly( Vec2f(-200,-1000), image->friendly() ) );
+//    colliders.push_back( friendlies.back() );
+//    oscManager->newFriendly();
 
     //initialise counters
     urchinLastSeen = 0;
@@ -24,6 +29,8 @@ EntityManager :: EntityManager( Images* img){
     starLastSeen   = 0;
     jellyLastSeen  = 0;
     eggLastSeen    = 0;
+    aboveSurface = false;
+    insideEgg = false;
 }
 
 void EntityManager :: quit(){
@@ -61,7 +68,12 @@ void EntityManager :: create(string species){
     }
     
     if(species == "egg"){
-        
+        eggs.push_back(new Egg( hero->global, image->egg() ) );
+        colliders.push_back( eggs.back() );
+        friendlies.push_back( new Friendly( eggs.back()->global, image->friendly() ) );
+        colliders.push_back( friendlies.back() );
+        oscManager->newFriendly();
+        eggLastSeen = 0;
     }
     
     if(species == "jelly"){
@@ -69,7 +81,13 @@ void EntityManager :: create(string species){
     }
     
     if(species == "spores"){
+        int r = irand(0,3);
+        Vec2f loc = hero->global;
         
+        for(int i = 0; i < rand(5,30); i++){
+            spores.push_back(new Spore(loc + vrand(100), rand(0.5,1.1), r, image->spore(r)) );
+        }
+        sporeLastSeen = 0;
     }
 }
 
@@ -131,9 +149,8 @@ void EntityManager :: removeFromColliders(GameObject* collider){
     }
 }
 
-
 bool EntityManager :: farFromHero( Vec2f location ){
-    return ( dist(hero->global, location) > 10000 );
+    return ( dist(hero->global, location) > 2000 );
 }
 
 void EntityManager :: updatePlankton(){
@@ -151,7 +168,8 @@ void EntityManager :: updatePlankton(){
                 if(dist( (*p)->global, colliders.at(i)->global) < 10 ){
                     environment->bubble( (*p)->local, 4);
                     environment->splash( (*p)->global, 1, 50 );
-                    oscManager->eatPlankton( 0.0, (*p)->type(), (*p)->radius);
+                    float pan = ( (*p)->global.x - hero->global.x);
+                    oscManager->eatPlankton( (*p)->type(), pan ,0);
                     if(i == 0){
                         hero->incEaten( (*p)->type() );
                         if(hero->getEaten() % 8 == 0){
@@ -270,23 +288,35 @@ void EntityManager :: updateSpores(){
 
 void EntityManager :: updateSparks(){
     for(int i = 0; i < sparks.size(); i++){
+        
         sparks.at(i)->update();
-        sparks.at(i)->setDestination( hero->global );
+        sparks.at(i)->updateTarget( colliders );
+        
         for(int n = 0; n < urchins.size(); n++){
             if( dist(sparks.at(i)->global, urchins.at(n)->global) < 100){
                 sparks.at(i)->setDestination(urchins.at(n)->global);
             }
         }
-        if( dist(sparks.at(i)->global, hero->global) > 100){
-            sparks.at(i)->setDestination( hero-> global );
+        
+        for(int n = 0; n < jellies.size(); n++){
+            if( dist(sparks.at(i)->global, jellies.at(n)->global) < 100){
+                sparks.at(i)->setDestination(jellies.at(n)->global + Vec2f(0,rand(20,70)));
+            }
         }
         
-        environment->splash( sparks.at(i)->global, sparks.at(i)->radius, 12 );
+        if( sparks.at(i)->inSpace == true){
+            if( dist(sparks.at(i)->global, hero->global) > 100){
+                sparks.at(i)->setDestination( hero-> global );
+            }
+        }
+        
+        environment->splash( sparks.at(i)->global, sparks.at(i)->radius, 10 );
     }
 }
 
 void EntityManager :: updateEggs(){
     
+    bool inside = false;
     
     for( vector<Egg*>::iterator p = eggs.begin(); p < eggs.end(); ){
         
@@ -297,10 +327,14 @@ void EntityManager :: updateEggs(){
         } else {
             (*p)->update();
             (*p)->collide(hero->global);
+            (*p)->setInside(hero->global);
             
-            oscManager->egg( (*p)->inside() );
+            for(int i = 0 ; i < friendlies.size(); i++){
+                (*p)->collide( friendlies.at(i)->global );
+            }
             
             if( (*p)->inside() == true ){
+                inside = true;
             //    hero->slow();
             }
             
@@ -309,6 +343,18 @@ void EntityManager :: updateEggs(){
             }
             
             ++p;
+        }
+    }
+    
+    if(inside == true){
+        if(insideEgg == false){
+            insideEgg = true;
+            oscManager->egg(1);
+        }
+    } else {
+        if(insideEgg == true){
+            insideEgg = false;
+            oscManager->egg(0);
         }
     }
     
@@ -360,6 +406,12 @@ void EntityManager :: updateJellies(){
         (*j)->update();
         (*j)->collide(hero->global);
         (*j)->setDestination( (*j)-> global );
+        
+        
+        for(int i = 0; i < sparks.size(); i++){
+            (*j)->collide(sparks.at(i)->global);
+        }
+        
         oscManager->jelly( (*j)->contacts() );
 
         if((*j)->onScreen() == true){
@@ -382,14 +434,41 @@ void EntityManager :: updateJellies(){
 
 void EntityManager :: updateFriendlies(){
     
-    for( vector<Friendly*>::iterator p = friendlies.begin(); p < friendlies.end(); ){
-    
-        (*p)->update();
-        (*p)->updateTarget(colliders);
+    int index = 0;
+    for( std::vector<Friendly*>::iterator p = friendlies.begin(); p != friendlies.end(); ){
         
-        if( (*p)->inSpace == true && plankton.size() > 10){
-            (*p)->setDestination( plankton.at(9)->global );
+        (*p)->update();
+        
+        
+        float distance = dist( (*p)->global, hero->global );
+        
+        if( (*p)->born() == false){
+            
+            if( distance < 40){
+                (*p)->birth();
+                oscManager->bornFriendly(index);
+                (*p)->setDestination( (*p)->global + vrand(500) );
+            }
+            
+            
+        } else {
+            
+            (*p)->updateTarget(colliders);
+            
+            if( plankton.size() > 0){
+                
+                (*p)->setDestination( plankton.at(0)->global );
+            }
+            
+            if( distance < 1000){
+                float pan = ( (*p)->global.x - hero->global.x);
+                oscManager->updateFriendly( index, pan, distance );
+            }
         }
+        
+        ++p;
+        index++;
+        
     }
 }
 
@@ -417,8 +496,8 @@ void EntityManager :: updateGrass(){
 void EntityManager :: updateOffset(){
 
     float over = 0;
-    if(hero->global.y > 300){
-        over = hero->global.y - 300;
+    if(hero->global.y > -200){
+        over = hero->global.y + 200;
     }
     offset += 0.03f * (hero->local - Vec2f(getWindowWidth()/2, (getWindowHeight()/2)+over));
 
@@ -429,15 +508,22 @@ void EntityManager :: updateOffset(){
 void EntityManager :: entityGenerator(){
     
     //PLANKTON
-    if(getElapsedFrames() % 150 == 0 && plankton.size() < 25){
+    if(getElapsedFrames() % 10 == 0 && plankton.size() < 40){
         int index = irand(0,5);
         
-        if(rand(0.0,1.0) < 0.5){
-            for(int i = 0; i < irand(0,10); i++){
-                plankton.push_back( new Plankton( inFront(hero->global, hero->direction, 600) + vrand(50),  image->plankton(index), index ) );
+        Vec2f loc = inFront(hero->global, hero->direction, 500);
+        
+        bool outsideEgg = true;
+        for(int i = 0; i < eggs.size();i++){
+            if(dist(loc, eggs.at(i)->global) < 60){
+                outsideEgg = false;
             }
         }
-        plankton.push_back( new Plankton( inFront(hero->global, hero->direction, 600), image->plankton(index), index) );
+        if(outsideEgg == true){
+            for(int i = 0; i < irand(0,5); i++){
+                plankton.push_back( new Plankton( loc + vrand(50),  image->plankton(index), index ) );
+            }
+        }
     }
     
 
@@ -452,21 +538,21 @@ void EntityManager :: entityGenerator(){
     }
     
     
-    if(urchinLastSeen >= 200 && hero->global.y > 0){
+    if(urchinLastSeen >= 800 && hero->global.y > -1000){
         cout << "Creating new Urchin" << "\n";
         urchins.push_back( new Urchin( inFront(hero->global, hero->direction, 600), image->urchin() ) );
         colliders.push_back( urchins.back() );
         urchinLastSeen = 0;
     }
     
-    if(starLastSeen >= 1000 && hero->global.y > -3000){
+    if(starLastSeen >= 1800 && hero->global.y > -3000){
         cout << "Creating new Puff" << "\n";
         starfish.push_back( new Starfish( inFront(hero->global, hero->direction, 600) ) );
         colliders.push_back( starfish.back() );
         starLastSeen = 0;
     }
     
-    if(jellyLastSeen == 1500){
+    if(jellyLastSeen == 1000){
         cout << "Creating new Jelly" << "\n";
         jellies.push_back( new Jelly( inFront(hero->global, hero->direction, 600), image->jelly( 2 ) ) );
         colliders.push_back( jellies.back() );
@@ -485,10 +571,13 @@ void EntityManager :: entityGenerator(){
     }
     
     
-    if(eggLastSeen == 1000){
+    if(eggLastSeen == 1200){
         cout << "Creating new Egg" << "\n";
         eggs.push_back(new Egg( inFront(hero->global, hero->direction, 800), image->egg() ) );
         colliders.push_back( eggs.back() );
+        friendlies.push_back( new Friendly( eggs.back()->global, image->friendly() ) );
+        colliders.push_back( friendlies.back() );
+        oscManager->newFriendly();
         eggLastSeen = 0;
     }
 }
@@ -498,7 +587,7 @@ Vec2f EntityManager :: inFront(Vec2f start, float direction, int inFrontBy){
     float x = start.x + sin(direction)*inFrontBy;
     float y = start.y + cos(direction)*inFrontBy;
     if(y > 0){
-        y = 100;
+        y = -100;
         x += 1000;
     };
     if(y < -6500){
@@ -521,11 +610,14 @@ void EntityManager :: drawEntities(){
     float r = depth*0.06 -widthMod;
     float g = depth*0.3 + widthMod;
     float b = depth*0.8;
+    r+=0.006;
+    g+=0.03;
+    b+=0.08;
     
     gl::clear( Color( r,g,b ) );
 
     
-    if(hero->global.y > 100){
+    if(hero->global.y > -500){
     //    floor->draw();
     }
     
@@ -541,10 +633,7 @@ void EntityManager :: drawEntities(){
     for(int i = 0; i < friendlies.size();    i++){ friendlies.at(i)->draw();  }
     for(int i = 0; i < sparks.size();    i++){ sparks.at(i)->draw();  }
     hero->draw();
-    
-    if(hero->global.y < -2000){
-   //     surface->draw();
-    }
+
     
     environment->drawMask();
 }

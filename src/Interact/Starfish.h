@@ -1,10 +1,5 @@
-//
-//  Starfish.h
-//  Cellv0
-//
-//  Created by Rob on 08/03/2013.
-//
-//
+// Reacts to player proximity
+// Changes colours and 'curls up'
 
 #ifndef __Cellv0__Starfish__
 #define __Cellv0__Starfish__
@@ -19,10 +14,13 @@ public:
     void update();
     void draw();
     void collide(Vec2f loc);
+    
+    //getters
     bool activated();
+    
 private:
     vector<Feeler*> feelers;
-    float counter;
+    float spinCounter;
     int contacts;
 };
 
