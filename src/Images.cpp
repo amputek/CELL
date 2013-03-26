@@ -17,7 +17,7 @@ Images :: Images(){
     sporeImgs.push_back(    new gl::Texture( loadImage( loadResource( "spore_pink.png"     ) ) ) );
     
     
-    playerImgs.push_back(   new gl::Texture( loadImage( loadResource( "player_oneeye.png"  ) ) ) );
+    playerImgs.push_back(   new gl::Texture( loadImage( loadResource( "player_one.png"  ) ) ) );
     playerImgs.push_back(   new gl::Texture( loadImage( loadResource( "player_twoeye.png"  ) ) ) );
     playerImgs.push_back(   new gl::Texture( loadImage( loadResource( "player_simple.png"  ) ) ) );
     playerImgs.push_back(   new gl::Texture( loadImage( loadResource( "player_ring.png"    ) ) ) );

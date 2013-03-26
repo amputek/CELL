@@ -89,6 +89,7 @@
 		D4BDE7E016EB6CF900FF6E76 /* OscMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4BDE7C116EB6CF900FF6E76 /* OscMessage.cpp */; };
 		D4BDE7E116EB6CF900FF6E76 /* OscSender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4BDE7C216EB6CF900FF6E76 /* OscSender.cpp */; };
 		D4E7B18A16F0F9A3008C7410 /* Menu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4E7B18816F0F9A3008C7410 /* Menu.cpp */; };
+		D4F16AF217023A76003843AF /* player_one.png in Resources */ = {isa = PBXBuildFile; fileRef = D4F16AF117023A76003843AF /* player_one.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -227,6 +228,7 @@
 		D4BDE7C216EB6CF900FF6E76 /* OscSender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OscSender.cpp; sourceTree = "<group>"; };
 		D4E7B18816F0F9A3008C7410 /* Menu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Menu.cpp; path = ../src/Menu.cpp; sourceTree = "<group>"; };
 		D4E7B18916F0F9A3008C7410 /* Menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Menu.h; path = ../src/Menu.h; sourceTree = "<group>"; };
+		D4F16AF117023A76003843AF /* player_one.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player_one.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -378,6 +380,7 @@
 				D43FC2E316EC1DE60088577B /* cell-splashscreen.png */,
 				D4609AEF16EA486B0066DEFF /* mask-1.png */,
 				D4609AB216EA276B0066DEFF /* player_oneeye.png */,
+				D4F16AF117023A76003843AF /* player_one.png */,
 				D4609AB316EA276B0066DEFF /* player_one_eye.png */,
 				D4609AB416EA276B0066DEFF /* player_ring.png */,
 				D4609AB516EA276B0066DEFF /* player_simple.png */,
@@ -641,6 +644,7 @@
 				D474FDD316F14C8C00CCCF99 /* buttun_1200.png in Resources */,
 				D474FDD416F14C8C00CCCF99 /* menu_back.png in Resources */,
 				D474FDD616F1581D00CCCF99 /* settingsmenu.png in Resources */,
+				D4F16AF217023A76003843AF /* player_one.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
