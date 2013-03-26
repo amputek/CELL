@@ -71,11 +71,11 @@ void Egg :: update(){
 
 void Egg :: draw(){
     
-    gl::color(ColorA(1,1,1,0.5) );
+    gl::color(ColorA(1,1,1,0.75) );
     
     gl::draw( *img, Rectf(local.x - ratio, local.y - ratio, local.x + ratio, local.y + ratio) );
     
-    gl::color(ColorA (1,0.5,0.3,0.2)) ;
+    gl::color(ColorA (0.5,0.25,0.15,0.2)) ;
     gl::draw(mShape);
     gl::draw( mesh );
 }

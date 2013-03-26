@@ -16,8 +16,10 @@ void Urchin :: collide(Vec2f loc){
         for(int i = 0; i < feelers.size(); i++){
             if( dist(loc, feelers.at(i)->global) < 75){
            //  feelers.at(i)->addForce( (loc - feelers.at(i)->global) * 0.1 );
-            feelers.at(i)->collide( loc );
-             contacts++;
+                feelers.at(i)->collide( loc );
+                if(feelers.at(i)->contact() == true){
+                    contacts++;
+                }
             }
         }
     }

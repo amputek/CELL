@@ -24,6 +24,9 @@ void Spring :: collide(Vec2f heroLoc){
     }
 }
 
+
+//Calculating accelration and velocity from mass, stiffness, and damping.
+
 void Spring :: update(Vec2f target){
     Vec2f force = (target-global) * stiffness;
     Vec2f accel = force / mass;

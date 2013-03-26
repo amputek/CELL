@@ -16,7 +16,7 @@
 class Jelly : public Swimmer{
     
 public:
-    Jelly(Vec2f loc, gl::Texture* tex);
+    Jelly(Vec2f loc, int type, gl::Texture* tex);
     void update();
     void draw();
     void collide(Vec2f loc);
@@ -29,6 +29,8 @@ private:
     
     float counter;
     gl::Texture* img;
+    
+    float rMod; //modifies the radius of the feeler positions (depends on the png being used)
 };
 
 #endif /* defined(__Cellv0__Jelly__) */

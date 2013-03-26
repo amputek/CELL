@@ -1,11 +1,3 @@
-//
-//  Beam.h
-//  Cellv0
-//
-//  Created by Rob on 08/03/2013.
-//
-//
-
 #ifndef __Cellv0__Beam__
 #define __Cellv0__Beam__
 
@@ -20,13 +12,11 @@ public:
     void update();
     bool alive(){ return !(local.x < -1000 || local.x > 1800); };
     
-    
 private:
     float counter;
     float op;
     float life;
     gl::Texture* img;
-    
 };
 
 

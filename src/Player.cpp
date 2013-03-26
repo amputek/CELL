@@ -3,9 +3,9 @@
 
 Player :: Player(Vec2f loc, vector<gl::Texture*> texs) : Braitenberg(loc, true){
     speed = 0.02;
-    radius = 20;
+    radius = 5;
     level = 1;
-    longTail = new Tail( 20, true, 3, false);
+    longTail = new Tail( 5, false, 3, false);
     playerLevelling = false;
     falling = false;
     

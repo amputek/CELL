@@ -1,10 +1,8 @@
-//
-//  Spring.h
-//  Cellv0
-//
-//  Created by Rob on 08/03/2013.
-//
-//
+
+//some of the code in this class is based on algorithms found on the Processing website, from an example sketch by Casey Reas and Ben Fry
+//Sketch URL: http://processing.org/learning/topics/chain.html
+// For the most part, this involves using damping, mass, and stiffness values to calculate acceleration and velocity.
+// My extensions of this sketch are: collisions and adding further exeternal forces.
 
 #ifndef __Cellv0__Spring__
 #define __Cellv0__Spring__

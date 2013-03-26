@@ -20,6 +20,7 @@ void Friendly :: birth(){
     }
 }
 
+
 void Friendly :: update(){
     Swimmer::update();
     
@@ -32,9 +33,9 @@ void Friendly :: update(){
             }
         }
     }
+    
     tail->update(Vec2f(global.x - sin(direction) * radius, global.y - cos(direction) * radius), direction);
 
-    
     if(birthing == true){
         birthCount++;
         if(birthCount >= 40){
@@ -42,6 +43,7 @@ void Friendly :: update(){
         }
     }
 }
+
 
 void Friendly :: draw(){
     
@@ -52,10 +54,12 @@ void Friendly :: draw(){
     gl::draw( *img , Rectf( -radius*2, -radius*2, radius*2, radius*2) );
     gl::popModelView();
     
+    //friendly starts without tail
     if(mborn == true){
         tail->draw();
     }
     
+    //when the friendly has been triggered by the player, go through a state of 'birthing' - like levelling up for the player
     if(birthing == true){
         gl::color(ColorA8u(150,200,255,40-birthCount));
         for(int i = 0; i <= radius + birthCount; i+=int(rand(2,6))){

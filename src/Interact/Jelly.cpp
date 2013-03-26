@@ -1,8 +1,11 @@
 #include "Jelly.h"
 
-Jelly :: Jelly(Vec2f loc, gl::Texture* tex) : Swimmer(loc){
+Jelly :: Jelly(Vec2f loc, int type, gl::Texture* tex) : Swimmer(loc){
     speed = 0.002;
     radius = int(rand(15,30));
+    if(type == 0){ rMod = 0.4; }
+    if(type == 1){ rMod = 0.6; }
+    if(type == 2){ rMod = 0.6; }
     for(int i = 0; i < int(rand(6,10)); i++){
         feelers.push_back( new Feeler(Vec2f(global.x, global.y), int(rand(5,8)), 1.0));
         jellyContacts.push_back(false);
@@ -63,7 +66,7 @@ void Jelly :: update(){
     for(int i = 0; i < feelers.size(); i++){
         feelers.at(i)->addForce( Vec2f(rand(-5,5), rand(18,24)) );
         float pos = (0.5*M_PI * i / (feelers.size()-1)) - 0.25*M_PI;
-        feelers.at(i)->global = global + Vec2f(sin(pos) * radius*0.6, cos(pos) * radius*0.6);
+        feelers.at(i)->global = global + Vec2f(sin(pos) * radius*rMod, cos(pos) * radius*0.6);
         feelers.at(i)->update();
         
         paths.push_back( feelers.at(i)->getPath() );

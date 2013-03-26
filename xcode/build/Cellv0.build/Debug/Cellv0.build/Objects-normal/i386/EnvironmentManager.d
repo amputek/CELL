@@ -1088,5 +1088,8 @@ dependencies: \
   ../../../../../../Applications/cinder_0.8.4_mac/include/cinder/DataTarget.h \
   /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../src/Mask.h \
   ../../../../../../Applications/cinder_0.8.4_mac/include/cinder/gl/Fbo.h \
+  /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../src/Feeler.h \
+  /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../src/Spring.h \
   /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../src/Environment/SeaSurface.h \
-  ../../../../../../Applications/cinder_0.8.4_mac/include/cinder/Perlin.h
+  ../../../../../../Applications/cinder_0.8.4_mac/include/cinder/Perlin.h \
+  /Users/Rob/Documents/cinder\ projects/Cellv0/xcode/../src/Environment/SeaFloor.h

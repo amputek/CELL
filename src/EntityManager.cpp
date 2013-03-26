@@ -12,7 +12,7 @@ EntityManager :: EntityManager( Images* img){
     environment = new EnvironmentManager( image );
     
     //first entities
-    hero = new Player(Vec2f(-400,-6000), image->player() );
+    hero = new Player(Vec2f(-400,-1000), image->player() );
     offset = hero->global;
     
  //   eggs.push_back( new Egg(Vec2f(-200,-1000), image->egg() ) );
@@ -77,7 +77,12 @@ void EntityManager :: create(string species){
     }
     
     if(species == "jelly"){
+        int type = irand(0,3);
+        cout << "Creating new Jelly" << type << "\n";
         
+        jellies.push_back( new Jelly( hero->global, type, image->jelly( type ) ) );
+        colliders.push_back( jellies.back() );
+        jellyLastSeen = 0;
     }
     
     if(species == "spores"){
@@ -88,6 +93,13 @@ void EntityManager :: create(string species){
             spores.push_back(new Spore(loc + vrand(100), rand(0.5,1.1), r, image->spore(r)) );
         }
         sporeLastSeen = 0;
+    }
+    
+    if(species == "urchin"){
+        cout << "Creating new Urchin" << "\n";
+        urchins.push_back( new Urchin( hero->global, image->urchin() ) );
+        colliders.push_back( urchins.back() );
+        urchinLastSeen = 0;
     }
 }
 
@@ -165,11 +177,11 @@ void EntityManager :: updatePlankton(){
         } else {
             int i = 0;
             while(ended == false && i < colliders.size()){
-                if(dist( (*p)->global, colliders.at(i)->global) < 10 ){
+                if(dist( (*p)->global, colliders.at(i)->global) < (*p)->radius + hero->radius ){
                     environment->bubble( (*p)->local, 4);
                     environment->splash( (*p)->global, 1, 50 );
                     float pan = ( (*p)->global.x - hero->global.x);
-                    oscManager->eatPlankton( (*p)->type(), pan ,0);
+                    oscManager->eatPlankton( (*p)->type(), pan , dist(hero->global, (*p)->global) );
                     if(i == 0){
                         hero->incEaten( (*p)->type() );
                         if(hero->getEaten() % 8 == 0){
@@ -217,7 +229,7 @@ void EntityManager :: updateUrchins(){
                 }
             }
             
-           // oscManager->urchin( (*p)->contactAmount(), (*p)->radius, (*p)->feelerLength );
+            oscManager->urchin( dist( (*p)->global, hero->global ), (*p)->contactAmount() );
             
             if((*p)->onScreen() == true){
                 urchinLastSeen = 0;
@@ -483,14 +495,11 @@ void EntityManager :: updateGrass(){
             (*p)->update();
             (*p)->collide(hero->global);
             (*p)->addForce(Vec2f(rand(-4,4), -15.0));
-        
-            //oscManager->feeler( (*p)->contact(), (*p)->length() );
+            oscManager->grass( (*p)->contact() );
             ++p;
         }
-
     }
 }
-
 
 //Updates the global Offset value depending on the Hero's location
 void EntityManager :: updateOffset(){
@@ -503,15 +512,14 @@ void EntityManager :: updateOffset(){
 
 }
 
-
 //Procedural Content Generation (PCG) method
 void EntityManager :: entityGenerator(){
     
     //PLANKTON
-    if(getElapsedFrames() % 10 == 0 && plankton.size() < 40){
+    if(getElapsedFrames() % 40 == 0 && plankton.size() < 40){
         int index = irand(0,5);
         
-        Vec2f loc = inFront(hero->global, hero->direction, 500);
+        Vec2f loc = inFront(hero->global, hero->direction, rand(500,600));
         
         bool outsideEgg = true;
         for(int i = 0; i < eggs.size();i++){
@@ -519,20 +527,21 @@ void EntityManager :: entityGenerator(){
                 outsideEgg = false;
             }
         }
+        
         if(outsideEgg == true){
-            for(int i = 0; i < irand(0,5); i++){
-                plankton.push_back( new Plankton( loc + vrand(50),  image->plankton(index), index ) );
+            for(int i = 0; i < irand(1,8); i++){
+                plankton.push_back( new Plankton( loc + vrand(40),  image->plankton(index), index ) );
             }
         }
     }
     
 
     //LONG GRASS
-    if(hero->global.y > 0 && longGrass.size() < 10 && rand(0.0,1.0) > 0.99){
+    if(hero->global.y > -500 && longGrass.size() < 20 && rand(0.0,1.0) > 0.99){
         float nx = inFront(hero->global, hero->direction, 600).x;
         cout << "Creaing new Grass" << "\n";
         for(int i = 0; i < irand(3,6); i++){
-            longGrass.push_back( new Feeler( Vec2f(nx + irand(-40,40), 500 ), irand(5,10), rand(0.9,1.15)) );
+            longGrass.push_back( new Feeler( Vec2f(nx + irand(-40,40), 0 ), irand(5,10), rand(0.9,1.15)) );
             longGrass.back()->update();
         }
     }
@@ -553,8 +562,10 @@ void EntityManager :: entityGenerator(){
     }
     
     if(jellyLastSeen == 1000){
+        
         cout << "Creating new Jelly" << "\n";
-        jellies.push_back( new Jelly( inFront(hero->global, hero->direction, 600), image->jelly( 2 ) ) );
+        int type = irand(0,2);
+        jellies.push_back( new Jelly( inFront(hero->global, hero->direction, 600), type, image->jelly( type ) ) );
         colliders.push_back( jellies.back() );
         jellyLastSeen = 0;
     }
@@ -579,6 +590,16 @@ void EntityManager :: entityGenerator(){
         colliders.push_back( friendlies.back() );
         oscManager->newFriendly();
         eggLastSeen = 0;
+        
+        //delete any plankton that are inside the egg
+        for( vector<Plankton*>::iterator p = plankton.begin(); p < plankton.end(); ){
+            if( dist( (*p)->global, eggs.back()->global ) < eggs.back()->radius ){
+                delete *p;
+                p = plankton.erase(p);
+            } else {
+                ++p;
+            }
+        }
     }
 }
 
@@ -595,7 +616,16 @@ Vec2f EntityManager :: inFront(Vec2f start, float direction, int inFrontBy){
         x -= 1000;
     };
     
-    return Vec2f(x,y);
+    
+    //make sure new entitiy is off screen
+    Vec2f newLoc = Vec2f(x,y);
+    while( dist(newLoc, hero->global) < 450){
+        x += rand(-200,200);
+        y += rand(-200,200);
+        newLoc = Vec2f(x,y);
+    }
+    
+    return newLoc;
 }
 
 //calls every entities' draw function
@@ -622,11 +652,11 @@ void EntityManager :: drawEntities(){
     }
     
     environment->draw();
+    drawGrass();
     
     for(int i = 0; i < urchins.size();   i++){ urchins.at(i)->draw();   }
     for(int i = 0; i < starfish.size();    i++){ starfish.at(i)->draw();    }
     for(int i = 0; i < eggs.size();     i++){ eggs.at(i)->draw();     }
-    for(int i = 0; i < longGrass.size();  i++){ longGrass.at(i)->draw();  }
     for(int i = 0; i < plankton.size(); i++){ plankton.at(i)->draw(); }
     for(int i = 0; i < spores.size();   i++){ spores.at(i)->draw();   }
     for(int i = 0; i < jellies.size();  i++){ jellies.at(i)->draw();  }
@@ -636,4 +666,17 @@ void EntityManager :: drawEntities(){
 
     
     environment->drawMask();
+}
+
+
+void EntityManager :: drawGrass(){
+    for(int i = 0; i < longGrass.size(); i++){
+        gl::color( ColorA8u( 90,110,15, 200) );
+        gl::draw( longGrass.at(i)->getPath() );
+        vector<Vec2f> points = longGrass.at(i)->getPoints();
+        gl::color( ColorA8u( 100,100,100, 100 ) );
+        for(int n = 0; n < points.size(); n++){
+            gl::drawSolidCircle( points.at(n), 2 );
+        }
+    }
 }

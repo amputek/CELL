@@ -1,11 +1,3 @@
-//
-//  OSCManager.h
-//  Cellv0
-//
-//  Created by Rob on 08/03/2013.
-//
-//
-
 #ifndef __Cellv0__OSCManager__
 #define __Cellv0__OSCManager__
 
@@ -25,28 +17,25 @@ public:
     
     EntityManager* entities;
     void recieveMessage();
+    
+    //messages
     void startLoop();
     void quit();
-    
     void eatPlankton(int type, float pan, float dist);
     void eighthPlankton();
-    
     void setDepth(float d);
-    
-    void urchin(int density, int size, int length);
+    void urchin(float distance, int contact);
     void changeChord();
     void jelly(vector<bool> feelers);
-    void feeler(bool contact, int legnth);
+    void grass(bool contact);
     void sporeBoop(int health);
     void egg(int inside);
     void surface(int where);
+    void floor();
     void newSpark(int type);
-    
     void newFriendly();
     void bornFriendly( int index );
     void updateFriendly(int index, float pan, float dist);
-    
-
     
 private:
     void sendMessage(osc::Message message, string addr);

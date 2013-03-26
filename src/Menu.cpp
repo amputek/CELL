@@ -11,18 +11,22 @@ Menu :: Menu(Images* imgs){
     resButtons.push_back( new Button( offset + Vec2f(175,360), 20, images->res_eight()));
     resButtons.push_back( new Button( offset + Vec2f(175,420), 20, images->res_twelve()));
     
-    volume = new Slider(offset + Vec2f(430,320), 10, loc.y + 100, loc.y+340);
+    volume = new Slider(offset + Vec2f(430,320), 10, offset.y + 100, offset.y+340);
     mouseDown = false;
     active = false;
 }
 
 
-void Menu :: update( Vec2f mousePos ){
+string Menu :: update( Vec2f mousePos ){
+    
+    string response = "";
+    
     if(resumeButton->update( mousePos, mouseDown ) == true){
-        
+        response = "resume";
     }
+    
     if(quitButton->update( mousePos, mouseDown ) == true){
-      //  quit();
+        response = "quit";
     }
     
     volume->update( mousePos, mouseDown );
@@ -50,7 +54,9 @@ void Menu :: update( Vec2f mousePos ){
         resButtons.at(2)->loc = offset + Vec2f(175,420);
         resumeButton->loc = offset  + Vec2f(495,330);
         quitButton->loc = offset  + Vec2f(495,400);
+        volume->loc = offset + Vec2f(430,320);
     }
+    return response;
 }
 
 
@@ -70,8 +76,9 @@ void Menu :: draw(){
 
 }
 
-void Menu :: activate(){
-    active = !active;
+void Menu :: activate(bool t){
+    active = t;
+    mouseDown = false;
 }
 
 

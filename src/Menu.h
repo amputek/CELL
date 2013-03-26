@@ -52,12 +52,16 @@ private:
 class Menu{
 public:
     Menu(Images* img);
-    void update( Vec2f mousePos );
+    string update( Vec2f mousePos );
     void draw();
     bool active;
-    void activate();
+    void activate(bool t);
     bool mouseDown;
+    
+    //getters
+    bool resumed(){ return resuming; };
 private:
+    bool resuming = false;
     Vec2f offset = Vec2f(0,0);
     Images* images;
     gl::Texture* menuImg;

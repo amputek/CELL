@@ -81,6 +81,7 @@
 		D474FDD316F14C8C00CCCF99 /* buttun_1200.png in Resources */ = {isa = PBXBuildFile; fileRef = D474FDCD16F14C8C00CCCF99 /* buttun_1200.png */; };
 		D474FDD416F14C8C00CCCF99 /* menu_back.png in Resources */ = {isa = PBXBuildFile; fileRef = D474FDCE16F14C8C00CCCF99 /* menu_back.png */; };
 		D474FDD616F1581D00CCCF99 /* settingsmenu.png in Resources */ = {isa = PBXBuildFile; fileRef = D474FDD516F1581D00CCCF99 /* settingsmenu.png */; };
+		D4A2C6F61701F37E00BA1399 /* SeaFloor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4A2C6F41701F37E00BA1399 /* SeaFloor.cpp */; };
 		D4BDE7C316EB6CF900FF6E76 /* osc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D4BDE77E16EB6CF700FF6E76 /* osc.a */; };
 		D4BDE7C416EB6CF900FF6E76 /* osc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D4BDE78016EB6CF700FF6E76 /* osc.a */; };
 		D4BDE7DE16EB6CF900FF6E76 /* OscBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4BDE7BF16EB6CF900FF6E76 /* OscBundle.cpp */; };
@@ -198,6 +199,8 @@
 		D474FDCD16F14C8C00CCCF99 /* buttun_1200.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttun_1200.png; sourceTree = "<group>"; };
 		D474FDCE16F14C8C00CCCF99 /* menu_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_back.png; sourceTree = "<group>"; };
 		D474FDD516F1581D00CCCF99 /* settingsmenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settingsmenu.png; sourceTree = "<group>"; };
+		D4A2C6F41701F37E00BA1399 /* SeaFloor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SeaFloor.cpp; path = ../src/Environment/SeaFloor.cpp; sourceTree = "<group>"; };
+		D4A2C6F51701F37E00BA1399 /* SeaFloor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SeaFloor.h; path = ../src/Environment/SeaFloor.h; sourceTree = "<group>"; };
 		D4BDE76916EB6CF700FF6E76 /* IpEndpointName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IpEndpointName.h; sourceTree = "<group>"; };
 		D4BDE76A16EB6CF700FF6E76 /* NetworkingUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkingUtils.h; sourceTree = "<group>"; };
 		D4BDE76B16EB6CF700FF6E76 /* PacketListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PacketListener.h; sourceTree = "<group>"; };
@@ -321,6 +324,7 @@
 		29B97315FDCFA39411CA2CEA /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				D4A2C6F51701F37E00BA1399 /* SeaFloor.h */,
 				D4E7B18916F0F9A3008C7410 /* Menu.h */,
 				D461A93B16EF66300035AC50 /* SeaSurface.h */,
 				32CA4F630368D1EE00C91783 /* Cellv0_Prefix.pch */,
@@ -442,6 +446,7 @@
 				D4609A8216EA1EF30066DEFF /* Dust.cpp */,
 				D4609A8516EA1F930066DEFF /* Splash.cpp */,
 				D461A93A16EF66300035AC50 /* SeaSurface.cpp */,
+				D4A2C6F41701F37E00BA1399 /* SeaFloor.cpp */,
 				D43FC2DB16EBAAF80088577B /* Bubble.cpp */,
 				D4609AE916EA3F300066DEFF /* Beam.cpp */,
 				D4609AE616EA3EC20066DEFF /* Mask.cpp */,
@@ -679,6 +684,7 @@
 				D43FC2E016EBB4090088577B /* EnvironmentManager.cpp in Sources */,
 				D461A93C16EF66300035AC50 /* SeaSurface.cpp in Sources */,
 				D4E7B18A16F0F9A3008C7410 /* Menu.cpp in Sources */,
+				D4A2C6F61701F37E00BA1399 /* SeaFloor.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

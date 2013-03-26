@@ -18,7 +18,7 @@ void Spore :: update(){
 
 void Spore :: draw(){
     if(onScreen() == true){
-        gl::color( ColorA(1.0,1.0,1.0,0.7*depth) );
+        gl::color( ColorA(1.0,1.0,1.0,0.8*depth) );
         gl::draw( *img, Rectf( local.x - radius, local.y - radius, local.x + radius, local.y + radius ) );
     }
 }

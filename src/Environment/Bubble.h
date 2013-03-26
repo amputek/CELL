@@ -1,11 +1,3 @@
-//
-//  Bubble.h
-//  Cellv0
-//
-//  Created by Rob on 09/03/2013.
-//
-//
-
 #ifndef __Cellv0__Bubble__
 #define __Cellv0__Bubble__
 

@@ -7,14 +7,14 @@ SeaSurface :: SeaSurface(){
         rows.push_back( new GameObject(loc, i));
     }
     
-    perlin = Perlin(2);
-    counter = 0;
+    perlin = Perlin(2); //create new perlin noise generator
+    counter = 0;        //initialise sinewave counter
 }
 
 
 void SeaSurface :: update(){
     
-    counter += 0.1;
+    counter += 0.1;     //counter used in sine function for wave motion
    
     paths.clear();
     
@@ -36,10 +36,13 @@ void SeaSurface :: update(){
             Vec2f point = Vec2f(i, r->local.y + perl * perlinHeight);
             
             //add wave motion
-            point.y += sin(counter+(i*0.02*(2.0-r->depth)))*(10*r->depth);
+            point.y += sin( counter + ( i * 0.02 * (2.0-r->depth) ) ) * ( 10 * r->depth );
+            
+            //draw point
             floorPath.lineTo(point);
         }
         
+        //add to path collection
         paths.push_back( floorPath );
     }
     
@@ -47,7 +50,7 @@ void SeaSurface :: update(){
 
 void SeaSurface:: draw(){
     for(int n = 0; n < paths.size(); n++){
-        glLineWidth(n*0.25);        //line width depends on depth (z axis)
+        glLineWidth(n*0.25);        //line width depends on depth (z axis), so thicker lines appear nearer the user
         gl::color(ColorA8u(255,255,255,1*n));
         gl::draw( paths.at(n) );
     }

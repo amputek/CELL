@@ -5,7 +5,6 @@ Bubble :: Bubble(Vec2f loc, Vec2f vel, float d, gl::Texture* tex) : Dust( loc, v
     opacity = depth*0.2;
 }
 
-
 bool Bubble :: alive(){
     //off screen or on floor or above surface
     return !(local.y < -200 || local.x < -200 || local.x > 1000 || global.y > 505 || global.y < - 7000);

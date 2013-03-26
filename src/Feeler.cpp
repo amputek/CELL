@@ -82,8 +82,3 @@ void Feeler :: updatePoints(){
     }
     
 }
-
-void Feeler :: draw(){
-    gl::color( Color( 255,255,0) );
-    gl::draw( path ) ;
-}

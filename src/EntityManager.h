@@ -61,6 +61,8 @@ private:
     void updateJellies();
     void updateFriendlies();
     void updateGrass();
+    void drawGrass();
+    
     
     void entityGenerator();
     

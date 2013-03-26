@@ -18,7 +18,6 @@ public:
 	void update();
 	void draw();
 
-    bool paused = false;
     bool gameStart = false;
 
     int gameFrames = 0;
@@ -71,12 +70,12 @@ void Cellv0App::mouseUp( MouseEvent event ){
 
 void Cellv0App::keyDown( KeyEvent event ){
     if(event.getChar() == 'p'){
-        if(paused == true){
+        if(menu->active == true){
             hideCursor();
-            paused = false;
+            menu->activate(false);
         } else {
             showCursor();
-            paused = true;
+            menu->activate(true);
         }
     }
     
@@ -92,21 +91,34 @@ void Cellv0App::keyDown( KeyEvent event ){
         entityManager->create("spores");
     }
     
-    if(event.getChar() == 'm'){
-        menu->activate();
+    if(event.getChar() == 'j'){
+        entityManager->create("jelly");
     }
+    
+    if(event.getChar() == 'u'){
+        entityManager->create("urchin");
+    }
+
+
 
 
 }
 
 void Cellv0App::update(){
-    if(gameStart == true && paused == false){
+    if(gameStart == true && menu->active == false){
         entityManager->updateHero( getMousePos() );
         entityManager->update();
     }
 
     if(menu->active == true){
-        menu->update( getMousePos() );
+        string response = menu->update( getMousePos() );
+        if(response == "quit"){
+            quit();
+        }
+        if(response == "resume"){
+            hideCursor();
+            menu->activate(false);
+        }
     }
 }
 
@@ -131,7 +143,6 @@ void Cellv0App::draw(){
     
     
     if(menu->active == true){
-        
         menu->draw();
     }
     

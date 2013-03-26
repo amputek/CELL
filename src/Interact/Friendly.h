@@ -1,11 +1,3 @@
-//
-//  Friendly.h
-//  Cellv0
-//
-//  Created by Rob on 08/03/2013.
-//
-//
-
 #ifndef __Cellv0__Friendly__
 #define __Cellv0__Friendly__
 
@@ -21,7 +13,7 @@ public:
     void birth();
     
     //getters
-    bool born(){return mborn;};
+    bool born(){ return mborn; };
     
 private:
     int levelCount;

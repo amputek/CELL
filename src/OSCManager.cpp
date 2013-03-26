@@ -9,12 +9,14 @@ OSCManager :: OSCManager(){
     sendMessage("/confirm");
 }
 
+//for pre-created messages
 void OSCManager :: sendMessage(osc::Message message, string addr){
     message.setAddress(addr);
     message.setRemoteEndpoint(host, port);
     sender.sendMessage(message);
 }
 
+//for messages wtihtout parameters
 void OSCManager :: sendMessage(string addr){
     osc::Message message;
     message.setAddress(addr);
@@ -22,7 +24,7 @@ void OSCManager :: sendMessage(string addr){
     sender.sendMessage(message);
 }
 
-
+//recieve from SuperCollider
 void OSCManager :: recieveMessage(){
     //continuously checks for new messages from SuperCollider
     
@@ -62,6 +64,10 @@ void OSCManager :: recieveMessage(){
     }
 }
 
+
+
+//MESSAGES: names should be self-explanatory
+
 void OSCManager :: startLoop(){
     cout << "starting SC loop" << "\n";
     sendMessage("/startLoop");
@@ -77,7 +83,6 @@ void OSCManager :: newSpark(int type){
     sendMessage(msg, "/newSpark");
 }
 
-//
 void OSCManager :: eatPlankton(int type, float pan, float dist){
     osc::Message msg;
     msg.addIntArg(type);
@@ -102,31 +107,26 @@ void OSCManager :: egg(int inside){
     sendMessage(msg, "/egg");
 }
 
-
-void OSCManager :: urchin(int density, int size, int length){
-    if(density > 1){
+void OSCManager :: urchin(float distance, int contact){
+    if(distance < 600){
         osc::Message msg;
-        msg.addIntArg(density);
-        msg.addIntArg(size);
-        msg.addIntArg(length);
-        sendMessage(msg, "/twirl");
+        msg.addFloatArg(distance);
+        msg.addIntArg(contact);
+        sendMessage(msg, "/urchin");
     }
 }
 
-void OSCManager :: feeler(bool contact, int length){
+void OSCManager :: grass(bool contact){
     if(contact == true){
-        osc::Message msg;
-        msg.addIntArg(length);
-        sendMessage(msg, "/feeler");
+        sendMessage("/grass");
     }
 }
 
-void  OSCManager :: surface(int where){
+void OSCManager :: surface(int where){
     osc::Message msg;
     msg.addIntArg(where);
     sendMessage(msg, "/surface");
 }
-
 
 void OSCManager :: newFriendly(){
     sendMessage("/newFriendly");
@@ -138,7 +138,6 @@ void OSCManager :: bornFriendly( int index ){
     sendMessage(msg, "/bornFriendly");
 }
 
-
 void OSCManager :: updateFriendly(int index, float pan, float dist){
     osc::Message msg;
     msg.addIntArg(index);
@@ -146,7 +145,6 @@ void OSCManager :: updateFriendly(int index, float pan, float dist){
     msg.addFloatArg(dist);
     sendMessage(msg, "/updateFriendly");
 }
-
 
 void OSCManager :: changeChord(){
     sendMessage("/changeChord");

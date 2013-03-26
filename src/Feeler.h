@@ -16,7 +16,6 @@ class Feeler : public GameObject{
     
 public:
     Feeler(Vec2f loc, int joints, float d);
-    void draw();
     void update();
     void collide(Vec2f heroLoc);
     void addForce(Vec2f force);

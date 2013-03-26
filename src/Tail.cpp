@@ -50,18 +50,21 @@ void Tail :: addFin( int top, int mid, int point ){
 
 void Tail :: draw(){
     glLineWidth(0.1);
-    gl::color(ColorA8u(150,200,255,100));
+    gl::color(ColorA8u(255,255,255,100));
     gl::draw(mPath);
+    
+    //draw side paths if tail is wide
     if(wideTail == true){
         gl::draw(lPath);
         gl::draw(rPath);
     }
+    
+    //draw fins
     if(fins == true){
         for(int i =0 ; i < finPaths.size(); i++){
             gl::draw( finPaths.at(i) );
         }
     }
-    
 }
 
 void Tail :: updateTailPaths(){
