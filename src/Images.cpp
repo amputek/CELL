@@ -31,6 +31,7 @@ Images :: Images(){
     eggImg =                new gl::Texture( loadImage( loadResource( "egg.png"            ) ) );
     
     titleSplashScreen =     new gl::Texture( loadImage( loadResource( "cell-splashscreen.png" ) ) );
+    instructionImage  =     new gl::Texture( loadImage( loadResource( "instructions.png"      ) ) );
     maskImg =               new gl::Texture( loadImage( loadResource( "mask-1.png"            ) ) );
     
     

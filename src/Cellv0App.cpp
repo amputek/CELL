@@ -16,8 +16,9 @@ public:
     void keyDown( KeyEvent event );
     
 	void update();
+    
 	void draw();
-
+    void drawCursor();
     bool gameStart = false;
 
     int gameFrames = 0;
@@ -116,7 +117,7 @@ void Cellv0App::update(){
             quit();
         }
         if(response == "resume"){
-            hideCursor();
+            //hideCursor();
             menu->activate(false);
         }
     }
@@ -133,12 +134,24 @@ void Cellv0App::draw(){
     }
     
     //draw splash screen ("CELL")
-    if(gameStart == false || gameFrames < 125){
+    if(gameStart == false || gameFrames < 25.5){
         glBlendFunc(GL_SRC_ALPHA,GL_ONE);
         float g = sin( getElapsedFrames()*0.1 )*30;
         
-        gl::color( ColorA8u( 220+g, 220-g, 255, 255 - (gameFrames*2) ) );
+        gl::color( ColorA8u( 220+g, 220-g, 255, 255 - (gameFrames*10) ) );
         gl::draw( *image->title(), Rectf(0,0,getWindowWidth(),getWindowHeight() ) );
+    }
+    
+    if( gameStart == true && gameFrames < 100 ){
+        glBlendFunc(GL_SRC_ALPHA,GL_ONE);
+        gl::color( ColorA8u( 255,255,255, gameFrames*2 ) );
+        gl::draw( *image->instructions(), Vec2f(0,0) );
+    }
+    
+    if(gameStart == true && gameFrames >= 100 && gameFrames < 210 ){
+        glBlendFunc(GL_SRC_ALPHA,GL_ONE);
+        gl::color( ColorA8u( 255,255,255, 255 - ((gameFrames-100) *2) ) );
+        gl::draw( *image->instructions(), Vec2f(0,0) );
     }
     
     
@@ -146,9 +159,43 @@ void Cellv0App::draw(){
         menu->draw();
     }
     
-    gl::color( ColorA8u(255,255,255,200) );
-    gl::drawSolidCircle( getMousePos(), 2 );
+    drawCursor();
 
+
+}
+
+void Cellv0App::drawCursor(){
+    
+    Vec2f mousePos = getMousePos();
+    
+    showCursor();
+    
+    if(getMousePos().x > 0 && getMousePos().x < getWindowWidth() && getMousePos().y > 0 && getMousePos().y < getWindowHeight() ){
+        cout << "show" << getMousePos() << "\n";
+        hideCursor();
+    } else {
+        showCursor();
+    }
+    
+    if(mousePos.x < 0){
+        mousePos.x = 5;
+    }
+    if(mousePos.y < 0){
+        mousePos.y = 5;
+    }
+    if(mousePos.x > getWindowWidth()){
+        mousePos.x = getWindowWidth() - 5;
+    }
+    if(mousePos.y > getWindowHeight()){
+        mousePos.y = getWindowHeight() - 5;
+    }
+    
+    
+    gl::enableAlphaBlending();
+    gl::color( ColorA8u(255,255,255,255) );
+    gl::drawSolidCircle( mousePos, 2 );
+    glLineWidth(1);
+    gl::drawStrokedCircle( mousePos, 4 );
 }
 
 

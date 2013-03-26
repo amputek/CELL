@@ -30,6 +30,7 @@ public:
     vector<cinder::gl::Texture*> player(){return playerImgs;         };
     cinder::gl::Texture* title(){         return titleSplashScreen;  };
     cinder::gl::Texture* cinder(){        return cinderSplashScreen; };
+    cinder::gl::Texture* instructions(){  return instructionImage;   };
     cinder::gl::Texture* mask(){          return maskImg;            };
     
     cinder::gl::Texture* menuback(){      return menu;            };
@@ -52,6 +53,7 @@ private:
     gl::Texture* titleSplashScreen;
     gl::Texture* cinderSplashScreen;
     gl::Texture* maskImg;
+    gl::Texture* instructionImage;
     
     gl::Texture* menu;
     gl::Texture* res6;
