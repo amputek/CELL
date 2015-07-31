@@ -1,7 +1,9 @@
-Cell v0.1
+CELL
 =========
 
-CELL is an audio-visual game built in Cinder and SuperCollider, and uses Open Sound Control protocol to allow communication between Cinder and SuperCollider
+CELL is an audio-visual game built in Cinder and SuperCollider, and uses Open Sound Control protocol to allow communication between Cinder and SuperCollider.
+
+CELL was built over a year for an Undergraduate Final Year Project for Music Informatics BSc at the University of Sussex.
 
 
 Cinder: http://libcinder.org/
