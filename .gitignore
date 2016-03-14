@@ -1,3 +1,4 @@
-.DS_Store
 xcode/build/
 blocks/
+.gitignore
+.DS_Store
