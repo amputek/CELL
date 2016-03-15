@@ -23,7 +23,7 @@ public:
     cinder::gl::TextureRef * friendly(){      return &friendlyImg;        };
     cinder::gl::TextureRef * urchin(){        return &urchinImg;          };
     cinder::gl::TextureRef * egg(){           return &eggImg;             };
-    vector<gl::TextureRef> * player(){       return &playerImgs;         };
+    vector<gl::TextureRef> * player(){        return &playerImgs;         };
 
     cinder::gl::TextureRef * cinder(){        return &cinderSplashScreen; };
     cinder::gl::TextureRef * title(){         return &titleSplashScreen;  };

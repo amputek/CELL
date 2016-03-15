@@ -42,5 +42,5 @@ Images :: Images(){
     maskImg =               loadPngImage( "mask-1"            );
 
     
-    loadPngImage( "mask-3"            );
+//    loadPngImage( "mask-3"            );
 }

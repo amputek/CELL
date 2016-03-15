@@ -29,6 +29,31 @@
 		BB917120F09249ACB22DAF0D /* Cell09App.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 75399C1E126F4075AABC9601 /* Cell09App.cpp */; };
 		BCE670DCA28D49C894C4141B /* OscSender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 20C0BC35BA8D4BCDACD22313 /* OscSender.cpp */; };
 		D01E5502007B41D4ABEE1270 /* OscPrintReceivedElements.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F23AE27781841FD87EF5A23 /* OscPrintReceivedElements.cpp */; };
+		D43623A51C97A40D0068AA89 /* Feeler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623A31C97A40D0068AA89 /* Feeler.cpp */; };
+		D43623A81C97A4890068AA89 /* Spring.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623A61C97A4890068AA89 /* Spring.cpp */; };
+		D43623AB1C97A5450068AA89 /* Dust.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623A91C97A5450068AA89 /* Dust.cpp */; };
+		D43623AE1C97A86D0068AA89 /* EntityManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623AC1C97A86D0068AA89 /* EntityManager.cpp */; };
+		D43623B11C97ACF50068AA89 /* Splash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623AF1C97ACF50068AA89 /* Splash.cpp */; };
+		D43623B41C97AD6F0068AA89 /* Bubble.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623B21C97AD6F0068AA89 /* Bubble.cpp */; };
+		D43623B71C97ADE80068AA89 /* EnvironmentManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623B51C97ADE80068AA89 /* EnvironmentManager.cpp */; };
+		D43623BA1C97AF5E0068AA89 /* Plankton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623B81C97AF5E0068AA89 /* Plankton.cpp */; };
+		D43623BD1C97B11E0068AA89 /* Spore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623BB1C97B11E0068AA89 /* Spore.cpp */; };
+		D43623C01C97B2F10068AA89 /* Egg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623BE1C97B2F10068AA89 /* Egg.cpp */; };
+		D43623C31C97B7530068AA89 /* Swimmer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623C11C97B7530068AA89 /* Swimmer.cpp */; };
+		D43623C71C97B7EA0068AA89 /* Jelly.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623C51C97B7EA0068AA89 /* Jelly.cpp */; };
+		D43623D81C97BA740068AA89 /* Urchin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623D61C97BA740068AA89 /* Urchin.cpp */; };
+		D43623DC1C97BC6C0068AA89 /* Mask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623DA1C97BC6C0068AA89 /* Mask.cpp */; };
+		D43623DF1C97BE800068AA89 /* Beam.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623DD1C97BE800068AA89 /* Beam.cpp */; };
+		D43623E31C97C0860068AA89 /* Spark.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623E11C97C0860068AA89 /* Spark.cpp */; };
+		D43623E71C97C3BC0068AA89 /* Friendly.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623E51C97C3BC0068AA89 /* Friendly.cpp */; };
+		D43623EB1C97C4FF0068AA89 /* Starfish.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623E91C97C4FF0068AA89 /* Starfish.cpp */; };
+		D43623EF1C97C6080068AA89 /* OSCManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623ED1C97C6080068AA89 /* OSCManager.cpp */; };
+		D43623F41C97C6F00068AA89 /* SeaFloor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623F01C97C6F00068AA89 /* SeaFloor.cpp */; };
+		D43623F51C97C6F00068AA89 /* SeaSurface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623F21C97C6F00068AA89 /* SeaSurface.cpp */; };
+		D4531B6D1C9676870096D85D /* Braitenberg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4531B6B1C9676870096D85D /* Braitenberg.cpp */; };
+		D4531B701C9677BE0096D85D /* Finite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4531B6E1C9677BE0096D85D /* Finite.cpp */; };
+		D4531B731C9679890096D85D /* Tail.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4531B711C9679890096D85D /* Tail.cpp */; };
+		D4531B761C967E900096D85D /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4531B741C967E900096D85D /* Player.cpp */; };
 		D48B79991C95A561004BB8A7 /* images in Resources */ = {isa = PBXBuildFile; fileRef = D48B79981C95A561004BB8A7 /* images */; };
 		D4FA580F1C95B09900B579B0 /* SuperCollider-src in Resources */ = {isa = PBXBuildFile; fileRef = D4FA580E1C95B09800B579B0 /* SuperCollider-src */; };
 		D4FA58121C95B23400B579B0 /* Images.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4FA58101C95B23400B579B0 /* Images.cpp */; };
@@ -76,14 +101,64 @@
 		B8A49EF9BBFE449EBB52A9D0 /* OscHostEndianness.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OscHostEndianness.h; path = ../blocks/OSC/src/osc/OscHostEndianness.h; sourceTree = "<group>"; };
 		B9BC33F11BC540B2A6E72563 /* OscMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OscMessage.h; path = ../blocks/OSC/src/OscMessage.h; sourceTree = "<group>"; };
 		BF09F36E7CC542418950AFCF /* OscReceivedElements.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OscReceivedElements.h; path = ../blocks/OSC/src/osc/OscReceivedElements.h; sourceTree = "<group>"; };
+		D43623A31C97A40D0068AA89 /* Feeler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Feeler.cpp; path = GameObjects/Feeler.cpp; sourceTree = "<group>"; };
+		D43623A41C97A40D0068AA89 /* Feeler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Feeler.hpp; path = GameObjects/Feeler.hpp; sourceTree = "<group>"; };
+		D43623A61C97A4890068AA89 /* Spring.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Spring.cpp; path = GameObjects/Spring.cpp; sourceTree = "<group>"; };
+		D43623A71C97A4890068AA89 /* Spring.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Spring.hpp; path = GameObjects/Spring.hpp; sourceTree = "<group>"; };
+		D43623A91C97A5450068AA89 /* Dust.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Dust.cpp; path = GameObjects/Dust.cpp; sourceTree = "<group>"; };
+		D43623AA1C97A5450068AA89 /* Dust.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Dust.hpp; path = GameObjects/Dust.hpp; sourceTree = "<group>"; };
+		D43623AC1C97A86D0068AA89 /* EntityManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EntityManager.cpp; path = Singletons/EntityManager.cpp; sourceTree = "<group>"; };
+		D43623AD1C97A86D0068AA89 /* EntityManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = EntityManager.hpp; path = Singletons/EntityManager.hpp; sourceTree = "<group>"; };
+		D43623AF1C97ACF50068AA89 /* Splash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Splash.cpp; path = GameObjects/Splash.cpp; sourceTree = "<group>"; };
+		D43623B01C97ACF50068AA89 /* Splash.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Splash.hpp; path = GameObjects/Splash.hpp; sourceTree = "<group>"; };
+		D43623B21C97AD6F0068AA89 /* Bubble.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Bubble.cpp; path = GameObjects/Bubble.cpp; sourceTree = "<group>"; };
+		D43623B31C97AD6F0068AA89 /* Bubble.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Bubble.hpp; path = GameObjects/Bubble.hpp; sourceTree = "<group>"; };
+		D43623B51C97ADE80068AA89 /* EnvironmentManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EnvironmentManager.cpp; path = Singletons/EnvironmentManager.cpp; sourceTree = "<group>"; };
+		D43623B61C97ADE80068AA89 /* EnvironmentManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = EnvironmentManager.hpp; path = Singletons/EnvironmentManager.hpp; sourceTree = "<group>"; };
+		D43623B81C97AF5E0068AA89 /* Plankton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Plankton.cpp; path = GameObjects/Plankton.cpp; sourceTree = "<group>"; };
+		D43623B91C97AF5E0068AA89 /* Plankton.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Plankton.hpp; path = GameObjects/Plankton.hpp; sourceTree = "<group>"; };
+		D43623BB1C97B11E0068AA89 /* Spore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Spore.cpp; path = GameObjects/Spore.cpp; sourceTree = "<group>"; };
+		D43623BC1C97B11E0068AA89 /* Spore.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Spore.hpp; path = GameObjects/Spore.hpp; sourceTree = "<group>"; };
+		D43623BE1C97B2F10068AA89 /* Egg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Egg.cpp; path = GameObjects/Egg.cpp; sourceTree = "<group>"; };
+		D43623BF1C97B2F10068AA89 /* Egg.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Egg.hpp; path = GameObjects/Egg.hpp; sourceTree = "<group>"; };
+		D43623C11C97B7530068AA89 /* Swimmer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Swimmer.cpp; path = GameObjects/Swimmer.cpp; sourceTree = "<group>"; };
+		D43623C21C97B7530068AA89 /* Swimmer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Swimmer.hpp; path = GameObjects/Swimmer.hpp; sourceTree = "<group>"; };
+		D43623C51C97B7EA0068AA89 /* Jelly.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Jelly.cpp; path = GameObjects/Jelly.cpp; sourceTree = "<group>"; };
+		D43623C61C97B7EA0068AA89 /* Jelly.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Jelly.hpp; path = GameObjects/Jelly.hpp; sourceTree = "<group>"; };
+		D43623D61C97BA740068AA89 /* Urchin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Urchin.cpp; path = GameObjects/Urchin.cpp; sourceTree = "<group>"; };
+		D43623D71C97BA740068AA89 /* Urchin.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Urchin.hpp; path = GameObjects/Urchin.hpp; sourceTree = "<group>"; };
+		D43623DA1C97BC6C0068AA89 /* Mask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mask.cpp; path = Singletons/Mask.cpp; sourceTree = "<group>"; };
+		D43623DB1C97BC6C0068AA89 /* Mask.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Mask.hpp; path = Singletons/Mask.hpp; sourceTree = "<group>"; };
+		D43623DD1C97BE800068AA89 /* Beam.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Beam.cpp; path = GameObjects/Beam.cpp; sourceTree = "<group>"; };
+		D43623DE1C97BE800068AA89 /* Beam.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Beam.hpp; path = GameObjects/Beam.hpp; sourceTree = "<group>"; };
+		D43623E11C97C0860068AA89 /* Spark.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Spark.cpp; path = GameObjects/Spark.cpp; sourceTree = "<group>"; };
+		D43623E21C97C0860068AA89 /* Spark.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Spark.hpp; path = GameObjects/Spark.hpp; sourceTree = "<group>"; };
+		D43623E51C97C3BC0068AA89 /* Friendly.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Friendly.cpp; path = GameObjects/Friendly.cpp; sourceTree = "<group>"; };
+		D43623E61C97C3BC0068AA89 /* Friendly.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Friendly.hpp; path = GameObjects/Friendly.hpp; sourceTree = "<group>"; };
+		D43623E91C97C4FF0068AA89 /* Starfish.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Starfish.cpp; path = GameObjects/Starfish.cpp; sourceTree = "<group>"; };
+		D43623EA1C97C4FF0068AA89 /* Starfish.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Starfish.hpp; path = GameObjects/Starfish.hpp; sourceTree = "<group>"; };
+		D43623ED1C97C6080068AA89 /* OSCManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OSCManager.cpp; path = Singletons/OSCManager.cpp; sourceTree = "<group>"; };
+		D43623EE1C97C6080068AA89 /* OSCManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = OSCManager.hpp; path = Singletons/OSCManager.hpp; sourceTree = "<group>"; };
+		D43623F01C97C6F00068AA89 /* SeaFloor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SeaFloor.cpp; path = Singletons/SeaFloor.cpp; sourceTree = "<group>"; };
+		D43623F11C97C6F00068AA89 /* SeaFloor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = SeaFloor.hpp; path = Singletons/SeaFloor.hpp; sourceTree = "<group>"; };
+		D43623F21C97C6F00068AA89 /* SeaSurface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SeaSurface.cpp; path = Singletons/SeaSurface.cpp; sourceTree = "<group>"; };
+		D43623F31C97C6F00068AA89 /* SeaSurface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = SeaSurface.hpp; path = Singletons/SeaSurface.hpp; sourceTree = "<group>"; };
+		D4531B6B1C9676870096D85D /* Braitenberg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Braitenberg.cpp; path = GameObjects/Braitenberg.cpp; sourceTree = "<group>"; };
+		D4531B6C1C9676870096D85D /* Braitenberg.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Braitenberg.hpp; path = GameObjects/Braitenberg.hpp; sourceTree = "<group>"; };
+		D4531B6E1C9677BE0096D85D /* Finite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Finite.cpp; path = GameObjects/Finite.cpp; sourceTree = "<group>"; };
+		D4531B6F1C9677BE0096D85D /* Finite.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Finite.hpp; path = GameObjects/Finite.hpp; sourceTree = "<group>"; };
+		D4531B711C9679890096D85D /* Tail.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Tail.cpp; path = GameObjects/Tail.cpp; sourceTree = "<group>"; };
+		D4531B721C9679890096D85D /* Tail.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Tail.hpp; path = GameObjects/Tail.hpp; sourceTree = "<group>"; };
+		D4531B741C967E900096D85D /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Player.cpp; path = GameObjects/Player.cpp; sourceTree = "<group>"; };
+		D4531B751C967E900096D85D /* Player.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Player.hpp; path = GameObjects/Player.hpp; sourceTree = "<group>"; };
 		D47D1F4914C74A3A9C7249E5 /* OscTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OscTypes.h; path = ../blocks/OSC/src/osc/OscTypes.h; sourceTree = "<group>"; };
 		D47FD5F529264CDCAB3BAE11 /* OscPacketListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OscPacketListener.h; path = ../blocks/OSC/src/osc/OscPacketListener.h; sourceTree = "<group>"; };
 		D48B79981C95A561004BB8A7 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; name = images; path = ../resources/images; sourceTree = "<group>"; };
 		D4FA580E1C95B09800B579B0 /* SuperCollider-src */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "SuperCollider-src"; path = "../resources/SuperCollider-src"; sourceTree = "<group>"; };
 		D4FA58101C95B23400B579B0 /* Images.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Images.cpp; path = ../src/Singletons/Images.cpp; sourceTree = "<group>"; };
 		D4FA58111C95B23400B579B0 /* Images.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Images.hpp; path = ../src/Singletons/Images.hpp; sourceTree = "<group>"; };
-		D4FA58151C95B90500B579B0 /* GameObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameObject.cpp; path = ../src/GameObjects/GameObject.cpp; sourceTree = "<group>"; };
-		D4FA58161C95B90500B579B0 /* GameObject.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = GameObject.hpp; path = ../src/GameObjects/GameObject.hpp; sourceTree = "<group>"; };
+		D4FA58151C95B90500B579B0 /* GameObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameObject.cpp; path = GameObjects/GameObject.cpp; sourceTree = "<group>"; };
+		D4FA58161C95B90500B579B0 /* GameObject.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = GameObject.hpp; path = GameObjects/GameObject.hpp; sourceTree = "<group>"; };
 		D4FA58181C95B9CF00B579B0 /* Globals.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Globals.cpp; path = ../src/Globals.cpp; sourceTree = "<group>"; };
 		D4FA58191C95B9CF00B579B0 /* Globals.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Globals.hpp; path = ../src/Globals.hpp; sourceTree = "<group>"; };
 		DB24501C90EC4349ABAEA612 /* UdpSocket.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = UdpSocket.cpp; path = ../blocks/OSC/src/ip/posix/UdpSocket.cpp; sourceTree = "<group>"; };
@@ -130,13 +205,14 @@
 		080E96DDFE201D6D7F000001 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				75399C1E126F4075AABC9601 /* Cell09App.cpp */,
 				D4FA58181C95B9CF00B579B0 /* Globals.cpp */,
 				D4FA58191C95B9CF00B579B0 /* Globals.hpp */,
 				D4FA58131C95B26C00B579B0 /* Singletons */,
-				75399C1E126F4075AABC9601 /* Cell09App.cpp */,
 				D4FA58141C95B8DC00B579B0 /* GameObjects */,
 			);
 			name = Source;
+			path = ../src;
 			sourceTree = "<group>";
 		};
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
@@ -257,9 +333,201 @@
 			name = ip;
 			sourceTree = "<group>";
 		};
+		D43623C41C97B7AB0068AA89 /* Swimmer */ = {
+			isa = PBXGroup;
+			children = (
+				D43623C21C97B7530068AA89 /* Swimmer.hpp */,
+				D43623C11C97B7530068AA89 /* Swimmer.cpp */,
+			);
+			name = Swimmer;
+			sourceTree = "<group>";
+		};
+		D43623C81C97B8340068AA89 /* Jelly */ = {
+			isa = PBXGroup;
+			children = (
+				D43623C51C97B7EA0068AA89 /* Jelly.cpp */,
+				D43623C61C97B7EA0068AA89 /* Jelly.hpp */,
+			);
+			name = Jelly;
+			sourceTree = "<group>";
+		};
+		D43623C91C97B94D0068AA89 /* Egg */ = {
+			isa = PBXGroup;
+			children = (
+				D43623BE1C97B2F10068AA89 /* Egg.cpp */,
+				D43623BF1C97B2F10068AA89 /* Egg.hpp */,
+			);
+			name = Egg;
+			sourceTree = "<group>";
+		};
+		D43623CA1C97B9570068AA89 /* Spore */ = {
+			isa = PBXGroup;
+			children = (
+				D43623BB1C97B11E0068AA89 /* Spore.cpp */,
+				D43623BC1C97B11E0068AA89 /* Spore.hpp */,
+			);
+			name = Spore;
+			sourceTree = "<group>";
+		};
+		D43623CB1C97B95F0068AA89 /* Plankton */ = {
+			isa = PBXGroup;
+			children = (
+				D43623B81C97AF5E0068AA89 /* Plankton.cpp */,
+				D43623B91C97AF5E0068AA89 /* Plankton.hpp */,
+			);
+			name = Plankton;
+			sourceTree = "<group>";
+		};
+		D43623CC1C97B9670068AA89 /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+				D43623AF1C97ACF50068AA89 /* Splash.cpp */,
+				D43623B01C97ACF50068AA89 /* Splash.hpp */,
+			);
+			name = Splash;
+			sourceTree = "<group>";
+		};
+		D43623CD1C97B96F0068AA89 /* Bubble */ = {
+			isa = PBXGroup;
+			children = (
+				D43623B21C97AD6F0068AA89 /* Bubble.cpp */,
+				D43623B31C97AD6F0068AA89 /* Bubble.hpp */,
+			);
+			name = Bubble;
+			sourceTree = "<group>";
+		};
+		D43623CE1C97B9760068AA89 /* Finite */ = {
+			isa = PBXGroup;
+			children = (
+				D4531B6F1C9677BE0096D85D /* Finite.hpp */,
+				D4531B6E1C9677BE0096D85D /* Finite.cpp */,
+			);
+			name = Finite;
+			sourceTree = "<group>";
+		};
+		D43623CF1C97B9870068AA89 /* Feeler */ = {
+			isa = PBXGroup;
+			children = (
+				D43623A41C97A40D0068AA89 /* Feeler.hpp */,
+				D43623A31C97A40D0068AA89 /* Feeler.cpp */,
+			);
+			name = Feeler;
+			sourceTree = "<group>";
+		};
+		D43623D01C97B98D0068AA89 /* Spring */ = {
+			isa = PBXGroup;
+			children = (
+				D43623A71C97A4890068AA89 /* Spring.hpp */,
+				D43623A61C97A4890068AA89 /* Spring.cpp */,
+			);
+			name = Spring;
+			sourceTree = "<group>";
+		};
+		D43623D11C97B9920068AA89 /* Dust */ = {
+			isa = PBXGroup;
+			children = (
+				D43623AA1C97A5450068AA89 /* Dust.hpp */,
+				D43623A91C97A5450068AA89 /* Dust.cpp */,
+			);
+			name = Dust;
+			sourceTree = "<group>";
+		};
+		D43623D21C97B9980068AA89 /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				D4531B751C967E900096D85D /* Player.hpp */,
+				D4531B741C967E900096D85D /* Player.cpp */,
+			);
+			name = Player;
+			sourceTree = "<group>";
+		};
+		D43623D31C97B99C0068AA89 /* Tail */ = {
+			isa = PBXGroup;
+			children = (
+				D4531B721C9679890096D85D /* Tail.hpp */,
+				D4531B711C9679890096D85D /* Tail.cpp */,
+			);
+			name = Tail;
+			sourceTree = "<group>";
+		};
+		D43623D41C97B9A10068AA89 /* Braitenberg */ = {
+			isa = PBXGroup;
+			children = (
+				D4531B6C1C9676870096D85D /* Braitenberg.hpp */,
+				D4531B6B1C9676870096D85D /* Braitenberg.cpp */,
+			);
+			name = Braitenberg;
+			sourceTree = "<group>";
+		};
+		D43623D51C97B9AB0068AA89 /* GameObject */ = {
+			isa = PBXGroup;
+			children = (
+				D4FA58161C95B90500B579B0 /* GameObject.hpp */,
+				D4FA58151C95B90500B579B0 /* GameObject.cpp */,
+			);
+			name = GameObject;
+			sourceTree = "<group>";
+		};
+		D43623D91C97BA800068AA89 /* Urchin */ = {
+			isa = PBXGroup;
+			children = (
+				D43623D71C97BA740068AA89 /* Urchin.hpp */,
+				D43623D61C97BA740068AA89 /* Urchin.cpp */,
+			);
+			name = Urchin;
+			sourceTree = "<group>";
+		};
+		D43623E01C97BE870068AA89 /* Beam */ = {
+			isa = PBXGroup;
+			children = (
+				D43623DD1C97BE800068AA89 /* Beam.cpp */,
+				D43623DE1C97BE800068AA89 /* Beam.hpp */,
+			);
+			name = Beam;
+			sourceTree = "<group>";
+		};
+		D43623E41C97C0890068AA89 /* Spark */ = {
+			isa = PBXGroup;
+			children = (
+				D43623E11C97C0860068AA89 /* Spark.cpp */,
+				D43623E21C97C0860068AA89 /* Spark.hpp */,
+			);
+			name = Spark;
+			sourceTree = "<group>";
+		};
+		D43623E81C97C3EA0068AA89 /* Friendly */ = {
+			isa = PBXGroup;
+			children = (
+				D43623E51C97C3BC0068AA89 /* Friendly.cpp */,
+				D43623E61C97C3BC0068AA89 /* Friendly.hpp */,
+			);
+			name = Friendly;
+			sourceTree = "<group>";
+		};
+		D43623EC1C97C5090068AA89 /* Starfish */ = {
+			isa = PBXGroup;
+			children = (
+				D43623E91C97C4FF0068AA89 /* Starfish.cpp */,
+				D43623EA1C97C4FF0068AA89 /* Starfish.hpp */,
+			);
+			name = Starfish;
+			sourceTree = "<group>";
+		};
 		D4FA58131C95B26C00B579B0 /* Singletons */ = {
 			isa = PBXGroup;
 			children = (
+				D43623F01C97C6F00068AA89 /* SeaFloor.cpp */,
+				D43623F11C97C6F00068AA89 /* SeaFloor.hpp */,
+				D43623F21C97C6F00068AA89 /* SeaSurface.cpp */,
+				D43623F31C97C6F00068AA89 /* SeaSurface.hpp */,
+				D43623ED1C97C6080068AA89 /* OSCManager.cpp */,
+				D43623EE1C97C6080068AA89 /* OSCManager.hpp */,
+				D43623DA1C97BC6C0068AA89 /* Mask.cpp */,
+				D43623DB1C97BC6C0068AA89 /* Mask.hpp */,
+				D43623B51C97ADE80068AA89 /* EnvironmentManager.cpp */,
+				D43623B61C97ADE80068AA89 /* EnvironmentManager.hpp */,
+				D43623AC1C97A86D0068AA89 /* EntityManager.cpp */,
+				D43623AD1C97A86D0068AA89 /* EntityManager.hpp */,
 				D4FA58111C95B23400B579B0 /* Images.hpp */,
 				D4FA58101C95B23400B579B0 /* Images.cpp */,
 			);
@@ -269,8 +537,26 @@
 		D4FA58141C95B8DC00B579B0 /* GameObjects */ = {
 			isa = PBXGroup;
 			children = (
-				D4FA58151C95B90500B579B0 /* GameObject.cpp */,
-				D4FA58161C95B90500B579B0 /* GameObject.hpp */,
+				D43623EC1C97C5090068AA89 /* Starfish */,
+				D43623E81C97C3EA0068AA89 /* Friendly */,
+				D43623E41C97C0890068AA89 /* Spark */,
+				D43623E01C97BE870068AA89 /* Beam */,
+				D43623D51C97B9AB0068AA89 /* GameObject */,
+				D43623D41C97B9A10068AA89 /* Braitenberg */,
+				D43623C81C97B8340068AA89 /* Jelly */,
+				D43623D91C97BA800068AA89 /* Urchin */,
+				D43623C41C97B7AB0068AA89 /* Swimmer */,
+				D43623C91C97B94D0068AA89 /* Egg */,
+				D43623CA1C97B9570068AA89 /* Spore */,
+				D43623CB1C97B95F0068AA89 /* Plankton */,
+				D43623CC1C97B9670068AA89 /* Splash */,
+				D43623CD1C97B96F0068AA89 /* Bubble */,
+				D43623CE1C97B9760068AA89 /* Finite */,
+				D43623CF1C97B9870068AA89 /* Feeler */,
+				D43623D01C97B98D0068AA89 /* Spring */,
+				D43623D11C97B9920068AA89 /* Dust */,
+				D43623D21C97B9980068AA89 /* Player */,
+				D43623D31C97B99C0068AA89 /* Tail */,
 			);
 			name = GameObjects;
 			sourceTree = "<group>";
@@ -370,18 +656,43 @@
 				D4FA58121C95B23400B579B0 /* Images.cpp in Sources */,
 				BB917120F09249ACB22DAF0D /* Cell09App.cpp in Sources */,
 				79E8F6375FB14FB49AB20E68 /* OscBundle.cpp in Sources */,
+				D43623B71C97ADE80068AA89 /* EnvironmentManager.cpp in Sources */,
+				D43623D81C97BA740068AA89 /* Urchin.cpp in Sources */,
 				D4FA581A1C95B9CF00B579B0 /* Globals.cpp in Sources */,
 				8A00D81156544937A57DCDA0 /* OscListener.cpp in Sources */,
+				D43623C01C97B2F10068AA89 /* Egg.cpp in Sources */,
+				D4531B6D1C9676870096D85D /* Braitenberg.cpp in Sources */,
+				D43623BD1C97B11E0068AA89 /* Spore.cpp in Sources */,
+				D43623F41C97C6F00068AA89 /* SeaFloor.cpp in Sources */,
+				D43623E31C97C0860068AA89 /* Spark.cpp in Sources */,
+				D43623C71C97B7EA0068AA89 /* Jelly.cpp in Sources */,
+				D43623AE1C97A86D0068AA89 /* EntityManager.cpp in Sources */,
+				D43623DC1C97BC6C0068AA89 /* Mask.cpp in Sources */,
+				D43623EB1C97C4FF0068AA89 /* Starfish.cpp in Sources */,
+				D43623A51C97A40D0068AA89 /* Feeler.cpp in Sources */,
+				D43623F51C97C6F00068AA89 /* SeaSurface.cpp in Sources */,
 				5F144A4B80554B85AF74F9EE /* OscMessage.cpp in Sources */,
+				D43623EF1C97C6080068AA89 /* OSCManager.cpp in Sources */,
 				BCE670DCA28D49C894C4141B /* OscSender.cpp in Sources */,
 				D4FA58171C95B90500B579B0 /* GameObject.cpp in Sources */,
+				D4531B731C9679890096D85D /* Tail.cpp in Sources */,
 				6CD3DD7262634B2E8ED40A58 /* IpEndpointName.cpp in Sources */,
+				D43623A81C97A4890068AA89 /* Spring.cpp in Sources */,
 				F60C1AE8FE22423188FDC3DE /* OscOutboundPacketStream.cpp in Sources */,
+				D43623C31C97B7530068AA89 /* Swimmer.cpp in Sources */,
+				D4531B701C9677BE0096D85D /* Finite.cpp in Sources */,
+				D43623BA1C97AF5E0068AA89 /* Plankton.cpp in Sources */,
+				D43623B41C97AD6F0068AA89 /* Bubble.cpp in Sources */,
 				D01E5502007B41D4ABEE1270 /* OscPrintReceivedElements.cpp in Sources */,
+				D43623DF1C97BE800068AA89 /* Beam.cpp in Sources */,
 				3F4CAB5996DC401E93CBD8C9 /* OscReceivedElements.cpp in Sources */,
 				EE35AE5AD7D648F08EC2EFD9 /* OscTypes.cpp in Sources */,
+				D4531B761C967E900096D85D /* Player.cpp in Sources */,
 				1B3364CCBD6A445A9399245D /* NetworkingUtils.cpp in Sources */,
 				A3850656E4D1466A8C466D9B /* UdpSocket.cpp in Sources */,
+				D43623B11C97ACF50068AA89 /* Splash.cpp in Sources */,
+				D43623E71C97C3BC0068AA89 /* Friendly.cpp in Sources */,
+				D43623AB1C97A5450068AA89 /* Dust.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

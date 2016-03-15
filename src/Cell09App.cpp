@@ -3,6 +3,7 @@
 #include "cinder/gl/gl.h"
 
 #include "Singletons/Images.hpp"
+#include "Singletons/EntityManager.hpp"
 #include "GameObjects/GameObject.hpp"
 
 using namespace ci;
@@ -21,13 +22,14 @@ class Cell09App : public App {
     int gameFrames = 0;
     bool gameStart = false;
     
+    EntityManager* entityManager;
     Images* image;
     
-    GameObject* go;
 };
 
 void Cell09App::setup(){
     image = new Images();
+    entityManager = new EntityManager( image );
     gl::enableAdditiveBlending( );
     glBlendFunc(GL_SRC_ALPHA,GL_ONE);
 }
@@ -39,8 +41,11 @@ void Cell09App::mouseDown( MouseEvent event ){
     }
 }
 
-void Cell09App::update()
-{
+void Cell09App::update(){
+    if(gameStart == true){
+        entityManager->updateHero( getMousePos() - getWindowPos() );
+        entityManager->update();
+    }
 }
 
 void Cell09App::draw(){
@@ -48,7 +53,7 @@ void Cell09App::draw(){
     
     if(gameStart == true){
         gameFrames++;
-//        entityManager->drawEntities();
+        entityManager->drawEntities();
     } else {
         gl::clear( Color(0,0,0) );
     }
@@ -68,23 +73,22 @@ void Cell09App::drawSplashScreens(){
         glBlendFunc(GL_SRC_ALPHA,GL_ONE);
         float g = sin( getElapsedFrames()*0.1 )*30;
         gl::color( ColorA8u( 220+g, 220-g, 255, 255 - (gameFrames*10) ) );
-        
         gl::draw( *image->title(), Rectf(0,0,getWindowWidth(),getWindowHeight() ) );
     }
     
     //draw the instructional splash screen "CELL will follow your cursor. Explore"
     if( gameStart == true && gameFrames < 127 ){
+        glBlendFunc(GL_SRC_ALPHA,GL_ONE);
         gl::enableAlphaBlending();
         gl::color( ColorA8u( 255,255,255, gameFrames*2 ) );
-        cout << gameFrames*2 << "\n";
         gl::draw( *image->instructions(), vec2(100,0) );
     }
     
     //fade out instructional screen
     if(gameStart == true && gameFrames >= 127 && gameFrames <= 255 ){
+        glBlendFunc(GL_SRC_ALPHA,GL_ONE);        
         gl::enableAlphaBlending();
         gl::color( ColorA8u( 255,255,255, 255 - ((gameFrames-127) * 2) ) );
-        cout << (255 - (gameFrames-127) * 2) << "\n";
         gl::draw( *image->instructions(), vec2(100,0) );
     }
     
@@ -92,12 +96,12 @@ void Cell09App::drawSplashScreens(){
 
 void Cell09App::drawCursor(){
     
-    vec2 mousePos = getMousePos();
+    vec2 mousePos = getMousePos() - getWindowPos();
     
     showCursor();
     
     //hide the cursor if it's inside the windows boundaries
-    if(getMousePos().x > 0 && getMousePos().x < getWindowWidth() && getMousePos().y > 0 && getMousePos().y < getWindowHeight() ){
+    if(mousePos.x > 0 && mousePos.x < getWindowWidth() && mousePos.y > 0 && mousePos.y < getWindowHeight() ){
         hideCursor();
     }
     
@@ -116,4 +120,8 @@ void Cell09App::drawCursor(){
 }
 
 
-CINDER_APP( Cell09App, RendererGl )
+CINDER_APP( Cell09App, RendererGl, [&]( App::Settings *settings ) {
+    settings->setWindowSize( 800, 600 );
+    settings->setFrameRate(30.0f);
+    settings->setTitle( ":::CELL:::" );
+})
