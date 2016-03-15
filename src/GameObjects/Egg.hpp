@@ -25,6 +25,8 @@ private:
     gl::TextureRef* img;
     bool ins;           //allows EntityManager to check if player is inside
     float counter = 0;
+    
+    int numSprings = 200;
 };
 
 #endif
