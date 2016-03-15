@@ -1,14 +1,14 @@
 (
-s = Server.local;
-SetUpCell.new(s);
-)
-
-(
 var trigger;
 //SYNTHS
-var pads, filter, reverb, delay, surfaceSynth, eggSynth, sparks, friendlies, urchinPad;
+var pads, filter, reverb, delay, compressor, surfaceSynth, eggSynth, sparks, friendlies, urchinPad;
 //ENTITY BOOLEANS
-var twirlActive, puffActive, jellyActive, feelerActive, surfaceActive, eggActive, urchinActive, urchinPadActive, loopActive, beatNumber;
+var twirlActive, puffActive, jellyActive, feelerActive, surfaceActive, eggActive, urchinActive, urchinPadActive, loopActive;
+
+var beatNumber, delayMix = 0.2, depth = 0;
+
+"Main File loaded".postln;
+NetAddr.localAddr.postln;
 
 trigger = Triggers.new();
 a = Group.basicNew(s,1);
@@ -16,12 +16,13 @@ n = NetAddr("127.0.0.1", 12080);
 
 sparks =     List.fill(0);
 friendlies = List.fill(0);
-pads = Array.fill(3);
+pads = List.fill(3);
 
 //Initialise SynthDef FX
+delay = Synth.tail(a, \delay , [\feedMix, delayMix, \time, 0.375]);
 reverb = Synth.tail(a, \reverb);
-delay = Synth.tail(a, \delay);
-filter = Synth.tail(a, \filter, [\lpcutoff, 600, \hpcutoff,500]);
+filter = Synth.tail(a, \filter, [\lpcutoff, 600, \hpcutoff, 500]);
+compressor = Synth.tail(a, \compressor );
 
 //BOOLEAN VARIABLES
 twirlActive = false;
@@ -34,6 +35,7 @@ urchinActive = false;
 urchinPadActive = false;
 
 OSCFunc.new({|msg,time,addr,recvPort|
+	"Handshaked with Cinder".postln;
 	n.sendMsg("/confirmReply");
 }, '/confirm');
 
@@ -86,9 +88,19 @@ OSCFunc.new({|msg,time,addr,recvPort|
 
 //'LEVEL UP' FLUTE
 OSCFunc({|msg,time,addr,recvPort|
-	trigger.sample("level_flute",0);
-}, '/levelUp');
+	trigger.sample("level_flute", trigger.getNote(0,1,0) );
+	if(delayMix < 0.8,{
+		delayMix = delayMix + 0.02;
+		delay.set(\feedMix, delayMix);
 
+		delayMix.postln;
+		(delayMix % 0.2).postln;
+		if(delayMix % 0.2 < 0.01,{
+			"adding new pad".postln;
+			pads.add( trigger.sample("second_pad", trigger.getNote(-1,1,0), 0, 0.1 ) );
+		});
+	});
+}, '/levelUp');
 
 //SURFACE
 OSCFunc({|msg,time,addr,recvPort|
@@ -96,20 +108,27 @@ OSCFunc({|msg,time,addr,recvPort|
 	if(msg[1] == 1,{
 		if(surfaceActive == false,{
 			surfaceActive = true;
-			filter.set(\lpcutoff, 20000);
+			filter.set(\trig, 1, \lpcutoff, 20000);
 			trigger.sample( "water_drop", 0 );
-			pads[0].set(\amp, 0);
-			pads[1].set(\amp, 0);
-			pads[2].set(\amp, 0);
+
+			pads.size.do{arg i;
+				pads[i].set(\amp, 0);
+			}
 		});
 	},{
 		if(surfaceActive == true,{
 			surfaceActive = false;
 			trigger.sample( "water_drop", 0 );
 			trigger.sample("bubbles",0);
-			pads[0].set(\amp, 0.5);
-			pads[1].set(\amp, 0.5);
-			pads[2].set(\amp, 0.5);
+
+			pads.size.do{arg i;
+					if(i < 3,{
+				pads[i].set(\amp, 0.5);
+						},{
+							pads[i].set(\amp, 0.1);
+					});
+
+			}
 		});
 	});
 }, '/surface');
@@ -159,7 +178,7 @@ OSCFunc({|msg,time,addr,recvPort|
 OSCFunc({|msg,time,addr,recvPort|
 	msg.postln;
 	msg[1].do{
-		trigger.sample("bloop", trigger.getNote(0,2,3), -1.0 );
+		trigger.sample("bloop", trigger.getNote(0,2,3), 0.0 );
 	};
 	if(msg[1] == 4,{
 		trigger.sample("egg_near_burst", trigger.getNote(0,1,0) );
@@ -225,13 +244,16 @@ OSCFunc({|msg,time,addr,recvPort|
 
 //JELLYFISH
 OSCFunc({|msg,time,addr,recvPort|
-	msg.postln;
+	var dist = 0.0;
+	//msg.postln;
 	if(jellyActive == false,{
 		jellyActive = true;
 		{
-			(msg.size - 1).do{arg i;
+			dist = (0.2 - (msg[1]*0.0005));
+			dist.postln;
+			(msg.size - 2).do{arg i;
 				if(msg[i + 1] == 1,{
-					trigger.sample("short_stab", trigger.getNote(0,2,0) );
+					trigger.sample("short_stab", trigger.getNote(0,2,0), 0, dist );
 				});
 				0.1.wait;
 				jellyActive = false;
@@ -255,11 +277,34 @@ OSCFunc.new({|msg,time,addr,recvPort|
 
 	("plankton eaten: " + msg[1] + ": " + pan + ": " + dist).postln;
 	case
-	{ msg[1] == 0 }{ trigger.beep("sine",         trigger.getNote(5,2,0),  pan, dist) }
-	{ msg[1] == 1 }{ trigger.beep("pulse",        trigger.getNote(5,2,0),  pan, dist) }
-	{ msg[1] == 2 }{ trigger.cluster(false, "sine", 5, 2,                  pan, dist) }
-	{ msg[1] == 3 }{ trigger.sample("glock_high", trigger.getNote(-1,2,0), pan, dist) }
-	{ msg[1] == 4 }{ trigger.cluster(true, "glock_high", -1, 2,            pan, dist) };
+	{ msg[1] == 0 }{ trigger.beep("sine",         trigger.getNote(5,2,0),    pan, dist) }
+	{ msg[1] == 1 }{ trigger.beep("pulse",        trigger.getNote(5,2,0),    pan, dist) }
+	{ msg[1] == 2 }{
+		{
+			6.do{
+				trigger.beep("sine", trigger.getNote(5,2,0), pan, dist);
+				0.15.rand.wait;
+			};
+		}.fork;
+	}
+	{ msg[1] == 3 }{ trigger.sample("glock_high", trigger.getNote(-1,2,0),   pan, dist) }
+	{ msg[1] == 4 }{
+		{
+			6.do{
+				trigger.sample("glock_high", trigger.getNote(-1,2,0), pan, dist);
+				0.15.rand.wait;
+			};
+		}.fork;
+	}
+	{ msg[1] == 5 }{ trigger.sample("pluck",      trigger.getNote(-1, 2, 6), pan, dist) }
+	{ msg[1] == 6 }{
+		{
+			6.do{
+				trigger.sample("pluck", trigger.getNote(-1,2,6), pan, dist);
+				0.15.rand.wait;
+			};
+		}.fork;
+	};
 }, '/planktonEat');
 
 
@@ -272,7 +317,7 @@ OSCFunc.new({|msg,time,addr,recvPort|
 			trigger.beep("bass", 24);
 			trigger.sample("bubbles",0);
 			trigger.sample( "water_drop", 0 );
-			filter.set(\lpcutoff, 300);
+			filter.set(\trig, 1, \lpcutoff, 450);
 			pads[0].set(\amp, 0.0);
 			pads[1].set(\amp, 0.0);
 			pads[2].set(\amp, 0.0);
@@ -283,6 +328,7 @@ OSCFunc.new({|msg,time,addr,recvPort|
 			eggSynth.free;
 			trigger.sample( "water_drop", 0 );
 			trigger.sample("bubbles",0);
+			filter.set(\trig, 1, \lpcutoff,depth);
 			pads[0].set(\amp, 0.5);
 			pads[1].set(\amp, 0.5);
 			pads[2].set(\amp, 0.5);
@@ -290,7 +336,6 @@ OSCFunc.new({|msg,time,addr,recvPort|
 		});
 
 	});
-
 }, '/egg');
 
 
@@ -301,8 +346,8 @@ OSCFunc({|msg, time, addr, recvPort|
 
 	("new root: " + root).postln;
 
-	trigger.beep("bass", (root+24));
-	trigger.beep("bass", (root+36));
+	trigger.beep("bass", (root+24), 0, 0.05);
+	trigger.beep("bass", (root+36), 0, 0.05);
 
 	sparks.size.do{arg i;
 		var type, midiNote;
@@ -319,20 +364,25 @@ OSCFunc({|msg, time, addr, recvPort|
 
 	pads[0].set(  \midi, root - 12);
 	pads[1].set(  \midi, root );
-	pads[2].set(  \midi, root + 12);
+	pads[2].set(  \midi, root - 5);
+	pads.size.do{arg i;
+		if(i > 2,{
+			pads[i].set( \midi, trigger.getNote(-1,1,0) );
+		});
+
+	}
 }, '/changeChord');
 
 
 //SET DEPTH
 OSCFunc({|msg, time, addr, recvPort|
-	var depth;
 	depth = (msg[1] * 4000) + 200;
 
 	//depth.postln;
 
 	if(surfaceActive == false,{
 		if(eggActive == false,{
-			filter.set(\lpcutoff,depth);
+			filter.set(\trig, 1, \lpcutoff,depth);
 		});
 	});
 }, '/setDepth');
@@ -342,35 +392,9 @@ OSCFunc({|msg, time, addr, recvPort|
 OSCFunc({|msg, time, addr, recvPort|
 	"quitting".postln;
 	s.freeAll;
-}, '/quit');
+	s.quit;
+	0.exit;
+}, '/quitSC');
 
 
-)
-
-
-
-(
-s = Server.local;
-SetUpCell.new(s);
-)
-
-b = NetAddr("127.0.0.1", 57120);
-b.sendMsg("/jelly", 0, 1, 0, 0, 1, 1, 1, 0 );
-b.sendMsg("/setDepth", 0.5,0);
-b.sendMsg("/planktonEat",5.rand,600,125.6125);
-b.sendMsg("/changeChord");
-b.sendMsg("/sporeBoop", 2);
-b.sendMsg("/startLoop");
-b.sendMsg("/quit");
-b.sendMsg("/newFriendly");
-b.sendMsg("/egg", 0);
-b.sendMsg("/surface", 1);
-b.sendMsg("/surface", 0);
-(
-{
-	10.do{arg i;
-		b.sendMsg("/newSpark", 3.rand, i);
-			0.3.wait;
-	};
-}.fork;
 )
