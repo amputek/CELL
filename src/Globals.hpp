@@ -1,7 +1,6 @@
 #ifndef Globals_hpp
 #define Globals_hpp
 
-#include <iostream>
 #include "cinder/Rand.h"
 
 using namespace ci;
@@ -17,4 +16,4 @@ namespace globals {
 }
 
 
-#endif /* defined(__Cellv0__Globals__) */
+#endif

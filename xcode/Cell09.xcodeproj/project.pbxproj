@@ -18,7 +18,6 @@
 		00B9955B1B128DF400A5C623 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B995591B128DF400A5C623 /* IOSurface.framework */; };
 		1B3364CCBD6A445A9399245D /* NetworkingUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 843ACF4633BE460CB0778010 /* NetworkingUtils.cpp */; };
 		3F4CAB5996DC401E93CBD8C9 /* OscReceivedElements.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83F14C397E2C4818A6DF55E0 /* OscReceivedElements.cpp */; };
-		47A3C5250F6144C799A77818 /* CinderApp.icns in Resources */ = {isa = PBXBuildFile; fileRef = 556D05A32D744461BE0B36AD /* CinderApp.icns */; };
 		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
 		5F144A4B80554B85AF74F9EE /* OscMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1E284F1EC1348F585DFB4DE /* OscMessage.cpp */; };
 		6CD3DD7262634B2E8ED40A58 /* IpEndpointName.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3F6C50C6E3A43C7989EEB3A /* IpEndpointName.cpp */; };
@@ -50,6 +49,7 @@
 		D43623EF1C97C6080068AA89 /* OSCManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623ED1C97C6080068AA89 /* OSCManager.cpp */; };
 		D43623F41C97C6F00068AA89 /* SeaFloor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623F01C97C6F00068AA89 /* SeaFloor.cpp */; };
 		D43623F51C97C6F00068AA89 /* SeaSurface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623F21C97C6F00068AA89 /* SeaSurface.cpp */; };
+		D43623F71C97CAE40068AA89 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = D43623F61C97CAE40068AA89 /* icon.icns */; };
 		D4531B6D1C9676870096D85D /* Braitenberg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4531B6B1C9676870096D85D /* Braitenberg.cpp */; };
 		D4531B701C9677BE0096D85D /* Finite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4531B6E1C9677BE0096D85D /* Finite.cpp */; };
 		D4531B731C9679890096D85D /* Tail.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4531B711C9679890096D85D /* Tail.cpp */; };
@@ -83,7 +83,6 @@
 		2BEC0C4C195E4D62B11B813F /* OscBundle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OscBundle.h; path = ../blocks/OSC/src/OscBundle.h; sourceTree = "<group>"; };
 		4543EB3E76BB4D51848E3A60 /* OscOutboundPacketStream.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = OscOutboundPacketStream.cpp; path = ../blocks/OSC/src/osc/OscOutboundPacketStream.cpp; sourceTree = "<group>"; };
 		5323E6B10EAFCA74003A9687 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = /System/Library/Frameworks/CoreVideo.framework; sourceTree = "<absolute>"; };
-		556D05A32D744461BE0B36AD /* CinderApp.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = CinderApp.icns; path = ../resources/CinderApp.icns; sourceTree = "<group>"; };
 		7298B8BA6E2F491C8CFBD52D /* OscSender.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OscSender.h; path = ../blocks/OSC/src/OscSender.h; sourceTree = "<group>"; };
 		75399C1E126F4075AABC9601 /* Cell09App.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = Cell09App.cpp; path = ../src/Cell09App.cpp; sourceTree = "<group>"; };
 		7F23AE27781841FD87EF5A23 /* OscPrintReceivedElements.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = OscPrintReceivedElements.cpp; path = ../blocks/OSC/src/osc/OscPrintReceivedElements.cpp; sourceTree = "<group>"; };
@@ -143,6 +142,7 @@
 		D43623F11C97C6F00068AA89 /* SeaFloor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = SeaFloor.hpp; path = Singletons/SeaFloor.hpp; sourceTree = "<group>"; };
 		D43623F21C97C6F00068AA89 /* SeaSurface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SeaSurface.cpp; path = Singletons/SeaSurface.cpp; sourceTree = "<group>"; };
 		D43623F31C97C6F00068AA89 /* SeaSurface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = SeaSurface.hpp; path = Singletons/SeaSurface.hpp; sourceTree = "<group>"; };
+		D43623F61C97CAE40068AA89 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = icon.icns; path = ../resources/icon.icns; sourceTree = "<group>"; };
 		D4531B6B1C9676870096D85D /* Braitenberg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Braitenberg.cpp; path = GameObjects/Braitenberg.cpp; sourceTree = "<group>"; };
 		D4531B6C1C9676870096D85D /* Braitenberg.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Braitenberg.hpp; path = GameObjects/Braitenberg.hpp; sourceTree = "<group>"; };
 		D4531B6E1C9677BE0096D85D /* Finite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Finite.cpp; path = GameObjects/Finite.cpp; sourceTree = "<group>"; };
@@ -294,9 +294,9 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D43623F61C97CAE40068AA89 /* icon.icns */,
 				D4FA580E1C95B09800B579B0 /* SuperCollider-src */,
 				D48B79981C95A561004BB8A7 /* images */,
-				556D05A32D744461BE0B36AD /* CinderApp.icns */,
 				A68A9A54267444D6ACAF86A4 /* Info.plist */,
 			);
 			name = Resources;
@@ -641,8 +641,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4FA580F1C95B09900B579B0 /* SuperCollider-src in Resources */,
+				D43623F71C97CAE40068AA89 /* icon.icns in Resources */,
 				D48B79991C95A561004BB8A7 /* images in Resources */,
-				47A3C5250F6144C799A77818 /* CinderApp.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
