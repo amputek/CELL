@@ -32,6 +32,13 @@ void Cell09App::setup(){
     entityManager = new EntityManager( image );
     gl::enableAdditiveBlending( );
     glBlendFunc(GL_SRC_ALPHA,GL_ONE);
+    gl::enable(GL_LINE_SMOOTH, true);
+    glHint(GL_LINE_SMOOTH_HINT,GL_NICEST);
+    
+    
+    GLfloat smooth[2];
+    glGetFloatv(GL_SMOOTH_LINE_WIDTH_RANGE, &smooth[0]);
+    console() << "Smooth min: " << smooth[0] << ", smooth max: " << smooth[1] << endl;
 }
 
 void Cell09App::mouseDown( MouseEvent event ){
@@ -62,7 +69,9 @@ void Cell09App::draw(){
     if(gameFrames < 255){
         drawSplashScreens();
     }
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     drawCursor();
+    gl::drawString( "Framerate: " + to_string(getAverageFps()), vec2( 10.0f, 10.0f ) );
 }
 
 void Cell09App::drawSplashScreens(){
@@ -115,13 +124,13 @@ void Cell09App::drawCursor(){
     gl::enableAlphaBlending();
     gl::color( ColorA8u(255,255,255,255) );
     gl::drawSolidCircle( mousePos, 2 );
-    glLineWidth(1);
+    glLineWidth(1.0f);
     gl::drawStrokedCircle( mousePos, 4 );
 }
 
 
 CINDER_APP( Cell09App, RendererGl, [&]( App::Settings *settings ) {
     settings->setWindowSize( 800, 600 );
-    settings->setFrameRate(30.0f);
+    settings->setFrameRate(60.0f);
     settings->setTitle( ":::CELL:::" );
 })
