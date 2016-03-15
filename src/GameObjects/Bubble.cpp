@@ -1,0 +1,16 @@
+#include "Bubble.hpp"
+
+Bubble :: Bubble(vec2 loc, vec2 vel, float d, gl::TextureRef* tex) : Dust( loc, vel, d ) {
+    img = tex;
+    opacity = depth*0.6;
+}
+
+bool Bubble :: alive(){
+    //off screen or on floor or above surface
+    return !(local.y < -200 || local.x < -200 || local.x > 1000 || global.y > 505 || global.y < - 7000);
+}
+
+void Bubble :: draw(){
+    gl::color(ColorA(1.0,1.0,1.0,opacity));
+    gl::draw( *img, Rectf( local.x - radius, local.y - radius, local.x + radius, local.y + radius ) );
+}

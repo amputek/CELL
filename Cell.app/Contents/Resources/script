@@ -1,4 +1,0 @@
-#!/bin/sh
-open Cell-Audio.app &
-sleep 5
-open Cell-Visual.app &
