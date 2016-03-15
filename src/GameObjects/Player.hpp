@@ -38,4 +38,4 @@ private:
 
 
 
-#endif /* defined(__Cellv0__Player__) */
+#endif
