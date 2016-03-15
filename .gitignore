@@ -2,3 +2,4 @@ xcode/build/
 blocks/
 .gitignore
 .DS_Store
+resources/Cell-Audio.app/
