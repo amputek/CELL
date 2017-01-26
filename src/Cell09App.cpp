@@ -13,7 +13,8 @@ using namespace std;
 class Cell09App : public App {
   public:
 	void setup() override;
-	void mouseDown( MouseEvent event ) override;
+    void cleanup() override;
+    void mouseDown( MouseEvent event ) override;
 	void update() override;
 	void draw() override;
     void drawSplashScreens();
@@ -39,6 +40,12 @@ void Cell09App::setup(){
     GLfloat smooth[2];
     glGetFloatv(GL_SMOOTH_LINE_WIDTH_RANGE, &smooth[0]);
     console() << "Smooth min: " << smooth[0] << ", smooth max: " << smooth[1] << endl;
+}
+
+void Cell09App::cleanup()
+{
+    CI_LOG_I( "Cleaning up application." );
+    entityManager->quit();
 }
 
 void Cell09App::mouseDown( MouseEvent event ){
@@ -71,7 +78,7 @@ void Cell09App::draw(){
     }
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     drawCursor();
-    gl::drawString( "Framerate: " + to_string(getAverageFps()), vec2( 10.0f, 10.0f ) );
+    //gl::drawString( "Framerate: " + to_string(getAverageFps()), vec2( 10.0f, 10.0f ) );
 }
 
 void Cell09App::drawSplashScreens(){
@@ -131,6 +138,6 @@ void Cell09App::drawCursor(){
 
 CINDER_APP( Cell09App, RendererGl, [&]( App::Settings *settings ) {
     settings->setWindowSize( 800, 600 );
-    settings->setFrameRate(60.0f);
+    settings->setFrameRate(30.0f);
     settings->setTitle( ":::CELL:::" );
 })

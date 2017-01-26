@@ -37,7 +37,7 @@ public:
     //pulsers (triggers sent from OSC)
     void pulse(string species, int index);
     void create(string species);
-    void quit(){ oscManager->quitOSC(); };
+    void quit();
 private:
     
     //private update functions

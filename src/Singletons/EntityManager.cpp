@@ -29,6 +29,10 @@ EntityManager :: EntityManager( Images* img){
     insideEgg = false;
 }
 
+void EntityManager :: quit(){
+    oscManager->quit();
+}
+
 //Procedural Content Generation (PCG) method
 void EntityManager :: entityGenerator(){
     

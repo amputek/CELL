@@ -20,7 +20,7 @@ public:
     
     //messages - self exlpanatory names
     void startLoop();
-    void quitOSC();
+    void quit();
     void eatPlankton(int type, float pan, float dist);
     void eighthPlankton();
     void setDepth(float d);

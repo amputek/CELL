@@ -72,7 +72,7 @@ void OSCManager :: startLoop(){
     sendMessage("/startLoop");
 }
 
-void OSCManager :: quitOSC(){
+void OSCManager :: quit(){
     cout << "Qutting OSC" << "\n";
     sendMessage("/quitSC");
 }
