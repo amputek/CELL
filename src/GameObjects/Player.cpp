@@ -47,7 +47,7 @@ void Player :: slow(bool t){
 }
 
 
-void Player :: update(){
+void Player :: update(float deltaTime){
     
     falling = global.y < -7000;
     

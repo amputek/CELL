@@ -1,8 +1,9 @@
 #include "GameObject.hpp"
 
-GameObject :: GameObject(vec2 loc, float d){
-    global = loc;
-    depth = d;
+GameObject :: GameObject( const vec2 & startPosition, float entityDepth ){
+    global = vec2( startPosition.x, startPosition.y );
+    depth = entityDepth;
+    
     update();
 }
 

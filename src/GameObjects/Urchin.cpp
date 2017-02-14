@@ -73,9 +73,9 @@ void Urchin :: draw(){
         gl::draw( paths.at(i) );
     }
     
-    for(int i = 0; i < feelers.size(); i++){
-        gl::drawSolidCircle(feelers.at(i)->getEnd(), 3);
-    }
+   // for(int i = 0; i < feelers.size(); i++){
+   //     gl::drawSolidCircle(feelers.at(i)->getEnd(), 3);
+    //}
     
     gl::color(Color(1,1,1));
     gl::draw( *img, Rectf(local.x - radius*2.5, local.y - radius*2.5, local.x + radius*2.5, local.y + radius*2.5) );

@@ -19,7 +19,7 @@ public:
     vec2 getEnd(){ return springs.at(springs.size()-1)->local; };
     Path2d getPath(){ return path; };
     int length(){ return springs.size(); };
-    vector<vec2> getPoints(){ return points; };
+    vector<vec2> * getPoints(){ return &points; };
     
 private:
     void updatePoints();

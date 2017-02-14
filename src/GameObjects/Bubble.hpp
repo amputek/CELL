@@ -6,12 +6,12 @@
 
 class Bubble : public Dust{
 public:
-    Bubble( vec2 loc, vec2 vel, float d, gl::TextureRef* tex);
+    Bubble( const vec2 & loc, vec2 const & vel, float d, gl::TextureRef * tex);
     bool alive();
     void draw();
     
 private:
-    gl::TextureRef* img;
+    gl::TextureRef * img;
     float opacity;
     
 };

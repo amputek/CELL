@@ -1,6 +1,6 @@
 #include "Spark.hpp"
 
-Spark :: Spark(vec2 loc, int t) : Swimmer(loc){
+Spark :: Spark(const vec2 & loc, int t) : Swimmer(loc){
     speed = 0.015;
     radius = 5;
     type = t;
@@ -39,8 +39,9 @@ void Spark :: draw(){
     
     //draw a few circles at each Finite position
     for(int i = 0; i < finites.size(); i++){
+        
         for(int n = 1; n < finites.at(i)->life-finites.at(i)->time; n++){
-            gl::drawSolidCircle( finites.at(i)->local, n);
+            //gl::drawSolidCircle( finites.at(i)->local, n);
         }
     }
 

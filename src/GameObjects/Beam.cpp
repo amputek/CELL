@@ -5,6 +5,14 @@ Beam :: Beam(vec2 start, gl::TextureRef* tex): GameObject(start, rand(0.4,1.6)){
     op = 0.0;
     life = 0;
     img = tex;
+    
+    
+    float texHeight = (*tex)->getHeight();
+    float windowHeight = cinder::app::getWindowHeight() + 100;
+    float r = windowHeight / texHeight;
+    
+    scaledRect = Rectf(0, 0, (*tex)->getWidth() * r, texHeight * r );
+    
 }
 
 //fluctuating opacity
@@ -23,5 +31,9 @@ void Beam :: update(){
 
 void Beam :: draw(){
     gl::color(ColorA(1.0,1.0,1.0,op));
-    gl::draw( *img, vec2(local.x, -50) );
+    
+   gl::ScopedModelMatrix modelScope;
+   gl::translate(vec2(local.x,-50));
+    gl::draw( *img, scaledRect );
+    
 }

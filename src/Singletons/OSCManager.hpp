@@ -26,7 +26,7 @@ public:
     void setDepth(float d);
     void urchin(float distance, int contact);
     void changeChord();
-    void jelly(vector<bool> feelers, float dist);
+    void jelly(vector<bool> * feelers, float dist);
     void grass(bool contact);
     void sporeBoop(int health);
     void egg(int inside);

@@ -15,13 +15,17 @@ using namespace ci;
 
 class GameObject{
 public:
-    GameObject(vec2 loc, float d);
+    GameObject(const vec2 & startWorldPosition, float entityDepth);
     void update();
     bool onScreen();
     vec2 global;
     vec2 local;
     float depth;
     int radius;
+    
+    
+    Rectf drawRect;
+    ColorA colorWithOpacity;
     
    // bool operator<( const GameObject& c ) { return depth > c.depth; }
 

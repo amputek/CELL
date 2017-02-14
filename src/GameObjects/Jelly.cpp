@@ -43,14 +43,14 @@ void Jelly :: draw(){
         for(int i = 0; i < paths.size(); i++){
             gl::color(ColorA8u(150,255,200,40));
             gl::draw( paths.at(i) ) ;
-            gl::drawSolidCircle( paths.at(i).getPosition(0), 2);
+          //  gl::drawSolidCircle( paths.at(i).getPosition(0), 2);
             
             float si = 5;
             //jellyfish's feelers have glowing elements that pass along them
             for(int t = 30; t > 1; t -= 1){
                 gl::color(ColorA8u(200-t,100+t,200,25));
                 if(t == counter*10){
-                    gl::drawSolidCircle(paths.at(i).getPoint(t), (5-si)*0.75);
+              //      gl::drawSolidCircle(paths.at(i).getPoint(t), (5-si)*0.75);
                 }
                 si-=0.1;
             }

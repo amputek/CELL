@@ -12,7 +12,7 @@ public:
     void update();
     void draw();
     void collide(vec2 loc);
-    vector<bool> contacts(){ return jellyContacts; };
+    vector<bool> * contacts(){ return &jellyContacts; };
     
 private:
     vector<Feeler*> feelers;

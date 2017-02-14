@@ -30,8 +30,8 @@ class EntityManager {
 public:
     EntityManager( Images* img );
     
-	void update();
-    void updateHero(vec2 mouseLoc);
+	void update( float deltaTime );
+    void updateHero( float deltaTime, vec2 mouseLoc);
     void drawEntities();
     
     //pulsers (triggers sent from OSC)
@@ -59,10 +59,12 @@ private:
     void entityGenerator();
     
     
+    
     //General purpose Functions
     void removeFromColliders(GameObject* collider);
-    vec2 inFront(vec2 start, float diretion, int inFrontBy);
+    vec2 inFront(const vec2 & start, float diretion, int inFrontBy);
     bool farFromHero( vec2 location );
+    float lineSegmentIntersection(const vec2 &start1, const vec2 &end1, const vec2 &start2, const vec2 &end2 );
     
     
     //Collections

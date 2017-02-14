@@ -2,7 +2,8 @@
 
 Dust :: Dust(vec2 aloc, vec2 vel, float d):GameObject(aloc, d){
     velocity = vel;
-    radius = rand(2,10) * depth;
+    radius = rand(4,15) * depth;
+    drawRect = Rectf( -radius, -radius, radius, radius );
 }
 
 void Dust :: update(){

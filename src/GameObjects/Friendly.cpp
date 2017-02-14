@@ -65,7 +65,7 @@ void Friendly :: draw(){
     if(birthing == true){
         gl::color(ColorA8u(150,200,255,40-birthCount));
         for(int i = 0; i <= radius + birthCount; i+=int(rand(2,6))){
-            gl::drawSolidCircle(local, i);
+      //      gl::drawSolidCircle(local, i);
         }
     }
     

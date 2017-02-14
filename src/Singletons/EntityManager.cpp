@@ -36,6 +36,9 @@ void EntityManager :: quit(){
 //Procedural Content Generation (PCG) method
 void EntityManager :: entityGenerator(){
     
+    
+    float halfWindowSize = cinder::app::getWindowWidth();
+    
     //PLANKTON
     if(getElapsedFrames() % 40 == 0 && plankton.size() < 40){
         int index = irand(0,7);
@@ -128,7 +131,7 @@ void EntityManager :: entityGenerator(){
 //Checks for incoming messages from OSC
 //Updates entities (environment and NPCs)
 //and activates PCG
-void EntityManager :: update(){
+void EntityManager :: update( float deltaTime ){
     
     oscManager->recieveMessage();
 
@@ -150,10 +153,10 @@ void EntityManager :: update(){
 
 //UPDATE METHODS FOR ENTITY COLLECTIONS
 
-void EntityManager :: updateHero(vec2 mousePos){
+void EntityManager :: updateHero( float deltaTime, vec2 mousePos){
     
-    hero->moveTo(mousePos);
-    hero->update();
+    hero->moveTo( mousePos );
+    hero->update( deltaTime );
     
     oscManager->setDepth( (-hero->global.y) / 7000 );
     
@@ -657,31 +660,101 @@ void EntityManager :: updateOffset(){
 }
 
 
+
+float EntityManager ::lineSegmentIntersection(const vec2 &start1, const vec2 &end1, const vec2 &start2, const vec2 &end2 )
+{
+    
+    float a1 = end1.y - start1.y;
+    float b1 = start1.x - end1.x;
+    
+    float a2 = end2.y - start2.y;
+    float b2 = start2.x - end2.x;
+    
+    float det = a1*b2 - a2*b1;
+    if(det == 0.0f) return 0.0f;
+    
+    float c1 = a1*start1.x+b1*start1.y;
+    float c2 = a2*start2.x+b2*start2.y;
+    
+    // TODO: check if the intersection is within the segments
+    
+    vec2 intersection = vec2( (b2*c1-b1*c2)/det , (a1*c2-a2*c1)/det );
+    
+    return glm::distance( vec2(start1.x, start1.y), intersection );
+
+}
+
+
+
 //FUNCTIONS
 
 //finds a new location in front of a vector
-vec2 EntityManager :: inFront(vec2 start, float direction, int inFrontBy){
-    float x = start.x + sin(direction)*inFrontBy;
-    float y = start.y + cos(direction)*inFrontBy;
+vec2 EntityManager :: inFront(const vec2 & start, float direction, int inFrontBy){
     
-    //make sure new location is within game boundaries
-    if(y > 0){
-        y = -100;
-    };
-    if(y < -6500){
-        y = -6000;
-    };
+    float distToEdgeScreen = 3000.0f;
     
-    vec2 newLoc = vec2(x,y);
     
-    //make sure new entitiy is off screen
-    while( dist(newLoc, start) < inFrontBy){
-        x += rand(0,200);
-        y += rand(0,200);
-        newLoc = vec2(x,y);
-    }
+    float x = start.x + sin(direction) * 2000;
+    float y = start.y + cos(direction) * 2000;
     
-    return newLoc;
+    
+    
+    vec2 startGlobal = vec2(start.x, start.y);
+    vec2 endGlobal = vec2(x,y);
+   
+    
+    
+    vec2 startLocal = startGlobal - offset;
+    vec2 endLocal = endGlobal - offset;
+    
+    
+    startLocal += getWindowSize() / 2;
+    endLocal += getWindowSize() / 2;
+    
+  //  console() << startLocal << "\n";
+    
+    float width = ci::app::getWindowWidth();
+    float height = ci::app::getWindowHeight();
+    
+
+    float a = lineSegmentIntersection( startLocal, endLocal, vec2(0    ,0)     , vec2(width,0     ) );
+    if( a < distToEdgeScreen ) distToEdgeScreen = a;
+    
+    float b = lineSegmentIntersection( startLocal, endLocal, vec2(width,0)     , vec2(width,height) );
+    if( b < distToEdgeScreen ) distToEdgeScreen = b;
+    
+    float c = lineSegmentIntersection( startLocal, endLocal, vec2(width,height), vec2(0    ,height) );
+    if( c < distToEdgeScreen ) distToEdgeScreen = c;
+
+    float d = lineSegmentIntersection( startLocal, endLocal, vec2(0    ,height), vec2(0    ,0     ) );
+    if( d < distToEdgeScreen ) distToEdgeScreen = d;
+    
+//    cout << distToEdgeScreen << "\n";
+    
+    distToEdgeScreen += 500;
+    
+    x = start.x + sin(direction) * distToEdgeScreen;
+    y = start.y + cos(direction) * distToEdgeScreen;
+    
+    
+//    //make sure new location is within game boundaries
+//    if(y > 0){
+//        y = -100;
+//    };
+//    if(y < -6500){
+//        y = -6000;
+//    };
+//    
+//    vec2 newLoc = vec2(x,y);
+//    
+//    //make sure new entitiy is off screen
+//    while( dist(newLoc, start) < inFrontBy){
+//        x += rand(0,200);
+//        y += rand(0,200);
+//        newLoc = vec2(x,y);
+//    }
+    
+    return vec2(x,y);
 }
 
 //Removes a specified entity from the collider list
@@ -730,10 +803,12 @@ void EntityManager :: drawGrass(){
     for(int i = 0; i < longGrass.size(); i++){
         gl::color( ColorA8u( 90,110,15, 200) );
         gl::draw( longGrass.at(i)->getPath() );
-        vector<vec2> points = longGrass.at(i)->getPoints();
-        gl::color( ColorA8u( 100,100,100, 100 ) );
-        for(int n = 0; n < points.size(); n++){
-            gl::drawSolidCircle( points.at(n), 2 );
+        vector<vec2> * points = longGrass.at(i)->getPoints();
+        gl::color( ColorA8u( 100,100,255, 100 ) );
+        
+
+        for(int n = 0; n < points->size(); n++){
+            //gl::drawSolidCircle( points->at(n), 2 );
         }
     }
 }

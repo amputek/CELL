@@ -19,7 +19,9 @@ Images :: Images(){
     planktonImgs.push_back( loadPngImage( "plankton_big"    ) );
     
     beamImg =               loadPngImage( "beam"            );
-    bubbleImg =             loadPngImage( "bubble"          );
+    bubbleImg =             loadPngImage( "bubble-new2"          );
+    splashImg =             loadPngImage( "splash"            );
+
     
     sporeImgs.push_back(    loadPngImage( "spore_orange"    ) );
     sporeImgs.push_back(    loadPngImage( "spore_green"     ) );

@@ -11,7 +11,7 @@ class Player : public Braitenberg{
 public:
     Player(vec2 loc, vector<gl::TextureRef> * texs);
     void draw();
-    void update();
+    void update(float deltaTime);
     void moveTo(vec2 mousePos);
     void incEaten(int type){ planktonEaten.at(type)++; };
     void slow(bool t);

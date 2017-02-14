@@ -78,12 +78,12 @@ void Starfish :: draw(){
         }
         
         for(int i = 0; i < feelers.size(); i++){
-            vector<vec2> points = feelers.at(i)->getPoints();
+            vector<vec2> * points = feelers.at(i)->getPoints();
             float s = 15;
-            for(int n = 1; n < points.size(); n+=2){
-                gl::drawSolidCircle(points.at(n), s);
-                gl::drawSolidCircle(points.at(n), 2);
-                gl::drawSolidCircle(points.at(n), 2);
+            for(int n = 1; n < points->size(); n+=2){
+              //  gl::drawSolidCircle(points->at(n), s);
+              //  gl::drawSolidCircle(points->at(n), 2);
+              //  gl::drawSolidCircle(points->at(n), 2);
                 s -= 1.0;
             }
         }

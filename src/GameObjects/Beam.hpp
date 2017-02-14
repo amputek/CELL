@@ -17,6 +17,8 @@ private:
     float op;
     float life;
     gl::TextureRef* img;
+    
+    Rectf scaledRect;
 };
 
 

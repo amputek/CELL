@@ -7,7 +7,7 @@
 
 class Spark : public Swimmer{
 public:
-    Spark(vec2 loc, int t);
+    Spark( const vec2 & loc, int t);
     void draw();
     void update();
 

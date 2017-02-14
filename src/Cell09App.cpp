@@ -22,6 +22,7 @@ class Cell09App : public App {
     
     int gameFrames = 0;
     bool gameStart = false;
+    float lastStepTime;
     
     EntityManager* entityManager;
     Images* image;
@@ -31,12 +32,14 @@ class Cell09App : public App {
 void Cell09App::setup(){
     image = new Images();
     entityManager = new EntityManager( image );
+    
+    
     gl::enableAdditiveBlending( );
     glBlendFunc(GL_SRC_ALPHA,GL_ONE);
     gl::enable(GL_LINE_SMOOTH, true);
     glHint(GL_LINE_SMOOTH_HINT,GL_NICEST);
     
-    
+
     GLfloat smooth[2];
     glGetFloatv(GL_SMOOTH_LINE_WIDTH_RANGE, &smooth[0]);
     console() << "Smooth min: " << smooth[0] << ", smooth max: " << smooth[1] << endl;
@@ -56,10 +59,16 @@ void Cell09App::mouseDown( MouseEvent event ){
 }
 
 void Cell09App::update(){
-    if(gameStart == true){
-        entityManager->updateHero( getMousePos() - getWindowPos() );
-        entityManager->update();
-    }
+    if(!gameStart) return;
+    
+    float currentTime = app::getElapsedSeconds();
+    float deltaTime = currentTime - lastStepTime;
+    
+    entityManager->updateHero( deltaTime, getMousePos() - getWindowPos() );
+    entityManager->update( deltaTime );
+    
+    lastStepTime = currentTime;
+    
 }
 
 void Cell09App::draw(){
@@ -78,7 +87,7 @@ void Cell09App::draw(){
     }
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     drawCursor();
-    //gl::drawString( "Framerate: " + to_string(getAverageFps()), vec2( 10.0f, 10.0f ) );
+    gl::drawString( "Framerate: " + to_string(getAverageFps()), vec2( 10.0f, 10.0f ) );
 }
 
 void Cell09App::drawSplashScreens(){
@@ -136,8 +145,8 @@ void Cell09App::drawCursor(){
 }
 
 
-CINDER_APP( Cell09App, RendererGl, [&]( App::Settings *settings ) {
-    settings->setWindowSize( 800, 600 );
-    settings->setFrameRate(30.0f);
+CINDER_APP( Cell09App, RendererGl( RendererGl::Options().msaa( 8 ) ), [&]( App::Settings *settings ) {
+    settings->setWindowSize( 1200, 900 );
+    settings->setFrameRate(60.0f);
     settings->setTitle( ":::CELL:::" );
 })

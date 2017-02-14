@@ -150,15 +150,15 @@ void OSCManager :: changeChord(){
     sendMessage("/changeChord");
 }
 
-void OSCManager :: jelly(vector<bool> feelers, float dist){
+void OSCManager :: jelly(vector<bool> * feelers, float dist){
     bool send = false;
     osc::Message msg;
     msg.addFloatArg(dist);
-    for(int i = 0; i < feelers.size(); i++){
-        if( feelers.at(i) == true ){
+    for(int i = 0; i < feelers->size(); i++){
+        if( feelers->at(i) == true ){
             send = true;
         }
-        msg.addIntArg(feelers.at(i));
+        msg.addIntArg(feelers->at(i));
     }
     if(send == true){
         sendMessage(msg, "/jelly");

@@ -10,7 +10,7 @@ EnvironmentManager :: EnvironmentManager( Images* imgs ){
 
 //create a splash at specified point
 void EnvironmentManager :: splash(vec2 loc, int start, int end ){
-    splashes.push_back( new Splash( loc, start, end, 1) );
+    splashes.push_back( new Splash( loc, start, end, 1, image->splash() ) );
 }
 
 //create a number of bubbles, at random depths - used for eating plankton etc
