@@ -6,14 +6,14 @@
 
 class Finite : public GameObject{
 public:
-    Finite(vec2 loc, float l);
-    Finite(vec2 loc, float l, float d);
+    Finite(vec2 loc, float l, float r);
+    Finite(vec2 loc, float l, float r, float d);
     void update();
-    bool alive(){ return time <= life; };
+    bool alive(){ return currentLife <= maxLife; };
     
     float direction;
-    int time;
-    int life;
+    float currentLife = 0.0f;
+    float maxLife = 10.0f;
     
 };
 

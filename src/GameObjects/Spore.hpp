@@ -12,7 +12,7 @@ using namespace std;
 
 class Spore : public Dust{
 public:
-    Spore(vec2 loc, float d, int t, gl::TextureRef* tex);
+    Spore(vec2 loc, float depth, int type, gl::TextureRef* tex);
     void update();
     void draw();
     void collide(vec2 loc);

@@ -4,42 +4,70 @@ SeaFloor :: SeaFloor(){
     
     vec2 loc = vec2(0,0);
     
-    for(float i = 0.5; i < 2.0; i+=0.015){
+    for(float i = 1.0f; i >= 0.05f; i*=0.86f){
         rows.push_back( new GameObject(loc, i));
+        paths.push_back( *new vector<vec2>() );
     }
+    reverse( rows.begin(), rows.end() );
+    
+    perlin = Perlin(2); //create new perlin noise generator
+
 }
 
 
 void SeaFloor :: update(){
     
-    paths.clear();
-    
-    for(int n = 0; n < rows.size(); n++){
+
+    for(int y = 0; y < rows.size(); y++){
         
-        GameObject* r = rows.at(n);
+        GameObject * r = rows.at(y);
+        
         r->update();
         
-        Path2d floorPath;
-        floorPath.moveTo(vec2(0, r->local.y) );
-        floorPath.lineTo( vec2( cinder::app::getWindowWidth(), r->local.y) );
+        paths.at(y).clear();
         
-        //add to path collection
-        paths.push_back( floorPath );
+        
+        for(int x = 0; x <= cinder::app::getWindowWidth(); x+=10){
+            
+            float pX = x + offset.x;
+            float pY = y * 45.0f;
+
+            
+            float perlinResult = perlin.fBm( vec3(pX, pY, 0.0f) / perlinDetail );
+            
+            float waveHeight = 70.0f * r->depth;
+            
+            float height = r->local.y + (perlinResult * waveHeight);
+            
+            
+            vec2 point = vec2(x,height);
+            
+            paths.at(y).push_back( point );
+            
+        }
     }
+    
+    
+    
 }
 
-void SeaFloor :: draw(){
+void SeaFloor:: draw(){
     
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    float globalOpacityMod = 1.0f;
     
-    glLineWidth(10);
-    for(int n = 0; n < paths.size(); n++){
-        gl::color(ColorA8u(35,50,8,1.0 * n));
-        gl::draw( paths.at(n) );
-    }
+    globalOpacityMod = (offset.y + 1000) * 0.002f;
+    if( globalOpacityMod >= 1.0f ) globalOpacityMod = 1.0f;
 
-    glBlendFunc(GL_SRC_ALPHA,GL_ONE);
-    
-    
-    
+    for(int n = 0; n < rows.size(); n++){
+        Path2d path;
+        path.moveTo( paths.at(n).at(0) );
+        for(int i = 1; i < paths.at(n).size(); i++ )
+            path.lineTo( paths.at(n).at(i) );
+        path.lineTo( vec2( cinder::app::getWindowWidth(), cinder::app::getWindowHeight()) );
+        path.lineTo( vec2( 0.0, cinder::app::getWindowHeight() ) );
+        path.close();
+        gl::color(ColorA8u(192,177,139, rows.at(n)->depth * 30.0f * globalOpacityMod ) );
+        gl::drawSolid(path);
+        gl::draw(path);
+    }
 }

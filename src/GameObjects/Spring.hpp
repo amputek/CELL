@@ -7,7 +7,6 @@
 #ifndef Spring_hpp
 #define Spring_hpp
 
-#include <iostream>
 #include "Dust.hpp"
 
 using namespace std;
@@ -15,21 +14,20 @@ using namespace std;
 class Spring : public Dust{
     
 public:
-    Spring(vec2 loc, float dep, float dmp, float stf, float ms);
+    Spring(vec2 loc, float stf, float ms, float damp, float depth );
+    Spring(vec2 loc, float stf, float ms, float damp) : Spring(loc, stf, ms, damp, 1.0f){ };
     void draw();
-    void update(vec2 target);
-    void collide(vec2 heroLoc);
+    void moveTowards(vec2 target);
+    void collide(const vec2 & heroLoc, float colDist);
     void addForce(vec2 force);
     
     //getters
     bool contact(){ return springContact; };
     
 private:
-    float damping;
     float mass;
     float stiffness;
     bool springContact;
-    const int collisionDistance = 20;
 };
 
 #endif

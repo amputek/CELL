@@ -1,22 +1,26 @@
 #include "Player.hpp"
 
 
-Player :: Player(vec2 loc, vector<gl::TextureRef> * texs) : Braitenberg(loc, true){
-    speed = 0.02;
-    radius = 5;
+Player :: Player(const vec2 & loc, gl::TextureRef * texs) : Braitenberg(loc, true){
+    Braitenberg::speed = 0.5f;
+    GameObject::radius = 5.0f;
     level = 1;
-    longTail = new Tail( 5, false, 3, false);
+    longTail = new Tail( 10, true, 2, false);
     leftTail = new Tail( 2, false, 3, false);
     rightTail = new Tail( 2, false, 3, false);
     playerLevelling = false;
     falling = false;
     
-    imgs = texs;
-    img = &imgs->at(0);
+    imgs[0] = &texs[0];
+    imgs[1] = &texs[1];
+    imgs[2] = &texs[2];
+    img = imgs[0];
     
     for(int i = 0; i < 7; i ++){
         planktonEaten.push_back(0);
     }
+
+    
 }
 
 
@@ -32,17 +36,19 @@ void Player :: moveTo(vec2 mousePos){
     vec2 dest = globalise(mousePos, 1);
     
     if(falling == true){
-        Braitenberg::moveTo( vec2(dest.x, 400) );  //falls back towards water
+        Braitenberg::moveTo( vec2(dest.x, -6500) );  //falls back towards water
     } else {
         Braitenberg::moveTo(dest);                  //standard movement
     }
+    
+    
 }
 
 void Player :: slow(bool t){
     if(t == true){
-        speed = 0.005;
+        speed = 0.15f;
     } else {
-        speed = 0.02;
+        speed = 0.5f;
     }
 }
 
@@ -70,21 +76,16 @@ void Player :: update(float deltaTime){
 
 void Player:: draw(){
     
-    gl::color(Color(1,1,1));
+    entityDrawCount++;
     
+    gl::color(Color(1,1,1));
+    gl::ScopedBlendAlpha alpha;
     gl::pushModelView();
     gl::translate(local );
-    gl::rotate( -direction * 57.2957795 + 180);
+    gl::rotate( -direction + M_PI );
     gl::draw( *img , Rectf( -radius*2, -radius*2, radius*2, radius*2) );
     gl::popModelView();
     
-    //draw 'glow' around player when it's levelling up
-    if(playerLevelling == true){
-        gl::color(ColorA8u(150,200,255,40-levelCount));
-        for(int i = 0; i <= radius + levelCount; i+=int(rand(2,6))){
-            gl::drawSolidCircle(local, i);
-        }
-    }
     
     //draw tails
     longTail->draw();
@@ -110,9 +111,9 @@ void Player :: levelUp(){
     if(level < 40 && level % 3 == 0){
         radius++;
     }
-    if(level == 20){ img = &imgs->at(1);       }
+    if(level == 20){ img = imgs[0];       }
     if(level == 20){ sideTailsOn = true;  }
-    if(level == 40){ img = &imgs->at(2);       }
+    if(level == 40){ img = imgs[1];       }
     if(level == 12){ longTail->setWide(); }
     if(level == 35){ longTail->setFins(); }
     

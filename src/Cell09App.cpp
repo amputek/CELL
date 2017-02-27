@@ -2,6 +2,7 @@
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
 
+#include "Globals.hpp"
 #include "Singletons/Images.hpp"
 #include "Singletons/EntityManager.hpp"
 #include "GameObjects/GameObject.hpp"
@@ -10,143 +11,234 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;
 
-class Cell09App : public App {
+class CellApp : public App {
   public:
 	void setup() override;
     void cleanup() override;
-    void mouseDown( MouseEvent event ) override;
+    void keyDown( KeyEvent event ) override;
 	void update() override;
 	void draw() override;
+    vec2 mousePosition();
+    
     void drawSplashScreens();
+    void drawMenu();
     void drawCursor();
     
     int gameFrames = 0;
-    bool gameStart = false;
+
     float lastStepTime;
     
     EntityManager* entityManager;
     Images* image;
     
+    
+    bool inFullScreen = true;
+    bool gamePaused = false;
+    bool gameStarted = true;
+
+    bool runAudio = false;
+    
+    
+    float splashOpacity = 0.0f;
+    
 };
 
-void Cell09App::setup(){
+void CellApp::setup(){
+    
     image = new Images();
     entityManager = new EntityManager( image );
     
+    //Open Cell-Audio.app
+    if( runAudio )
+    {
+        DataSourceRef rf = loadResource( "Cell-Audio.app");
+        auto p = rf->getFilePath();
+        string s = "open -g '" + p.string() + "'";
+        system( s.c_str() );
+    }
     
+    
+    hideCursor();
     gl::enableAdditiveBlending( );
-    glBlendFunc(GL_SRC_ALPHA,GL_ONE);
-    gl::enable(GL_LINE_SMOOTH, true);
-    glHint(GL_LINE_SMOOTH_HINT,GL_NICEST);
     
-
-    GLfloat smooth[2];
-    glGetFloatv(GL_SMOOTH_LINE_WIDTH_RANGE, &smooth[0]);
-    console() << "Smooth min: " << smooth[0] << ", smooth max: " << smooth[1] << endl;
 }
 
-void Cell09App::cleanup()
+void CellApp::cleanup()
 {
     CI_LOG_I( "Cleaning up application." );
     entityManager->quit();
 }
 
-void Cell09App::mouseDown( MouseEvent event ){
-    if(gameStart == false){
-        gameStart = true;
-        hideCursor();
+
+void CellApp::keyDown( KeyEvent event ){
+    if( event.getChar() == 'f' )
+    {
+        inFullScreen = !inFullScreen;
+        setFullScreen( inFullScreen );
+        if( !inFullScreen ) setWindowSize(800, 600);
+    }
+    
+    if( event.getChar() == KeyEvent::KEY_ESCAPE )
+    {
+        if(!gameStarted) return;
+        gamePaused = !gamePaused;
     }
 }
 
-void Cell09App::update(){
-    if(!gameStart) return;
-    
-    float currentTime = app::getElapsedSeconds();
-    float deltaTime = currentTime - lastStepTime;
-    
-    entityManager->updateHero( deltaTime, getMousePos() - getWindowPos() );
-    entityManager->update( deltaTime );
-    
-    lastStepTime = currentTime;
-    
+vec2 CellApp::mousePosition()
+{
+    if( inFullScreen )
+    {
+        return getMousePos();
+    }
+    else
+    {
+        return getMousePos() - getWindowPos();
+    }
 }
 
-void Cell09App::draw(){
-    glBlendFunc(GL_SRC_ALPHA,GL_ONE);
+void CellApp::update(){
+
+    float currentTime = app::getElapsedSeconds();
+    deltaTime = currentTime - lastStepTime;
+    if( deltaTime > 0.1f ) deltaTime = 0.1f;
+    lastStepTime = currentTime;
     
-    if(gameStart == true){
+    
+    if(gamePaused) return;
+    if(!gameStarted) return;
+    
+    entityManager->updateHero( mousePosition(), getElapsedFrames() > 400 );
+    entityManager->update(  );
+
+
+
+}
+
+void CellApp::draw(){
+
+    entityDrawCount = 0;
+
+    gl::ScopedBlendAdditive additive;
+    
+    if(gameStarted){
         gameFrames++;
         entityManager->drawEntities();
     } else {
-        gl::clear( Color(0,0,0) );
+         gl::clear( Color(0,0,0) );
     }
+
+    drawSplashScreens();
     
-    //draw the "CELL" splash screen and the instruction/hint
-    if(gameFrames < 255){
-        drawSplashScreens();
-    }
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    
+    entityManager->environment->drawMask();
+    
+    
+    
     drawCursor();
-    gl::drawString( "Framerate: " + to_string(getAverageFps()), vec2( 10.0f, 10.0f ) );
+    
+    drawMenu();
+//    
+//    gl::drawString( "Framerate: " + to_string( roundf(getAverageFps()) ) + " Delta: " + to_string(deltaTime), vec2( 10.0f, 10.0f ) );
+//    gl::drawString( "Draw Count: " + to_string( entityDrawCount ), vec2( 10.0f, 30.0f ) );
+//
+
 }
 
-void Cell09App::drawSplashScreens(){
-    
-    //draw splash screen ("CELL")
 
-    if(gameStart == false || gameFrames < 25.5){
-        glBlendFunc(GL_SRC_ALPHA,GL_ONE);
-        float g = sin( getElapsedFrames()*0.1 )*30;
-        gl::color( ColorA8u( 220+g, 220-g, 255, 255 - (gameFrames*10) ) );
-        gl::draw( *image->title(), Rectf(0,0,getWindowWidth(),getWindowHeight() ) );
-    }
-    
-    //draw the instructional splash screen "CELL will follow your cursor. Explore"
-    if( gameStart == true && gameFrames < 127 ){
-        glBlendFunc(GL_SRC_ALPHA,GL_ONE);
-        gl::enableAlphaBlending();
-        gl::color( ColorA8u( 255,255,255, gameFrames*2 ) );
-        gl::draw( *image->instructions(), vec2(100,0) );
-    }
-    
-    //fade out instructional screen
-    if(gameStart == true && gameFrames >= 127 && gameFrames <= 255 ){
-        glBlendFunc(GL_SRC_ALPHA,GL_ONE);        
-        gl::enableAlphaBlending();
-        gl::color( ColorA8u( 255,255,255, 255 - ((gameFrames-127) * 2) ) );
-        gl::draw( *image->instructions(), vec2(100,0) );
-    }
-    
+
+void CellApp::drawMenu()
+{
+    if( !gamePaused ) return;
+    gl::ScopedBlendAlpha alpha;
+    vec2 menuPos = vec2(40.0f,40.0f);
+    gl::color( ColorA(0.0,0.0,0.0,0.2) );
+    gl::drawSolidRect( Rectf( menuPos.x, menuPos.y, menuPos.x + 160.0f, menuPos.y + 145 ) );
+    gl::color(1.0,1.0,1.0);
+    gl::drawString("Decrease Volume: -"  , menuPos + vec2(20.0f,20.0f) );
+    gl::drawString("Increase Volume: +"  , menuPos + vec2(20.0f,40.0f) );
+    gl::drawString("Pause: ESC"          , menuPos + vec2(20.0f,60.0f) );
+    gl::drawString("Quit: cmd-Q"         , menuPos + vec2(20.0f,80.0f) );
+    gl::drawString("(C) Rob Dawson, 2017", menuPos + vec2(20.0f,120.0f) );
 }
 
-void Cell09App::drawCursor(){
+void CellApp::drawSplashScreens()
+{
+    if( gameFrames > 800) return;
     
-    vec2 mousePos = getMousePos() - getWindowPos();
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+    glBlendEquation(GL_FUNC_ADD);
     
-    showCursor();
-    
-    //hide the cursor if it's inside the windows boundaries
-    if(mousePos.x > 0 && mousePos.x < getWindowWidth() && mousePos.y > 0 && mousePos.y < getWindowHeight() ){
-        hideCursor();
+    if(gameFrames < 400)
+    {
+        if(splashOpacity < 1.0f ) splashOpacity += deltaTime * 0.3f;
+        offset = vec2(-400,-2000);
+    }
+    else
+    {
+        splashOpacity -= deltaTime * 0.3f;
     }
     
-    //keeps the cursor inside the window boundaries - avoids confusion of losing a hidden cursor
-    if(mousePos.x < 0){                 mousePos.x = 5;                     }
-    if(mousePos.y < 0){                 mousePos.y = 5;                     }
-    if(mousePos.x > getWindowWidth()){  mousePos.x = getWindowWidth() - 5;  }
-    if(mousePos.y > getWindowHeight()){ mousePos.y = getWindowHeight() - 5; }
+    if( splashOpacity >= 0.0 )
+    {
+        double op = splashOpacity;
+        if( op > 1.0f ) op  = 1.0f;
+        gl::color( ColorA8u(op * 130,op * 228,op * 247,op * 255.0f) );
+        
+        Rectf rect = Rectf(-300,-300,300,300);
+        vec2 pos = vec2(-400,-2000);
+        
+        
+        gl::pushModelView();
+        gl::translate( globals::localise( pos, 0.55f ) );
+        gl::draw( image->title1,rect);
+        gl::popModelView();
+        gl::pushModelView();
+        gl::translate( globals::localise( pos, 0.6f ) );
+        gl::draw( image->title2,rect);
+        gl::popModelView();
+        gl::pushModelView();
+        gl::translate( globals::localise( pos, 0.57f ) );
+        gl::draw( image->title3, rect);
+        gl::popModelView();
+        gl::pushModelView();
+        gl::translate( globals::localise( pos, 0.525f ) );
+        gl::draw( image->title4, rect);;
+        gl::popModelView();
+    }
+}
+
+void CellApp::drawCursor(){
+    
+    vec2 mousePos = mousePosition();
+    
+//    showCursor();
+//    
+//    //hide the cursor if it's inside the windows boundaries
+//    if(mousePos.x >= 0 && mousePos.x <= getWindowWidth() && mousePos.y >= 0 && mousePos.y <= getWindowHeight() ){
+//        hideCursor();
+//    }
+//
+//    //keeps the cursor inside the window boundaries - avoids confusion of losing a hidden cursor
+//    if(mousePos.x < 0){                 mousePos.x = 5;                     }
+//    if(mousePos.y < 0){                 mousePos.y = 5;                     }
+//    if(mousePos.x > getWindowWidth()){  mousePos.x = getWindowWidth() - 5;  }
+//    if(mousePos.y > getWindowHeight()){ mousePos.y = getWindowHeight() - 5; }
     
     //draw cursor
-    gl::enableAlphaBlending();
+    gl::ScopedBlendAlpha alpha;
     gl::color( ColorA8u(255,255,255,255) );
-    gl::drawSolidCircle( mousePos, 2 );
-    glLineWidth(1.0f);
-    gl::drawStrokedCircle( mousePos, 4 );
+    gl::draw( image->cursorImg, Rectf( mousePos.x - 2, mousePos.y - 2, mousePos.x + 2, mousePos.y + 2) );
 }
 
 
-CINDER_APP( Cell09App, RendererGl( RendererGl::Options().msaa( 8 ) ), [&]( App::Settings *settings ) {
-    settings->setWindowSize( 1200, 900 );
+CINDER_APP( CellApp, RendererGl( RendererGl::Options().msaa( 8 ) ), [&]( App::Settings *settings ) {
+
+    settings->setFullScreen();
+    //settings->setWindowSize(800, 600);
+    
     settings->setFrameRate(60.0f);
-    settings->setTitle( ":::CELL:::" );
+    settings->setHighDensityDisplayEnabled();
+    settings->setTitle( "CELL v1.5" );
 })

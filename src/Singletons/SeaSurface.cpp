@@ -3,9 +3,12 @@
 SeaSurface :: SeaSurface(){
     
     vec2 loc = vec2(0,-7000);
-    for(float i = 0.1; i < 2.0; i+=0.025){
+    
+    for(float i = 2.0f; i >= 0.05f; i*=0.82f){
         rows.push_back( new GameObject(loc, i));
+        paths.push_back( *new vector<vec2>() );
     }
+    reverse( rows.begin(), rows.end() );
     
     perlin = Perlin(2); //create new perlin noise generator
     counter = 0;        //initialise sinewave counter
@@ -14,44 +17,58 @@ SeaSurface :: SeaSurface(){
 
 void SeaSurface :: update(){
     
-    counter += 0.1;     //counter used in sine function for wave motion
+    counter += deltaTime * 150.0f;     //counter used in sine function for wave motion
    
-    paths.clear();
-    
-    for(int n = 0; n < rows.size(); n++){
+    for(int y = 0; y < rows.size(); y++){
         
-        GameObject* r = rows.at(n);
-        r->update(); 
+        GameObject * r = rows.at(y);
         
-        Path2d floorPath;
+        r->update();
         
-        float perlinHeight = 50.0 * r->depth;
+        paths.at(y).clear();
         
-        floorPath.moveTo(vec2(0, r->local.y + perlin.fBm((offset.x) / perlinDetail) * perlinHeight));
         
-        for(int i = 0; i <= cinder::app::getWindowWidth(); i+=10){
-            float perl = perlin.fBm(( i + offset.x ) / perlinDetail );
+        for(int x = 0; x <= cinder::app::getWindowWidth(); x+=10){
+
+            float pX = x + offset.x;
+            float pY = y * 45.0f;
+            float pZ = counter;
             
-            //draw point
-            vec2 point = vec2(i, r->local.y + perl * perlinHeight);
+            float perlinResult = perlin.fBm( vec3(pX, pY, pZ) / perlinDetail );
+
+            float waveHeight = 140.0f * r->depth;
+
+            float height = r->local.y + (perlinResult * waveHeight);
             
-            //add wave motion
-            point.y += sin( counter + ( i * 0.02 * (2.0-r->depth) ) ) * ( 10 * r->depth );
             
-            //draw point
-            floorPath.lineTo(point);
+            vec2 point = vec2(x,height);
+            
+            paths.at(y).push_back( point );
+            
         }
-        
-        //add to path collection
-        paths.push_back( floorPath );
     }
     
+    
+
 }
 
 void SeaSurface:: draw(){
-    for(int n = 0; n < paths.size(); n++){
-        glLineWidth(n*0.25);        //line width depends on depth (z axis), so thicker lines appear nearer the user
-        gl::color(ColorA8u(255,255,255,1*n));
-        gl::draw( paths.at(n) );
+
+    float globalOpacityMod = 1.0f;
+    
+    globalOpacityMod = -(offset.y + 6000) * 0.002f;
+    if( globalOpacityMod >= 1.0f ) globalOpacityMod = 1.0f;
+    
+    for(int n = 0; n < rows.size(); n++){
+        Path2d path;
+        path.moveTo( paths.at(n).at(0) );
+        for(int i = 1; i < paths.at(n).size(); i++ )
+            path.lineTo( paths.at(n).at(i) );
+        path.lineTo( vec2( cinder::app::getWindowWidth(), 0.0 ) );
+        path.lineTo( vec2( 0.0, 0.0 ) );
+        path.close();
+        gl::color(ColorA8u(237,160, 135, rows.at(n)->depth * 20.0f * globalOpacityMod ) );
+        gl::drawSolid(path);
+        gl::draw(path);
     }
 }

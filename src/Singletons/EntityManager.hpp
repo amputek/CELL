@@ -15,10 +15,12 @@
 #include "Friendly.hpp"
 #include "Player.hpp"
 #include "Spark.hpp"
+#include "Grass.hpp"
 
 // IO + Managers
 #include "Images.hpp"
 #include "OscManager.hpp"
+#include "EntityGenerator.hpp"
 #include "EnvironmentManager.hpp"
 
 
@@ -30,14 +32,16 @@ class EntityManager {
 public:
     EntityManager( Images* img );
     
-	void update( float deltaTime );
-    void updateHero( float deltaTime, vec2 mouseLoc);
+	void update( );
+    void updateHero( const vec2 & mouseLoc, bool canMove );
     void drawEntities();
     
     //pulsers (triggers sent from OSC)
     void pulse(string species, int index);
-    void create(string species);
     void quit();
+    
+    EnvironmentManager* environment;
+    
 private:
     
     //private update functions
@@ -55,22 +59,15 @@ private:
     void drawGrass();
     void drawBackground();
     
-    //PCG
-    void entityGenerator();
-    
-    
     
     //General purpose Functions
     void removeFromColliders(GameObject* collider);
-    vec2 inFront(const vec2 & start, float diretion, int inFrontBy);
-    bool farFromHero( vec2 location );
-    float lineSegmentIntersection(const vec2 &start1, const vec2 &end1, const vec2 &start2, const vec2 &end2 );
-    
-    
+    bool farFromHero( const vec2 & location );
+
     //Collections
     Player* hero;
     vector<Friendly*> friendlies;
-    vector<Feeler*> longGrass;
+    vector<Grass*> longGrass;
     vector<Plankton*> plankton;
     vector<Jelly*> jellies;
     vector<Egg*> eggs;
@@ -78,22 +75,19 @@ private:
     vector<Urchin*> urchins;
     vector<Starfish*> starfish;
     vector<Spark*> sparks;
+    
+    //colliders can eat plankton, collide with jellyfish and urchins
     vector<GameObject*> colliders;
 
     
     //game values + counters
-    int urchinLastSeen;
-    int sporeLastSeen;
-    int starLastSeen;
-    int jellyLastSeen;
-    int eggLastSeen;
-    bool aboveSurface;
     bool insideEgg;
     
     //Managers etc
     OSCManager* oscManager;
-    EnvironmentManager* environment;
+
     Images* image;
+    EntityGenerator * entityGenerator;
 };
 
 #endif

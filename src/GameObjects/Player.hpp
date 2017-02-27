@@ -9,7 +9,7 @@ using namespace ci::app;
 
 class Player : public Braitenberg{
 public:
-    Player(vec2 loc, vector<gl::TextureRef> * texs);
+    Player(const vec2 & loc, gl::TextureRef * texs );
     void draw();
     void update(float deltaTime);
     void moveTo(vec2 mousePos);
@@ -23,8 +23,8 @@ public:
     
 private:
     
-    gl::TextureRef* img;           //current image
-    vector<gl::TextureRef> * imgs;  //all possible images a player could be
+    gl::TextureRef * img;           //current image
+    gl::TextureRef * imgs[3];  //all possible images a player could be
     int levelCount;             //a counter for the levelling process
     Tail* longTail;
     Tail* rightTail;

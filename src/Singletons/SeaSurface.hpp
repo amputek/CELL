@@ -5,6 +5,8 @@
 #include "GameObject.hpp"
 #include "cinder/Perlin.h"
 
+using namespace std;
+
 class SeaSurface{
     
 public:
@@ -14,9 +16,9 @@ public:
     
 private:
     float counter;
-    std::vector<GameObject*> rows;
+    vector<GameObject*> rows;
     Perlin perlin;
-    std::vector<Path2d> paths;
+    vector< vector<vec2> > paths;
     const float perlinDetail = 300.0;
 };
 

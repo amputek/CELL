@@ -1,6 +1,6 @@
 #include "GameObject.hpp"
 
-GameObject :: GameObject( const vec2 & startPosition, float entityDepth ){
+GameObject :: GameObject( vec2 startPosition, float entityDepth ){
     global = vec2( startPosition.x, startPosition.y );
     depth = entityDepth;
     
@@ -18,6 +18,6 @@ void GameObject :: update(){
 }
 
 bool GameObject :: onScreen(){
-    return !(local.x < -200 || local.x > cinder::app::getWindowWidth() + 200 || local.y < -200 || local.y > cinder::app::getWindowHeight() + 200);
+    return !(local.x < -onScreenSize || local.x > cinder::app::getWindowWidth() + onScreenSize || local.y < -onScreenSize || local.y > cinder::app::getWindowHeight() + onScreenSize);
 }
 

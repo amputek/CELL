@@ -11,6 +11,14 @@ class Tail{
     
 public:
     Tail( int ln, bool wt, float wd, bool fn );
+    
+    ~Tail(){
+        for( vector<Finite*>::iterator p = tail.begin(); p != tail.end(); ++p){
+            delete *p;
+        }
+    }
+    
+    
     void update(vec2 loc, float d);
     void draw();
     void incLength( float a ){ length+=a; };
@@ -39,6 +47,9 @@ private:
     Path2d rPath;
     vector<Path2d> finPaths;
     vector<Path2d> ridgePaths;
+    
+    
+    float newFiniteCounter = 0.0f;
 };
 
 

@@ -2,15 +2,10 @@
 
 
 Friendly :: Friendly(vec2 loc, gl::TextureRef* tex) : Swimmer(loc){
-    speed = 0.015;
-    radius = 4;
+    speed = 0.5f;
+    radius = 6.0f;
     tail = new Tail( 2, false, radius*0.1, false );
     img = tex;
-    levelCount = 0;
-    
-    mborn = false;
-    birthing = false;
-    birthCount = 0;
 }
 
 //when hero reaches friendly, it gets born
@@ -27,10 +22,12 @@ void Friendly :: update(){
     
     //level up automatically, every 500 frames
     if(mborn == true){
-        levelCount++;
-        if(radius < 30){
-            if(levelCount % 500 == 0){
-                radius+=1;
+        levelCounter += deltaTime * 60.0f;
+        if(radius < 20.0f){
+            if(levelCounter > 800.0f)
+            {
+                radius++;
+                levelCounter = 0.0f;
                 tail->incLength(1.0);
             }
         }
@@ -39,8 +36,8 @@ void Friendly :: update(){
     tail->update(vec2(global.x - sin(direction) * radius, global.y - cos(direction) * radius), direction);
 
     if(birthing == true){
-        birthCount++;
-        if(birthCount >= 40){
+        birthCount += deltaTime * 60.0f;
+        if(birthCount >= 40.0f){
             birthing = false;
         }
     }
@@ -49,24 +46,17 @@ void Friendly :: update(){
 
 void Friendly :: draw(){
     
-    gl::color(Color(1,1,1));
-    gl::pushModelView();
+    if( !onScreen() ) return;
+    entityDrawCount++;
+        gl::pushModelView();
     gl::translate(local );
-    gl::rotate( -direction * 57.2957795 + 180);
+    gl::rotate( -direction + M_PI );
     gl::draw( *img , Rectf( -radius*2, -radius*2, radius*2, radius*2) );
     gl::popModelView();
     
     //friendly starts without tail
-    if(mborn == true){
+    if(mborn){
         tail->draw();
-    }
-    
-    //when the friendly has been triggered by the player, go through a state of 'birthing' - like levelling up for the player
-    if(birthing == true){
-        gl::color(ColorA8u(150,200,255,40-birthCount));
-        for(int i = 0; i <= radius + birthCount; i+=int(rand(2,6))){
-      //      gl::drawSolidCircle(local, i);
-        }
     }
     
     

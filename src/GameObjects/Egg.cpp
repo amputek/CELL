@@ -2,12 +2,20 @@
 #include "cinder/Triangulate.h"
 
 Egg :: Egg(vec2 loc, gl::TextureRef* tex) : GameObject(loc, 1){
-    radius = int(rand(80, 200)); //40
+    radius = 160;
     ratio = radius * 2.4;
+    
+
+    float damping = 1.2f;
+    float stiffness = 5.0f;
+    float mass = 10.0f;
+    
+    
     for(int i = 0; i < numSprings; i++){
         float pos =  2 * M_PI * i / numSprings;
         //create new spring with damp, stiffness, mass parameters
-        springs.push_back( new Spring( loc + vec2(sin(pos) * radius, cos(pos) * radius ) , 1.0, 1.07, 0.1, 2.02 ) );
+        
+        springs.push_back( new Spring( loc + vec2(sin(pos) * radius, cos(pos) * radius ) , stiffness, mass, damping  ) );
     }
     
     img = tex;
@@ -21,9 +29,9 @@ Egg :: Egg(vec2 loc, gl::TextureRef* tex) : GameObject(loc, 1){
 
 
 //collide egg with a location (generally the player)
-void Egg :: collide(vec2 loc){
+void Egg :: collide(const vec2 & loc, float radius){
     for(int i = 0; i < numSprings; i++){
-        springs.at(i)->collide(loc);
+        springs.at(i)->collide(loc, radius);
     }
 }
 
@@ -37,16 +45,20 @@ void Egg :: update(){
     
     GameObject::update();
     
-    counter+=0.05;
+    counter += deltaTime * 3.0f;
     
 
+
     for(int i = 0; i < numSprings; i++){
-        if( randFloat() < 0.2 ){
+        if( randFloat() < 0.2f)
+        {
             float pos =  2 * M_PI * i / numSprings;
-            springs.at(i)->update( global + vec2(sin(pos) * radius, cos(pos) * radius ) );
+            springs.at(i)->moveTowards( global + vec2(sin(pos) * radius, cos(pos) * radius ) );
         }
     }
 
+    
+    
 
 
     //update each spring with it's neighbouring springs
@@ -54,38 +66,63 @@ void Egg :: update(){
     for(int i = randInt( numSprings-1 ); j < numSprings; i++, j++){
         int t = i % numSprings;
         int t2 = (i+1) % numSprings;
-        springs.at( t )->update( springs.at( t2 )->global );
+        springs.at( t )->moveTowards( springs.at( t2 )->global );
     }
 
     j = 0;
     for(int i = numSprings + randInt( numSprings-1); j < numSprings; i--, j++){
         int t = i % numSprings;
         int t2 = (i+1) % numSprings;
-        springs.at( t2 )->update( springs.at( t )->global );
+        springs.at( t2 )->moveTowards( springs.at( t )->global );
     }
 
-
-    //create shape from spring locations
-    mShape.clear();
     
-    //draw shape
-    mShape.moveTo( springs.at(0)->local );
-    for(int i = 1; i < numSprings; i++){
-        mShape.lineTo( springs.at(i)->local );
+    drawPositions.clear();
+    for(int i = 0; i < numSprings; i++)
+    {
+        int after = i + 1;
+        if( after == numSprings ) after = 0;
+        drawPositions.push_back( springs.at(i)->local );
+        drawPositions.push_back( (springs.at(i)->local + springs.at(after)->local) * 0.5f);
     }
-    mShape.lineTo( springs.at(0)->local );
-    mShape.close();
     
-    //create mesh from shape
-    mesh = Triangulator( mShape ).calcMesh();
+    //Average twice
+    for(int n = 0; n < 2; n++)
+    {
+        for(int i = 0; i < drawPositions.size(); i++)
+        {
+            int before = i - 1;
+            if( before < 0 ) before = drawPositions.size()-1;
+            int after = i + 1;
+            if( after == drawPositions.size() ) after = 0;
+            vec2 p = (drawPositions.at(before) + drawPositions.at(after)) * 0.5f;
+            drawPositions.at(i) = (drawPositions.at(i) + p) * 0.5f;
+        }
+    }
+    
+
 }
 
 
 void Egg :: draw(){
-    gl::color(ColorA(1,1,1,0.75 + (sin(counter)*0.20)) );
+
+    if( !onScreen() ) return;
+    entityDrawCount++;
+    
+    
+    gl::color(ColorA(1,1,1,0.5 + (sin(counter)*0.20f)) );
     gl::draw( *img, Rectf(local.x - ratio, local.y - ratio, local.x + ratio, local.y + ratio) );
-    glLineWidth(1);
-    gl::color(ColorA (0.7,0.25,0.15,0.2)) ;
-    gl::draw(mShape);
-    gl::draw( mesh );
+
+    mShape.clear();
+    mShape.moveTo( drawPositions.at(0) );
+    for(int i = 1; i < drawPositions.size(); i++)
+    {
+        mShape.lineTo( drawPositions.at(i) );
+    }
+    mShape.close();
+    
+    gl::color(ColorA (0.7,0.25,0.15,0.5)) ;
+    gl::drawSolid( mShape );
+    gl::draw( mShape );
+
 }

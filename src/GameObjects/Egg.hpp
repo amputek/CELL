@@ -9,9 +9,18 @@
 class Egg : public GameObject{
 public:
     Egg(vec2 loc, gl::TextureRef* tex);
+    ~Egg(){
+        for( vector<Spring*>::iterator p = springs.begin(); p != springs.end(); ++p ){
+            delete *p;
+        }
+    }
+    
+    
+    
+    
     void update();
     void draw();
-    void collide(vec2 loc);
+    void collide(const vec2 & loc, float radius);
     void setInside( vec2 loc);
     
     //getters
@@ -19,14 +28,15 @@ public:
 
 private:
     vector<Spring*> springs;
+    vector<vec2> drawPositions;
     int ratio;          //constant value - ratio between png and shape size
     Shape2d mShape;     //The shape - connected points
-    TriMesh mesh;     //The solid shape craeted by the Shape2D
+
     gl::TextureRef* img;
     bool ins;           //allows EntityManager to check if player is inside
     float counter = 0;
     
-    int numSprings = 200;
+    const int numSprings = 80;
 };
 
 #endif

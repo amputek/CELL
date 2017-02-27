@@ -19,21 +19,21 @@ Beam :: Beam(vec2 start, gl::TextureRef* tex): GameObject(start, rand(0.4,1.6)){
 //new 'born' beams rise to full opacity over a period of 20 frames
 void Beam :: update(){
     GameObject :: update();
-    counter+= rand(0.01,0.1);
+    counter+= rand(0.6f,6.0f) * deltaTime;
     if(life < 1.0){
-        op = (0.2+sin(counter)*0.05) * depth * life;
+        op = (0.2+sin(counter)*0.05f) * depth * life;
         life+=0.05;
     } else {
-        op = (0.2+sin(counter)*0.05) * depth;
+        op = (0.2+sin(counter)*0.05f) * depth;
     }
 }
 
 
 void Beam :: draw(){
+    entityDrawCount++;
     gl::color(ColorA(1.0,1.0,1.0,op));
-    
-   gl::ScopedModelMatrix modelScope;
-   gl::translate(vec2(local.x,-50));
+    gl::ScopedModelMatrix modelScope;
+    float y = 0;
+    gl::translate(vec2(local.x,y));
     gl::draw( *img, scaledRect );
-    
 }

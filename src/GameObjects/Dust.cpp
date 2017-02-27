@@ -1,18 +1,19 @@
 #include "Dust.hpp"
 
-Dust :: Dust(vec2 aloc, vec2 vel, float d):GameObject(aloc, d){
+Dust :: Dust(vec2 aloc, vec2 vel, float damp, float d):GameObject(aloc, d){
     velocity = vel;
-    radius = rand(4,15) * depth;
-    drawRect = Rectf( -radius, -radius, radius, radius );
+    damping = damp;
 }
 
 void Dust :: update(){
-    float v = pow(length(velocity),2);
-    //if(velocity.lengthSquared() > 0.05){    //if velocity is not negligable
-    if( v > 0.05 ){
-        velocity*=0.9;                      //reduce velocity (friction)
-        global+=velocity;                   //velocity affects location
-    }
+    
+    //reduce velocity by damping amount (friction)
+    float velMod = (1.0 - (deltaTime * damping));
+    velocity *= velMod;
+    
+    //velocity affects location
+    global += velocity * deltaTime;
+
     GameObject::update();
 }
 

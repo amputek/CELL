@@ -1,21 +1,21 @@
 #include "Tail.hpp"
 
-Tail :: Tail( int ln, bool wt, float wd, bool fn ){
-    length = ln;
-    wideTail = wt;
-    width = wd;
-    fins = fn;    
+Tail :: Tail( int startLength, bool isWide, float startWidth, bool hasFins ){
+    length = startLength;
+    wideTail = isWide;
+    width = startWidth;
+    fins = hasFins;
 }
 
 void Tail :: update(vec2 location, float d){
     
+    newFiniteCounter += deltaTime * 60.0f;
+    
     //add a new Finite to the tail collection. The 'length' of the tail is equal to the finite's life.
     direction = d;
+
     tail.push_back( new Finite(location, length, d ) );
-    
-    //update the Path2Ds, ready for drawing
-    updateTailPaths();
-    
+
     //update all finites, checking they are still 'alive'
     for( vector <Finite*>::iterator p = tail.begin(); p != tail.end(); ){
         (*p)->update();
@@ -34,11 +34,11 @@ void Tail :: addFin( int top, int mid, int point ){
     Finite* finMidPoint = tail.at(mid);
     Finite* finPoint = tail.at(point);
     
-    float finDirection = finPoint->direction;
+    float finDirection = atan2( tail.at(point+1)->local.y - finPoint->local.y, tail.at(point+1)->local.x - finPoint->local.x );
     float finSize = width*3;
     
-    vec2 finLeft = vec2(finPoint->local.x + sin(finDirection + M_PI*0.5) * finSize, finPoint->local.y + cos(finDirection + M_PI*0.5) * finSize);
-    vec2 finRight = vec2(finPoint->local.x + sin(finDirection - M_PI*0.5) * finSize, finPoint->local.y + cos(finDirection - M_PI*0.5) * finSize);
+    vec2 finLeft = vec2(finPoint->local.x + cos(finDirection + M_PI*0.5) * finSize, finPoint->local.y + sin(finDirection + M_PI*0.5) * finSize);
+    vec2 finRight = vec2(finPoint->local.x + cos(finDirection - M_PI*0.5) * finSize, finPoint->local.y + sin(finDirection - M_PI*0.5) * finSize);
     
     Path2d fin;
     fin.moveTo(finLeft);
@@ -49,8 +49,11 @@ void Tail :: addFin( int top, int mid, int point ){
 }
 
 void Tail :: draw(){
-    glLineWidth(0.1);
-    gl::color(ColorA8u(255,255,255,100));
+    
+    
+    updateTailPaths();
+
+    gl::color(ColorA8u(255,255,255,255));
     gl::draw(mPath);
     
     //draw side paths if tail is wide
@@ -107,9 +110,9 @@ void Tail :: updateTailPaths(){
             sPath.curveTo(mPath.getCurrentPoint(), mPath.getCurrentPoint(), rPath.getCurrentPoint());
             ridgePaths.push_back( sPath );
             
-            index++;
-        }
         
+        }
+        index++;
     }
     
     //add Fins

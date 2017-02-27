@@ -6,7 +6,6 @@
 #ifndef Braitenberg_hpp
 #define Braitenberg_hpp
 
-//#include <iostream>
 #include "GameObject.hpp"
 
 using namespace std;
@@ -21,11 +20,12 @@ class Braitenberg : public GameObject{
     float speed;
     
   private:
-    float lm, rm;
+    float leftMotorSpeed, rightMotorSpeed;
     const float turnLimit = 0.3;
     const float turnSpeed = 0.05;
-    const float speedLimit = 10.0;
-    bool slows;
+    bool slowsWhenAtTarget;
+    
+    const float fixedDistanceToTarget = 200.0f;
 };
 
 #endif

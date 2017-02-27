@@ -6,7 +6,7 @@ OSCManager :: OSCManager(){
     port = 57120;
     sender.setup(host, port);
     listener.setup(12080);
-    sendMessage("/confirm");
+    //sendMessage("/confirm");
 }
 
 //for pre-created messages
@@ -49,7 +49,14 @@ void OSCManager :: recieveMessage(){
             initialised = true;
         }
         
+        if(message.getAddress() == "/audioFinishedLoading"){
+            cout << "Audio finished loading! Start Game." << "\n";
+            sendMessage("/confirm");
+            initialised = true;
+        } 
     }
+    
+    return;
     
     //Checks multiple ports for a responce from SuperCollider, which tends to initialise itself on either 57120 or 57121
     //Waits for a response from 57120 for two ticks. If no response, try 57121
@@ -108,12 +115,18 @@ void OSCManager :: egg(int inside){
 }
 
 void OSCManager :: urchin(float distance, int contact){
-    if(distance < 600){
-        osc::Message msg;
-        msg.addFloatArg(distance);
-        msg.addIntArg(contact);
-        sendMessage(msg, "/urchin");
-    }
+    if(distance > 500) return;
+        
+    urchinSendCounter += deltaTime;
+        
+    if( urchinSendCounter < 0.16f ) return;
+    urchinSendCounter = 0.0f;
+        
+    osc::Message msg;
+    msg.addFloatArg(distance);
+    msg.addIntArg(contact);
+    sendMessage(msg, "/urchin");
+    
 }
 
 void OSCManager :: grass(bool contact){
@@ -150,22 +163,37 @@ void OSCManager :: changeChord(){
     sendMessage("/changeChord");
 }
 
-void OSCManager :: jelly(vector<bool> * feelers, float dist){
+void OSCManager :: jelly(vector<bool> feelersInContact, float dist){
+    
+    
+    jellySendCounter += deltaTime;
+    
+    if( jellySendCounter < 0.16f ) return;
+    jellySendCounter = 0.0f;
+    
+    
     bool send = false;
+    
     osc::Message msg;
+    
     msg.addFloatArg(dist);
-    for(int i = 0; i < feelers->size(); i++){
-        if( feelers->at(i) == true ){
-            send = true;
-        }
-        msg.addIntArg(feelers->at(i));
+    
+    for(int i = 0; i < feelersInContact.size(); i++){
+        if( feelersInContact.at(i) ) send = true;
+        msg.addIntArg( feelersInContact.at(i) );
     }
-    if(send == true){
+    
+    if(send){
         sendMessage(msg, "/jelly");
     }
 }
 
 void OSCManager :: setDepth(float d){
+    
+    depthSendCounter += deltaTime;
+    if( depthSendCounter < 1.0f ) return;
+
+    depthSendCounter = 0.0f;
     osc::Message msg;
     msg.addFloatArg(d);
     sendMessage(msg, "/setDepth");

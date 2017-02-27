@@ -15,7 +15,7 @@ using namespace ci;
 
 class GameObject{
 public:
-    GameObject(const vec2 & startWorldPosition, float entityDepth);
+    GameObject(vec2 startWorldPosition, float entityDepth);
     void update();
     bool onScreen();
     vec2 global;
@@ -23,12 +23,11 @@ public:
     float depth;
     int radius;
     
-    
-    Rectf drawRect;
-    ColorA colorWithOpacity;
-    
+    int onScreenSize = 200;
+
    // bool operator<( const GameObject& c ) { return depth > c.depth; }
 
+    void deleteObject(){ }
 };
 
 

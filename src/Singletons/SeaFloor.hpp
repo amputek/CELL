@@ -3,6 +3,9 @@
 
 #include <iostream>
 #include "GameObject.hpp"
+#include "cinder/Perlin.h"
+
+using namespace std;
 
 class SeaFloor{
     
@@ -13,8 +16,9 @@ public:
     
 private:
     std::vector<GameObject*> rows;
-    std::vector<Path2d> paths;
-    
+    std::vector< vector<vec2> > paths;
+    const float perlinDetail = 300.0;
+    Perlin perlin;
 };
 
 

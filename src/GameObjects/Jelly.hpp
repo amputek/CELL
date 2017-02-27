@@ -6,23 +6,36 @@
 #include "Feeler.hpp"
 
 class Jelly : public Swimmer{
-    
 public:
     Jelly(vec2 loc, int type, gl::TextureRef* tex);
+    ~Jelly(){
+        for( vector<Feeler*>::iterator p = feelers.begin(); p != feelers.end(); ++p ){
+            delete *p;
+        }
+    }
+    
     void update();
     void draw();
-    void collide(vec2 loc);
-    vector<bool> * contacts(){ return &jellyContacts; };
+    void collide(const vec2 & loc, float colliderSize);
+    vector<bool> contacts(){
+        vector<bool> temp;
+        for(int i = 0; i < feelers.size(); i++ )
+            temp.push_back( feelers.at(i)->inContactWithCollider() );
+        return temp;
+    };
+    
+
     
 private:
-    vector<Feeler*> feelers;
-    vector<Path2d> paths;
-    vector<bool> jellyContacts;
     
-    float counter;
+    vector<Feeler*> feelers;
+    
+    float counter = 0.0f;
     gl::TextureRef* img;
     
-    float rMod; //modifies the radius of the feeler positions (depends on the png being used)
+    float feelerStartRadius = 0.5f; //modifies the radius of the feeler positions (depends on the png being used)
+    int jellyType = 0;
+
 };
 
 #endif

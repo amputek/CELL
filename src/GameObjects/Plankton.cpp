@@ -2,22 +2,27 @@
 
 
 Plankton :: Plankton( vec2 loc, gl::TextureRef* tex, int t) : GameObject(loc, rand(0.9,1.1)){
-    radius = int(rand(6,20));
+    radius = int(rand(6,13));
     planktonType = t;
     img = tex;
+    rotation = randFloat(0, M_PI * 2);
 }
 
 void Plankton :: draw(){
-    if(onScreen() == true){
-        gl::color( Color(1,1,1) );
-        gl::draw( *img, Rectf(local.x - radius, local.y - radius, local.x + radius, local.y + radius));
-    }
+    if(!onScreen()) return;
+    
+    entityDrawCount++;
+    
+    gl::ScopedModelMatrix modelScope;
+    gl::translate( local );
+    gl::rotate( rotation );
+    gl::draw( *img, Rectf(-radius,-radius,radius,radius) );
 }
 
 bool Plankton :: alive(){
-    return !(local.x < -400 || local.x > 1200 || local.y < -400 || local.y > 1000);
+    return onScreen();
 }
 
-bool Plankton :: checkEaten( vec2 heroLocation ){
+bool Plankton :: checkEaten( const vec2 & heroLocation ){
     return dist(heroLocation, global) < 10;
 }

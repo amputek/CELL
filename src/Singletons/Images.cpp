@@ -1,46 +1,56 @@
-//
-//  Images.cpp
-//  Cell09
-//
-//  Created by Rob Dawson on 13/03/2016.
-//
-//
-
 #include "Images.hpp"
 
 Images :: Images(){
     
-    planktonImgs.push_back( loadPngImage( "plankton_one"    ) );
-    planktonImgs.push_back( loadPngImage( "plankton_tri"    ) );
-    planktonImgs.push_back( loadPngImage( "plankton_three"  ) );
-    planktonImgs.push_back( loadPngImage( "plankton_long"   ) );
-    planktonImgs.push_back( loadPngImage( "plankton_four"   ) );
-    planktonImgs.push_back( loadPngImage( "plankton_square" ) );
-    planktonImgs.push_back( loadPngImage( "plankton_big"    ) );
+    planktonImgs[0] = loadPngImage( "plankton/a" );
+    planktonImgs[1] = loadPngImage( "plankton/b" );
+    planktonImgs[2] = loadPngImage( "plankton/c" );
+    planktonImgs[3] = loadPngImage( "plankton/d" );
+    planktonImgs[4] = loadPngImage( "plankton/e" );
     
-    beamImg =               loadPngImage( "beam"            );
-    bubbleImg =             loadPngImage( "bubble-new2"          );
-    splashImg =             loadPngImage( "splash"            );
+    beamImg =       loadPngImage( "beam_new"            );
 
+    bubbleImgs[0] = loadPngImage( "bubble/0"     );
+    bubbleImgs[1] = loadPngImage( "bubble/1"     );
+    bubbleImgs[2] = loadPngImage( "bubble/2" );
     
-    sporeImgs.push_back(    loadPngImage( "spore_orange"    ) );
-    sporeImgs.push_back(    loadPngImage( "spore_green"     ) );
-    sporeImgs.push_back(    loadPngImage( "spore_pink"      ) );
+    splashImg =             loadPngImage( "splash"            );
+    sparkImg =              loadPngImage( "spark"            );
+
+    cursorImg =              loadPngImage( "cursor"            );
+
+    sporeImgs[0][0] = loadPngImage( "spore/orange_0" );
+    sporeImgs[0][1] = loadPngImage( "spore/orange_1" );
+    sporeImgs[0][2] = loadPngImage( "spore/orange_2" );
+
+    sporeImgs[1][0] = loadPngImage( "spore/purple_0" );
+    sporeImgs[1][1] = loadPngImage( "spore/purple_1" );
+    sporeImgs[1][2] = loadPngImage( "spore/purple_2" );
     
-    playerImgs.push_back(   loadPngImage( "player_zero"     ) );
-    playerImgs.push_back(   loadPngImage( "player_one"      ) );
-    playerImgs.push_back(   loadPngImage( "player_two"      ) );
+    sporeImgs[2][0] = loadPngImage( "spore/green_0" );
+    sporeImgs[2][1] = loadPngImage( "spore/green_1" );
+    sporeImgs[2][2] = loadPngImage( "spore/green_2" );
+
+    starImg =             loadPngImage( "bubble/2"            );
     
-    jellyImgs.push_back(    loadPngImage( "jelly_blue"      ) );
-    jellyImgs.push_back(    loadPngImage( "jelly_green"     ) );
-    jellyImgs.push_back(    loadPngImage( "jelly_pink"      ) );
+    playerImgs[0] = loadPngImage( "player_zero2"    );
+    playerImgs[1] = loadPngImage( "player_one"      );
+    playerImgs[2] = loadPngImage( "player_two"      );
+    
+    jellyImgs[0] = loadPngImage( "jelly_blue"      );
+    jellyImgs[1] = loadPngImage( "jelly_green"     );
+    jellyImgs[2] = loadPngImage( "jelly_pink"      );
     
     friendlyImg =           loadPngImage( "friendly"        );
     urchinImg =             loadPngImage( "twirl"           );
     eggImg =                loadPngImage( "egg"             );
     
-    titleSplashScreen =     loadPngImage( "cell-splashscreen" );
-    instructionImage  =     loadPngImage( "instructions"      );
+    
+    title1     =     loadPngImage( "title/1" );
+    title2     =     loadPngImage( "title/2" );
+    title3     =     loadPngImage( "title/3" );
+    title4     =     loadPngImage( "title/4" );
+
     maskImg =               loadPngImage( "mask-1"            );
 
     

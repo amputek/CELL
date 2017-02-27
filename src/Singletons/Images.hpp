@@ -15,22 +15,29 @@ public:
     
     Images();
     
-    cinder::gl::TextureRef * plankton(int i){ return &planktonImgs.at(i); };
-    cinder::gl::TextureRef * spore(int i){    return &sporeImgs.at(i);    };
-    cinder::gl::TextureRef * bubble(){        return &bubbleImg;          };
-    cinder::gl::TextureRef * beam(){          return &beamImg;            };
-    cinder::gl::TextureRef * jelly(int i ){   return &jellyImgs.at(i);    };
-    cinder::gl::TextureRef * friendly(){      return &friendlyImg;        };
-    cinder::gl::TextureRef * urchin(){        return &urchinImg;          };
-    cinder::gl::TextureRef * egg(){           return &eggImg;             };
-    cinder::gl::TextureRef * splash(){        return &splashImg;          };
-    vector<gl::TextureRef> * player(){        return &playerImgs;         };
-
-    cinder::gl::TextureRef * cinder(){        return &cinderSplashScreen; };
-    cinder::gl::TextureRef * title(){         return &titleSplashScreen;  };
-    cinder::gl::TextureRef * instructions(){  return &instructionImage;   };
-    cinder::gl::TextureRef * mask(){          return &maskImg;            };
-    
+    gl::TextureRef sporeImgs[3][3];
+    gl::TextureRef planktonImgs[5];
+    gl::TextureRef grassBaseImg;
+    gl::TextureRef cursorImg;
+    gl::TextureRef bubbleImgs[3];
+    gl::TextureRef beamImg;
+    gl::TextureRef jellyImgs[3];
+    gl::TextureRef friendlyImg;
+    gl::TextureRef urchinImg;
+    gl::TextureRef eggImg;
+    gl::TextureRef starImg;
+    gl::TextureRef sparkImg;
+    gl::TextureRef playerImgs[3];
+    gl::TextureRef titleSplashScreen;
+    gl::TextureRef titleSplashScreenBlur;
+    gl::TextureRef title1;
+    gl::TextureRef title2;
+    gl::TextureRef title3;
+    gl::TextureRef title4;
+    gl::TextureRef cinderSplashScreen;
+    gl::TextureRef maskImg;
+    gl::TextureRef splashImg;
+    gl::TextureRef instructionImage;
     
 private:
     
@@ -43,20 +50,7 @@ private:
             return nullptr;
         }
     }
-    vector<gl::TextureRef> planktonImgs;
-    vector<gl::TextureRef> sporeImgs;
-    gl::TextureRef bubbleImg;
-    gl::TextureRef beamImg;
-    vector<gl::TextureRef> jellyImgs;
-    gl::TextureRef friendlyImg;
-    gl::TextureRef urchinImg;
-    gl::TextureRef eggImg;
-    vector<gl::TextureRef> playerImgs;
-    gl::TextureRef titleSplashScreen;
-    gl::TextureRef cinderSplashScreen;
-    gl::TextureRef maskImg;
-    gl::TextureRef splashImg;
-    gl::TextureRef instructionImage;
+
     
 };
 

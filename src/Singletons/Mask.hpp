@@ -10,13 +10,14 @@ class Mask{
     
 public:
     Mask( gl::TextureRef tex );
-    void update(float xo, float yo, float mod);
+    void update(const vec2 & heroLocalPosition, float depthMod);
     void draw();
     
 private:
     gl::FboRef mFbo;
     gl::TextureRef mTexture;
     float x1,y1,x2,y2;
+    Rectf drawRect;
     
 };
 

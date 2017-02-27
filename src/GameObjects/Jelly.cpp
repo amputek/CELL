@@ -1,62 +1,80 @@
 #include "Jelly.hpp"
 
 Jelly :: Jelly(vec2 loc, int type, gl::TextureRef* tex) : Swimmer(loc){
-    speed = 0.002;
-    radius = int(rand(15,30));
     
+    Swimmer::speed = 0.002;
+    
+    GameObject::radius = int(rand(18,40));
+    
+    img = tex;
+    
+    jellyType = type;
+    
+    onScreenSize = 400;
+    
+
     //3 different types of Jellyfish
-    if(type == 0){ rMod = 0.4; }
-    if(type == 1){ rMod = 0.6; }
-    if(type == 2){ rMod = 0.6; }
+    if(type == 0){ feelerStartRadius = radius * 0.25f; }
+    if(type == 1){ feelerStartRadius = radius * 0.6f; }
+    if(type == 2){ feelerStartRadius = radius * 0.6f; }
     
     //add a few feelers
-    for(int i = 0; i < int(rand(6,10)); i++){
-        feelers.push_back( new Feeler(vec2(global.x, global.y), int(rand(5,8)), 1.0));
-        jellyContacts.push_back(false);
+    for(int i = 0; i < randInt(5,10); i++){
+        
+        int feelerLength = randInt(10,30);
+        float tentacleStartWidth = randFloat(3.0f, 6.0f);
+        float tentacleEndWidth = 0.2f;
+        
+        feelers.push_back( new Feeler(global, feelerLength, tentacleStartWidth, tentacleEndWidth));
+
     }
-    counter = 0;
-    img = tex;
 }
 
 
-
-void Jelly :: collide(vec2 loc){
+void Jelly :: collide(const vec2 & loc, float colliderSize){
     for(int i = 0; i < feelers.size(); i++){
-        feelers.at(i)->collide(loc);
-        jellyContacts.at(i) = feelers.at(i)->contact();
+        feelers.at(i)->collide(loc, colliderSize);
     }
 }
 
 void Jelly :: draw(){
     
-    if(onScreen() == true){
+    if( !onScreen() ) return;
+    entityDrawCount++;
         
-        //draw the main body of the Jellyfish. the counter enables the body to pulse in size
-        gl::color(Color(1,1,1));
-        float width  = radius*2 + sin(counter)*2;
-        float height = radius*2 + cos(counter)*3;
-        gl::draw( *img, Rectf(local.x - width, local.y - height, local.x + width, local.y + height )) ;
-        
-        glLineWidth(1);
-        
-        //draw the feelers
-        for(int i = 0; i < paths.size(); i++){
-            gl::color(ColorA8u(150,255,200,40));
-            gl::draw( paths.at(i) ) ;
-          //  gl::drawSolidCircle( paths.at(i).getPosition(0), 2);
-            
-            float si = 5;
-            //jellyfish's feelers have glowing elements that pass along them
-            for(int t = 30; t > 1; t -= 1){
-                gl::color(ColorA8u(200-t,100+t,200,25));
-                if(t == counter*10){
-              //      gl::drawSolidCircle(paths.at(i).getPoint(t), (5-si)*0.75);
-                }
-                si-=0.1;
-            }
-        }
+    gl::ScopedBlendAdditive additive;
+    
+    switch( jellyType )
+    {
+        case 0:
+            gl::color(ColorA8u(150 + cos(counter) * 30,200 + sin(counter) * 30,200,155));
+            break;
+        case 1:
+            gl::color(ColorA8u(150,200 + sin(counter) * 50,130,155));
+            break;
+        case 2:
+            gl::color(ColorA8u(150,255,200,155));
+            break;
     }
     
+        
+    //draw the feelers
+    for(int i = 0; i < feelers.size(); i++){
+        Shape2d mShape;
+        mShape.moveTo( feelers.at(i)->drawPositions.at(0) );
+        for(int n = 0; n < feelers.at(i)->drawPositions.size(); n++)
+            mShape.lineTo( feelers.at(i)->drawPositions.at(n) );
+        mShape.close();
+        gl::drawSolid( mShape );
+    }
+    
+    //Draw texture body
+    gl::ScopedBlendAlpha alpha;
+    gl::color(Color(1,1,1));
+    float width  = radius*2 + sin(counter)*2;
+    float height = radius*2 + cos(counter)*3;
+    gl::draw( *img, Rectf(local.x - width, local.y - height, local.x + width, local.y + height )) ;
+
     
 }
 
@@ -64,18 +82,13 @@ void Jelly :: draw(){
 void Jelly :: update(){
     
     Swimmer::update();
-    counter += 0.1;
     
-    //update feelers, load them into Path2D collection
-    paths.clear();
+    counter += deltaTime * 7.0f;
     
     for(int i = 0; i < feelers.size(); i++){
-        feelers.at(i)->addForce( vec2(rand(-5,5), rand(18,24)) );
-        //distribute feeler positions along bottom of jellyfish, on radius*0.6
+        feelers.at(i)->addForce( vec2(rand(-15,15), rand(18,34)) );
         float pos = (0.5*M_PI * i / (feelers.size()-1)) - 0.25*M_PI;
-        feelers.at(i)->global = global + vec2(sin(pos) * radius*rMod, cos(pos) * radius*0.6);
-        feelers.at(i)->update();
-        
-        paths.push_back( feelers.at(i)->getPath() );
+        feelers.at(i)->global = global + vec2(sin(pos) * feelerStartRadius, cos(pos) * feelerStartRadius);// + vec2(0, cos(counter)*3) * 1.0f;
+        feelers.at(i)->update();  
     }
 }

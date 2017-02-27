@@ -1,18 +1,20 @@
 #include "Finite.hpp"
 
-Finite :: Finite(vec2 loc, float l):GameObject(loc,1){
-    life = l;
-    time = 0;
+Finite :: Finite(vec2 loc, float l, float r):GameObject(loc,1){
+    maxLife = l;
+    currentLife = 0.0f;
+    radius = r;
 }
 
 //secondary constructor allows for direction to be specified
-Finite :: Finite(vec2 loc, float l, float d):GameObject(loc,1){
-    life = l;
-    time = 0;
+Finite :: Finite(vec2 loc, float l, float r, float d):GameObject(loc,d){
+    maxLife = l;
+    currentLife = 0.0f;
     direction = d;
+    radius = r;
 }
 
 void Finite :: update(){
-    time++;
+    currentLife += deltaTime * 60.0f;
     GameObject::update();
 }
