@@ -17,7 +17,7 @@ public:
     
     gl::TextureRef sporeImgs[3][3];
     gl::TextureRef planktonImgs[5];
-    gl::TextureRef grassBaseImg;
+
     gl::TextureRef cursorImg;
     gl::TextureRef bubbleImgs[3];
     gl::TextureRef beamImg;
@@ -25,19 +25,18 @@ public:
     gl::TextureRef friendlyImg;
     gl::TextureRef urchinImg;
     gl::TextureRef eggImg;
-    gl::TextureRef starImg;
+
     gl::TextureRef sparkImg;
     gl::TextureRef playerImgs[3];
-    gl::TextureRef titleSplashScreen;
-    gl::TextureRef titleSplashScreenBlur;
+
     gl::TextureRef title1;
     gl::TextureRef title2;
     gl::TextureRef title3;
     gl::TextureRef title4;
-    gl::TextureRef cinderSplashScreen;
+
     gl::TextureRef maskImg;
     gl::TextureRef splashImg;
-    gl::TextureRef instructionImage;
+
     
 private:
     
