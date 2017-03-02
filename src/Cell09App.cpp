@@ -32,7 +32,7 @@ class CellApp : public App {
     Images* image;
     
     
-    bool inFullScreen = false;
+    bool inFullScreen = true;
     bool gamePaused = false;
     bool gameStarted = true;
 

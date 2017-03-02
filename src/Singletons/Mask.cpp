@@ -9,7 +9,6 @@ Mask :: Mask( gl::TextureRef tex ){
     mTexture = tex;
     
   	mFbo->bindFramebuffer();
-    
 
     gl::ScopedViewport scpVp( ivec2( 0 ), mFbo->getSize() );
     gl::setMatricesWindow( mFbo->getSize(), false );
@@ -27,7 +26,7 @@ Mask :: Mask( gl::TextureRef tex ){
 
 void Mask :: draw(){
     gl::color(1,1,1);
-    gl::draw( mFbo->getColorTexture(), Rectf( x1, y1, x2, y2 ) );
+    gl::draw( mFbo->getColorTexture(), drawRect );
 }
 
 void Mask :: update(const vec2 & heroLocalPosition, float depthMod)
@@ -35,9 +34,9 @@ void Mask :: update(const vec2 & heroLocalPosition, float depthMod)
     //center of mask will sit above the player's location (which is not neccesarily the center of the screen)
     //mask's size will increase in shallower waters
     
-    x1 = heroLocalPosition.x - (cinder::app::getWindowWidth()*depthMod);
-    y1 = heroLocalPosition.y - (cinder::app::getWindowWidth()*depthMod);
-    x2 = heroLocalPosition.x + (cinder::app::getWindowWidth()*depthMod);
-    y2 = heroLocalPosition.y + (cinder::app::getWindowWidth()*depthMod);
+    drawRect = Rectf(heroLocalPosition.x - (cinder::app::getWindowWidth()*depthMod),
+                     heroLocalPosition.y - (cinder::app::getWindowWidth()*depthMod),
+                     heroLocalPosition.x + (cinder::app::getWindowWidth()*depthMod),
+                     heroLocalPosition.y + (cinder::app::getWindowWidth()*depthMod));
 
 }

@@ -3,8 +3,19 @@
 EnvironmentManager :: EnvironmentManager( Images* imgs ){
     image = imgs;
     mask = new Mask( image->maskImg );
-    //surface = new SeaSurface();
-    //floor = new SeaFloor();
+    
+    for( int i = 0; i < 30; i++)
+    {
+        float depth = rand(0.2, 3.0);
+        int img = 0;
+        if( depth < 0.8 || depth > 1.2 ) img = 1;
+        if( depth < 0.5 || depth > 1.5 ) img = 2;
+        
+        vec2 pos = vec2(-400,-2000);
+        pos.x += randFloat( -getWindowWidth() / 2, getWindowWidth() / 2 );
+        pos.y += randFloat( -getWindowHeight() / 2, getWindowHeight() / 2 );
+        bubbles.push_back( new Bubble( pos, vrand(300), depth, &image->bubbleImgs[ img ] ) );
+    }
 }
 
 
@@ -30,14 +41,6 @@ void EnvironmentManager :: bubble( vec2 local, int amount){
 
 //Updates Bubbles, Beams, Floor, Surface and Splashes
 void EnvironmentManager :: update( const vec2 & heroGlobal, const vec2 & heroLocal ){
-
-//    if(heroLoc.y < -6000){
-//        surface->update();
-//    }
-//
-//    if(heroLoc.y > -1000){
-//        floor->update();
-//    }
 
     updateSplashes();
     updateBeams();

@@ -61,8 +61,7 @@ void EntityManager :: update( ){
     updateStarfish();
     updateJellies();
     updateFriendlies();
-    updateGrass();
-    
+
     
     updateOffset( );
     environment->update( hero->global, hero->local );
@@ -98,22 +97,6 @@ void EntityManager :: updateHero( const vec2 & mousePos, bool canMove ){
 
     if(hero->levelling()){
         environment->splash(hero->global, hero->radius*1.8, randFloat(hero->radius*2.4, hero->radius*10.0f) );
-    }
-}
-
-void EntityManager :: updateGrass(){
-    
-    for( std::vector<Grass*>::iterator p = longGrass.begin(); p != longGrass.end(); ){
-        
-        if(farFromHero( (*p)->global ) == true ){
-            delete *p;
-            p = longGrass.erase(p);
-        } else {
-            (*p)->update();
-            (*p)->collide(hero->global, 20.0f);
-            oscManager->grass( (*p)->inContactWithCollider() );
-            ++p;
-        }
     }
 }
 

@@ -55,7 +55,6 @@ private:
     void updateStarfish();
     void updateJellies();
     void updateFriendlies();
-    void updateGrass();
     void drawGrass();
     void drawBackground();
     
@@ -67,7 +66,6 @@ private:
     //Collections
     Player* hero;
     vector<Friendly*> friendlies;
-    vector<Grass*> longGrass;
     vector<Plankton*> plankton;
     vector<Jelly*> jellies;
     vector<Egg*> eggs;
