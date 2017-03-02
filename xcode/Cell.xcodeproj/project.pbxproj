@@ -60,6 +60,7 @@
 		EE35AE5AD7D648F08EC2EFD9 /* OscTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2B47B582D8A45AC9652590B /* OscTypes.cpp */; };
 		F60C1AE8FE22423188FDC3DE /* OscOutboundPacketStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4543EB3E76BB4D51848E3A60 /* OscOutboundPacketStream.cpp */; };
 		FC20564A1E68B6C9007EE6B3 /* Cell09App.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC2056491E68B6C9007EE6B3 /* Cell09App.cpp */; };
+		FC20564C1E68C924007EE6B3 /* cell.icns in Resources */ = {isa = PBXBuildFile; fileRef = FC20564B1E68C924007EE6B3 /* cell.icns */; };
 		FC771C171E5A64BE00D14ABD /* EntityGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC771C151E5A64BE00D14ABD /* EntityGenerator.cpp */; };
 		FC787A8D1E59633100DBB5AE /* Cell-Audio.app in Resources */ = {isa = PBXBuildFile; fileRef = FC787A8C1E59633100DBB5AE /* Cell-Audio.app */; };
 		FC938DEC1E57A5FF00F26DC5 /* Grass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC938DEA1E57A5FF00F26DC5 /* Grass.cpp */; };
@@ -170,6 +171,7 @@
 		F1E284F1EC1348F585DFB4DE /* OscMessage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = OscMessage.cpp; path = ../blocks/OSC/src/OscMessage.cpp; sourceTree = "<group>"; };
 		F3F6C50C6E3A43C7989EEB3A /* IpEndpointName.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = IpEndpointName.cpp; path = ../blocks/OSC/src/ip/IpEndpointName.cpp; sourceTree = "<group>"; };
 		FC2056491E68B6C9007EE6B3 /* Cell09App.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cell09App.cpp; sourceTree = "<group>"; };
+		FC20564B1E68C924007EE6B3 /* cell.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = cell.icns; sourceTree = "<group>"; };
 		FC7707F864F3446CB59B39C4 /* MessageMappingOscPacketListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MessageMappingOscPacketListener.h; path = ../blocks/OSC/src/osc/MessageMappingOscPacketListener.h; sourceTree = "<group>"; };
 		FC771C151E5A64BE00D14ABD /* EntityGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EntityGenerator.cpp; path = Singletons/EntityGenerator.cpp; sourceTree = "<group>"; };
 		FC771C161E5A64BE00D14ABD /* EntityGenerator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = EntityGenerator.hpp; path = Singletons/EntityGenerator.hpp; sourceTree = "<group>"; };
@@ -300,6 +302,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FC20564B1E68C924007EE6B3 /* cell.icns */,
 				FC787A8C1E59633100DBB5AE /* Cell-Audio.app */,
 				D43623F61C97CAE40068AA89 /* icon.icns */,
 				D48B79981C95A561004BB8A7 /* images */,
@@ -660,6 +663,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC20564C1E68C924007EE6B3 /* cell.icns in Resources */,
 				FC787A8D1E59633100DBB5AE /* Cell-Audio.app in Resources */,
 				D43623F71C97CAE40068AA89 /* icon.icns in Resources */,
 				D48B79991C95A561004BB8A7 /* images in Resources */,
@@ -741,7 +745,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "\"$(CINDER_PATH)/lib/libcinder_d.a\"";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.libcinder.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = org.amputek.cell;
 				PRODUCT_NAME = Cell;
 				SYMROOT = ./build;
 				WRAPPER_EXTENSION = app;
@@ -769,7 +773,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "\"$(CINDER_PATH)/lib/libcinder.a\"";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.libcinder.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = org.amputek.cell;
 				PRODUCT_NAME = Cell;
 				STRIP_INSTALLED_PRODUCT = YES;
 				SYMROOT = ./build;

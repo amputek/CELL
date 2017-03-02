@@ -57,8 +57,8 @@ private:
     vec2 inFront(int inFrontBy);
     float lineSegmentIntersection(const vec2 &start1, const vec2 &end1, const vec2 &start2, const vec2 &end2 );
     
-    const int urchinFrequency = 600;
-    const int sporeFrequency = 600;
+    const int urchinFrequency = 500;
+    const int sporeFrequency = 700;
     const int starFrequency = 1200;
     const int jellyFrequency = 1000;
     const int eggFrequency = 800;
