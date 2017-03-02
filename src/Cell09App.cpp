@@ -2,6 +2,7 @@
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
 
+
 #include "Globals.hpp"
 #include "Singletons/Images.hpp"
 #include "Singletons/EntityManager.hpp"
@@ -36,7 +37,7 @@ class CellApp : public App {
     bool gamePaused = false;
     bool gameStarted = true;
 
-    bool runAudio = false;
+    bool runAudio = true;
     
     
     float splashOpacity = 0.0f;
@@ -82,6 +83,7 @@ void CellApp::keyDown( KeyEvent event ){
         if(!gameStarted) return;
         gamePaused = !gamePaused;
     }
+    
 }
 
 vec2 CellApp::mousePosition()
@@ -225,7 +227,7 @@ void CellApp::drawCursor(){
 }
 
 
-CINDER_APP( CellApp, RendererGl( RendererGl::Options().msaa( 8 ) ), [&]( App::Settings *settings ) {
+CINDER_APP( CellApp, RendererGl( RendererGl::Options().msaa( 0 ) ), [&]( App::Settings *settings ) {
     settings->setFullScreen();
     //settings->setWindowSize(800, 600);
     settings->setFrameRate(60.0f);

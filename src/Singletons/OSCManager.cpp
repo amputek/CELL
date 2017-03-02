@@ -56,19 +56,7 @@ void OSCManager :: recieveMessage(){
         } 
     }
     
-    return;
-    
-    //Checks multiple ports for a responce from SuperCollider, which tends to initialise itself on either 57120 or 57121
-    //Waits for a response from 57120 for two ticks. If no response, try 57121
-    if(initialised == false){
-        waitCount++;
-        if(waitCount == 2){
-            port = 57121;
-            sender.setup(host, port);
-            listener.setup(12080);
-            sendMessage("/confirm");
-        }
-    }
+  
 }
 
 //MESSAGES: method names should be self-explanatory
