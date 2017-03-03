@@ -51,6 +51,13 @@ void OSCManager :: recieveMessage(){
         
         if(message.getAddress() == "/audioFinishedLoading"){
             cout << "Audio finished loading! Start Game." << "\n";
+
+            if( port != message.getRemotePort() )
+            {
+                port = message.getRemotePort();
+                sender.setup(host, port);
+                listener.setup(12080);
+            }
             sendMessage("/confirm");
             initialised = true;
         } 

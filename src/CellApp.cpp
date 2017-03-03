@@ -71,12 +71,12 @@ void CellApp::cleanup()
 
 
 void CellApp::keyDown( KeyEvent event ){
-//    if( event.getChar() == 'f' )
-//    {
-//        inFullScreen = !inFullScreen;
-//        setFullScreen( inFullScreen );
-//        if( !inFullScreen ) setWindowSize(800, 600);
-//    }
+    if( event.getChar() == 'f' )
+    {
+        inFullScreen = !inFullScreen;
+        setFullScreen( inFullScreen );
+        if( !inFullScreen ) setWindowSize(800, 600);
+    }
     
     if( event.getChar() == KeyEvent::KEY_ESCAPE )
     {
@@ -135,8 +135,6 @@ void CellApp::draw(){
     entityManager->environment->drawMask();
     
     
-
-    
     drawCursor();
     
     drawMenu();
@@ -159,9 +157,10 @@ void CellApp::drawMenu()
     gl::color(1.0,1.0,1.0);
     //gl::drawString("Decrease Volume: -"  , menuPos + vec2(20.0f,20.0f) );
     //gl::drawString("Increase Volume: +"  , menuPos + vec2(20.0f,40.0f) );
-    gl::drawString("Pause: ESC"          , menuPos + vec2(20.0f,20.0f) );
-    gl::drawString("Quit: cmd-Q"         , menuPos + vec2(20.0f,40.0f) );
-    gl::drawString("(C) Rob Dawson, 2017", menuPos + vec2(20.0f,80.0f) );
+    gl::drawString("Toggle Full Screen: F", menuPos + vec2(20.0f,20.0f) );
+    gl::drawString("Pause: ESC"           , menuPos + vec2(20.0f,40.0f) );
+    gl::drawString("Quit: cmd-Q"          , menuPos + vec2(20.0f,60.0f) );
+    gl::drawString("(C) Rob Dawson, 2017" , menuPos + vec2(20.0f,100.0f) );
 }
 
 void CellApp::drawSplashScreens()
@@ -233,6 +232,6 @@ CINDER_APP( CellApp, RendererGl( RendererGl::Options().msaa( 4 ) ), [&]( App::Se
     settings->setFrameRate(60.0f);
     settings->setHighDensityDisplayEnabled();
     settings->setTitle( "CELL v1.5" );
-    settings->setResizable(false);
-    settings->setAlwaysOnTop(true);
+   // settings->setResizable(false);
+    //settings->setBorderless();
 })

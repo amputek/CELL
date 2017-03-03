@@ -48,7 +48,6 @@
 		D43623EF1C97C6080068AA89 /* OSCManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623ED1C97C6080068AA89 /* OSCManager.cpp */; };
 		D43623F41C97C6F00068AA89 /* SeaFloor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623F01C97C6F00068AA89 /* SeaFloor.cpp */; };
 		D43623F51C97C6F00068AA89 /* SeaSurface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623F21C97C6F00068AA89 /* SeaSurface.cpp */; };
-		D43623F71C97CAE40068AA89 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = D43623F61C97CAE40068AA89 /* icon.icns */; };
 		D4531B6D1C9676870096D85D /* Braitenberg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4531B6B1C9676870096D85D /* Braitenberg.cpp */; };
 		D4531B701C9677BE0096D85D /* Finite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4531B6E1C9677BE0096D85D /* Finite.cpp */; };
 		D4531B731C9679890096D85D /* Tail.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4531B711C9679890096D85D /* Tail.cpp */; };
@@ -144,7 +143,6 @@
 		D43623F11C97C6F00068AA89 /* SeaFloor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = SeaFloor.hpp; path = Singletons/SeaFloor.hpp; sourceTree = "<group>"; };
 		D43623F21C97C6F00068AA89 /* SeaSurface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SeaSurface.cpp; path = Singletons/SeaSurface.cpp; sourceTree = "<group>"; };
 		D43623F31C97C6F00068AA89 /* SeaSurface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = SeaSurface.hpp; path = Singletons/SeaSurface.hpp; sourceTree = "<group>"; };
-		D43623F61C97CAE40068AA89 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = icon.icns; path = ../resources/icon.icns; sourceTree = "<group>"; };
 		D4531B6B1C9676870096D85D /* Braitenberg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Braitenberg.cpp; path = GameObjects/Braitenberg.cpp; sourceTree = "<group>"; };
 		D4531B6C1C9676870096D85D /* Braitenberg.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Braitenberg.hpp; path = GameObjects/Braitenberg.hpp; sourceTree = "<group>"; };
 		D4531B6E1C9677BE0096D85D /* Finite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Finite.cpp; path = GameObjects/Finite.cpp; sourceTree = "<group>"; };
@@ -304,7 +302,6 @@
 			children = (
 				FC20564B1E68C924007EE6B3 /* cell.icns */,
 				FC787A8C1E59633100DBB5AE /* Cell-Audio.app */,
-				D43623F61C97CAE40068AA89 /* icon.icns */,
 				D48B79981C95A561004BB8A7 /* images */,
 				A68A9A54267444D6ACAF86A4 /* Info.plist */,
 			);
@@ -665,7 +662,6 @@
 			files = (
 				FC20564C1E68C924007EE6B3 /* cell.icns in Resources */,
 				FC787A8D1E59633100DBB5AE /* Cell-Audio.app in Resources */,
-				D43623F71C97CAE40068AA89 /* icon.icns in Resources */,
 				D48B79991C95A561004BB8A7 /* images in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
