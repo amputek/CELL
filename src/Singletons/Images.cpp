@@ -8,7 +8,7 @@ Images :: Images(){
     planktonImgs[3] = loadPngImage( "plankton/d" );
     planktonImgs[4] = loadPngImage( "plankton/e" );
     
-    beamImg =       loadPngImage( "environment/beam"            );
+    beamImg =       loadPngImage( "environment/beam3"            );
     bubbleImgs[0] = loadPngImage( "environment/bubble/0"     );
     bubbleImgs[1] = loadPngImage( "environment/bubble/1"     );
     bubbleImgs[2] = loadPngImage( "environment/bubble/2" );

@@ -59,7 +59,7 @@
 		D4FA581A1C95B9CF00B579B0 /* Globals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4FA58181C95B9CF00B579B0 /* Globals.cpp */; };
 		EE35AE5AD7D648F08EC2EFD9 /* OscTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2B47B582D8A45AC9652590B /* OscTypes.cpp */; };
 		F60C1AE8FE22423188FDC3DE /* OscOutboundPacketStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4543EB3E76BB4D51848E3A60 /* OscOutboundPacketStream.cpp */; };
-		FC20564A1E68B6C9007EE6B3 /* Cell09App.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC2056491E68B6C9007EE6B3 /* Cell09App.cpp */; };
+		FC20564A1E68B6C9007EE6B3 /* CellApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC2056491E68B6C9007EE6B3 /* CellApp.cpp */; };
 		FC20564C1E68C924007EE6B3 /* cell.icns in Resources */ = {isa = PBXBuildFile; fileRef = FC20564B1E68C924007EE6B3 /* cell.icns */; };
 		FC771C171E5A64BE00D14ABD /* EntityGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC771C151E5A64BE00D14ABD /* EntityGenerator.cpp */; };
 		FC787A8D1E59633100DBB5AE /* Cell-Audio.app in Resources */ = {isa = PBXBuildFile; fileRef = FC787A8C1E59633100DBB5AE /* Cell-Audio.app */; };
@@ -170,7 +170,7 @@
 		EB6B4C3A642C48819999495D /* NetworkingUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NetworkingUtils.h; path = ../blocks/OSC/src/ip/NetworkingUtils.h; sourceTree = "<group>"; };
 		F1E284F1EC1348F585DFB4DE /* OscMessage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = OscMessage.cpp; path = ../blocks/OSC/src/OscMessage.cpp; sourceTree = "<group>"; };
 		F3F6C50C6E3A43C7989EEB3A /* IpEndpointName.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = IpEndpointName.cpp; path = ../blocks/OSC/src/ip/IpEndpointName.cpp; sourceTree = "<group>"; };
-		FC2056491E68B6C9007EE6B3 /* Cell09App.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cell09App.cpp; sourceTree = "<group>"; };
+		FC2056491E68B6C9007EE6B3 /* CellApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CellApp.cpp; sourceTree = "<group>"; };
 		FC20564B1E68C924007EE6B3 /* cell.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = cell.icns; sourceTree = "<group>"; };
 		FC7707F864F3446CB59B39C4 /* MessageMappingOscPacketListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MessageMappingOscPacketListener.h; path = ../blocks/OSC/src/osc/MessageMappingOscPacketListener.h; sourceTree = "<group>"; };
 		FC771C151E5A64BE00D14ABD /* EntityGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EntityGenerator.cpp; path = Singletons/EntityGenerator.cpp; sourceTree = "<group>"; };
@@ -213,7 +213,7 @@
 		080E96DDFE201D6D7F000001 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				FC2056491E68B6C9007EE6B3 /* Cell09App.cpp */,
+				FC2056491E68B6C9007EE6B3 /* CellApp.cpp */,
 				D4FA58181C95B9CF00B579B0 /* Globals.cpp */,
 				D4FA58191C95B9CF00B579B0 /* Globals.hpp */,
 				D4FA58131C95B26C00B579B0 /* Singletons */,
@@ -709,7 +709,7 @@
 				D43623BA1C97AF5E0068AA89 /* Plankton.cpp in Sources */,
 				D43623B41C97AD6F0068AA89 /* Bubble.cpp in Sources */,
 				D01E5502007B41D4ABEE1270 /* OscPrintReceivedElements.cpp in Sources */,
-				FC20564A1E68B6C9007EE6B3 /* Cell09App.cpp in Sources */,
+				FC20564A1E68B6C9007EE6B3 /* CellApp.cpp in Sources */,
 				D43623DF1C97BE800068AA89 /* Beam.cpp in Sources */,
 				3F4CAB5996DC401E93CBD8C9 /* OscReceivedElements.cpp in Sources */,
 				EE35AE5AD7D648F08EC2EFD9 /* OscTypes.cpp in Sources */,

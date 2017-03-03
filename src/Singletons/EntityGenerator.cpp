@@ -93,7 +93,7 @@ void EntityGenerator::generatePlankton( vector<Plankton*> * plankton, vector<Egg
     
     for(int i = 0; i < planktonCount; i++){
         int planktonType = randInt(0,5);
-        vec2 planktonPosition = clusterPosition + vrand(50);
+        vec2 planktonPosition = clusterPosition + vrand(100);
         generatePlankton( plankton, planktonType, planktonPosition );
     }
     

@@ -58,7 +58,7 @@ void CellApp::setup(){
         system( s.c_str() );
     }
     
-    
+
     gl::enableAdditiveBlending( );
     
 }
@@ -71,12 +71,12 @@ void CellApp::cleanup()
 
 
 void CellApp::keyDown( KeyEvent event ){
-    if( event.getChar() == 'f' )
-    {
-        inFullScreen = !inFullScreen;
-        setFullScreen( inFullScreen );
-        if( !inFullScreen ) setWindowSize(800, 600);
-    }
+//    if( event.getChar() == 'f' )
+//    {
+//        inFullScreen = !inFullScreen;
+//        setFullScreen( inFullScreen );
+//        if( !inFullScreen ) setWindowSize(800, 600);
+//    }
     
     if( event.getChar() == KeyEvent::KEY_ESCAPE )
     {
@@ -155,13 +155,13 @@ void CellApp::drawMenu()
     gl::ScopedBlendAlpha alpha;
     vec2 menuPos = vec2(40.0f,40.0f);
     gl::color( ColorA(0.0,0.0,0.0,0.2) );
-    gl::drawSolidRect( Rectf( menuPos.x, menuPos.y, menuPos.x + 160.0f, menuPos.y + 145 ) );
+    gl::drawSolidRect( Rectf( menuPos.x, menuPos.y, menuPos.x + 160.0f, menuPos.y + 105 ) );
     gl::color(1.0,1.0,1.0);
-    gl::drawString("Decrease Volume: -"  , menuPos + vec2(20.0f,20.0f) );
-    gl::drawString("Increase Volume: +"  , menuPos + vec2(20.0f,40.0f) );
-    gl::drawString("Pause: ESC"          , menuPos + vec2(20.0f,60.0f) );
-    gl::drawString("Quit: cmd-Q"         , menuPos + vec2(20.0f,80.0f) );
-    gl::drawString("(C) Rob Dawson, 2017", menuPos + vec2(20.0f,120.0f) );
+    //gl::drawString("Decrease Volume: -"  , menuPos + vec2(20.0f,20.0f) );
+    //gl::drawString("Increase Volume: +"  , menuPos + vec2(20.0f,40.0f) );
+    gl::drawString("Pause: ESC"          , menuPos + vec2(20.0f,20.0f) );
+    gl::drawString("Quit: cmd-Q"         , menuPos + vec2(20.0f,40.0f) );
+    gl::drawString("(C) Rob Dawson, 2017", menuPos + vec2(20.0f,80.0f) );
 }
 
 void CellApp::drawSplashScreens()
@@ -227,7 +227,7 @@ void CellApp::drawCursor(){
 }
 
 
-CINDER_APP( CellApp, RendererGl( RendererGl::Options().msaa( 0 ) ), [&]( App::Settings *settings ) {
+CINDER_APP( CellApp, RendererGl( RendererGl::Options().msaa( 4 ) ), [&]( App::Settings *settings ) {
     settings->setFullScreen();
     //settings->setWindowSize(800, 600);
     settings->setFrameRate(60.0f);
