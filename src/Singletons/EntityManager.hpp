@@ -18,7 +18,7 @@
 #include "Grass.hpp"
 
 // IO + Managers
-#include "Images.hpp"
+#include "Renderer.hpp"
 #include "OscManager.hpp"
 #include "EntityGenerator.hpp"
 #include "EnvironmentManager.hpp"
@@ -30,7 +30,7 @@ using namespace std;
 class EntityManager {
     
 public:
-    EntityManager( Images* img );
+    EntityManager( CellRenderer* img );
     
 	void update( );
     void updateHero( const vec2 & mouseLoc, bool canMove );
@@ -62,6 +62,14 @@ private:
     //General purpose Functions
     void removeFromColliders(GameObject* collider);
     bool farFromHero( const vec2 & location );
+    bool offScreenBy( const vec2 & location, float d )
+    {
+        if( location.x > getWindowWidth() + d ) return true;
+        if( location.x < -d ) return true;
+        if( location.y > getWindowHeight() + d ) return true;
+        if( location.y < -d ) return true;
+        return false;
+    }
 
     //Collections
     Player* hero;
@@ -84,7 +92,7 @@ private:
     //Managers etc
     OSCManager* oscManager;
 
-    Images* image;
+    CellRenderer* image;
     EntityGenerator * entityGenerator;
 };
 

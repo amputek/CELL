@@ -39,7 +39,6 @@
 		D43623C01C97B2F10068AA89 /* Egg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623BE1C97B2F10068AA89 /* Egg.cpp */; };
 		D43623C31C97B7530068AA89 /* Swimmer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623C11C97B7530068AA89 /* Swimmer.cpp */; };
 		D43623C71C97B7EA0068AA89 /* Jelly.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623C51C97B7EA0068AA89 /* Jelly.cpp */; };
-		D43623D81C97BA740068AA89 /* Urchin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623D61C97BA740068AA89 /* Urchin.cpp */; };
 		D43623DC1C97BC6C0068AA89 /* Mask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623DA1C97BC6C0068AA89 /* Mask.cpp */; };
 		D43623DF1C97BE800068AA89 /* Beam.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623DD1C97BE800068AA89 /* Beam.cpp */; };
 		D43623E31C97C0860068AA89 /* Spark.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623E11C97C0860068AA89 /* Spark.cpp */; };
@@ -53,7 +52,7 @@
 		D4531B731C9679890096D85D /* Tail.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4531B711C9679890096D85D /* Tail.cpp */; };
 		D4531B761C967E900096D85D /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4531B741C967E900096D85D /* Player.cpp */; };
 		D48B79991C95A561004BB8A7 /* images in Resources */ = {isa = PBXBuildFile; fileRef = D48B79981C95A561004BB8A7 /* images */; };
-		D4FA58121C95B23400B579B0 /* Images.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4FA58101C95B23400B579B0 /* Images.cpp */; };
+		D4FA58121C95B23400B579B0 /* Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4FA58101C95B23400B579B0 /* Renderer.cpp */; };
 		D4FA58171C95B90500B579B0 /* GameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4FA58151C95B90500B579B0 /* GameObject.cpp */; };
 		D4FA581A1C95B9CF00B579B0 /* Globals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4FA58181C95B9CF00B579B0 /* Globals.cpp */; };
 		EE35AE5AD7D648F08EC2EFD9 /* OscTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2B47B582D8A45AC9652590B /* OscTypes.cpp */; };
@@ -63,6 +62,7 @@
 		FC771C171E5A64BE00D14ABD /* EntityGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC771C151E5A64BE00D14ABD /* EntityGenerator.cpp */; };
 		FC787A8D1E59633100DBB5AE /* Cell-Audio.app in Resources */ = {isa = PBXBuildFile; fileRef = FC787A8C1E59633100DBB5AE /* Cell-Audio.app */; };
 		FC938DEC1E57A5FF00F26DC5 /* Grass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC938DEA1E57A5FF00F26DC5 /* Grass.cpp */; };
+		FCD101481E6CD323001B91DA /* Urchin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FCD101471E6CD323001B91DA /* Urchin.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -125,7 +125,6 @@
 		D43623C21C97B7530068AA89 /* Swimmer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Swimmer.hpp; path = GameObjects/Swimmer.hpp; sourceTree = "<group>"; };
 		D43623C51C97B7EA0068AA89 /* Jelly.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Jelly.cpp; path = GameObjects/Jelly.cpp; sourceTree = "<group>"; };
 		D43623C61C97B7EA0068AA89 /* Jelly.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Jelly.hpp; path = GameObjects/Jelly.hpp; sourceTree = "<group>"; };
-		D43623D61C97BA740068AA89 /* Urchin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Urchin.cpp; path = GameObjects/Urchin.cpp; sourceTree = "<group>"; };
 		D43623D71C97BA740068AA89 /* Urchin.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Urchin.hpp; path = GameObjects/Urchin.hpp; sourceTree = "<group>"; };
 		D43623DA1C97BC6C0068AA89 /* Mask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mask.cpp; path = Singletons/Mask.cpp; sourceTree = "<group>"; };
 		D43623DB1C97BC6C0068AA89 /* Mask.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Mask.hpp; path = Singletons/Mask.hpp; sourceTree = "<group>"; };
@@ -154,8 +153,8 @@
 		D47D1F4914C74A3A9C7249E5 /* OscTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OscTypes.h; path = ../blocks/OSC/src/osc/OscTypes.h; sourceTree = "<group>"; };
 		D47FD5F529264CDCAB3BAE11 /* OscPacketListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OscPacketListener.h; path = ../blocks/OSC/src/osc/OscPacketListener.h; sourceTree = "<group>"; };
 		D48B79981C95A561004BB8A7 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; name = images; path = ../resources/images; sourceTree = "<group>"; };
-		D4FA58101C95B23400B579B0 /* Images.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Images.cpp; path = ../src/Singletons/Images.cpp; sourceTree = "<group>"; };
-		D4FA58111C95B23400B579B0 /* Images.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Images.hpp; path = ../src/Singletons/Images.hpp; sourceTree = "<group>"; };
+		D4FA58101C95B23400B579B0 /* Renderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Renderer.cpp; path = Singletons/Renderer.cpp; sourceTree = "<group>"; };
+		D4FA58111C95B23400B579B0 /* Renderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Renderer.hpp; path = Singletons/Renderer.hpp; sourceTree = "<group>"; };
 		D4FA58151C95B90500B579B0 /* GameObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameObject.cpp; path = GameObjects/GameObject.cpp; sourceTree = "<group>"; };
 		D4FA58161C95B90500B579B0 /* GameObject.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = GameObject.hpp; path = GameObjects/GameObject.hpp; sourceTree = "<group>"; };
 		D4FA58181C95B9CF00B579B0 /* Globals.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Globals.cpp; path = ../src/Globals.cpp; sourceTree = "<group>"; };
@@ -176,6 +175,7 @@
 		FC787A8C1E59633100DBB5AE /* Cell-Audio.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; name = "Cell-Audio.app"; path = "../resources/Cell-Audio.app"; sourceTree = "<group>"; };
 		FC938DEA1E57A5FF00F26DC5 /* Grass.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Grass.cpp; path = GameObjects/Grass.cpp; sourceTree = "<group>"; };
 		FC938DEB1E57A5FF00F26DC5 /* Grass.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Grass.hpp; path = GameObjects/Grass.hpp; sourceTree = "<group>"; };
+		FCD101471E6CD323001B91DA /* Urchin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Urchin.cpp; path = GameObjects/Urchin.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -478,7 +478,7 @@
 			isa = PBXGroup;
 			children = (
 				D43623D71C97BA740068AA89 /* Urchin.hpp */,
-				D43623D61C97BA740068AA89 /* Urchin.cpp */,
+				FCD101471E6CD323001B91DA /* Urchin.cpp */,
 			);
 			name = Urchin;
 			sourceTree = "<group>";
@@ -536,8 +536,8 @@
 				D43623B61C97ADE80068AA89 /* EnvironmentManager.hpp */,
 				D43623AC1C97A86D0068AA89 /* EntityManager.cpp */,
 				D43623AD1C97A86D0068AA89 /* EntityManager.hpp */,
-				D4FA58111C95B23400B579B0 /* Images.hpp */,
-				D4FA58101C95B23400B579B0 /* Images.cpp */,
+				D4FA58111C95B23400B579B0 /* Renderer.hpp */,
+				D4FA58101C95B23400B579B0 /* Renderer.cpp */,
 			);
 			name = Singletons;
 			sourceTree = "<group>";
@@ -673,10 +673,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4FA58121C95B23400B579B0 /* Images.cpp in Sources */,
+				D4FA58121C95B23400B579B0 /* Renderer.cpp in Sources */,
 				79E8F6375FB14FB49AB20E68 /* OscBundle.cpp in Sources */,
 				D43623B71C97ADE80068AA89 /* EnvironmentManager.cpp in Sources */,
-				D43623D81C97BA740068AA89 /* Urchin.cpp in Sources */,
 				D4FA581A1C95B9CF00B579B0 /* Globals.cpp in Sources */,
 				8A00D81156544937A57DCDA0 /* OscListener.cpp in Sources */,
 				D43623C01C97B2F10068AA89 /* Egg.cpp in Sources */,
@@ -704,6 +703,7 @@
 				D4531B701C9677BE0096D85D /* Finite.cpp in Sources */,
 				D43623BA1C97AF5E0068AA89 /* Plankton.cpp in Sources */,
 				D43623B41C97AD6F0068AA89 /* Bubble.cpp in Sources */,
+				FCD101481E6CD323001B91DA /* Urchin.cpp in Sources */,
 				D01E5502007B41D4ABEE1270 /* OscPrintReceivedElements.cpp in Sources */,
 				FC20564A1E68B6C9007EE6B3 /* CellApp.cpp in Sources */,
 				D43623DF1C97BE800068AA89 /* Beam.cpp in Sources */,

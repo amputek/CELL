@@ -1,6 +1,6 @@
 #include "Spring.hpp"
 
-Spring :: Spring(vec2 loc, float stf, float ms, float damp, float depth ) : Dust(loc, vec2(0,0), damp, depth){
+Spring :: Spring(vec2 loc, float depth, float stf, float ms, float damp ) : Dust(loc, 1, 1, damp){
     stiffness = stf;
     mass = ms;
     springContact = false;
@@ -8,16 +8,16 @@ Spring :: Spring(vec2 loc, float stf, float ms, float damp, float depth ) : Dust
 
 
 //Collide with an outside object (generally the player's location)
-void Spring :: collide(const vec2 & heroLoc, float collideDist ){
+void Spring :: collide( const vec2 & colliderPosition, float collideDist ){
  
-    if(dist(heroLoc, global) < collideDist){
-        vec2 d = heroLoc - global;
+    if(dist(colliderPosition, mPosition) < collideDist){
+        vec2 d = colliderPosition - mPosition;
         float angle = atan2(d.y, d.x);
-        vec2 target = vec2(heroLoc.x - cos(angle) * collideDist, heroLoc.y - sin(angle) * collideDist);
-        vec2 force = (target - global) * stiffness * 3.0f;
+        vec2 target = vec2(colliderPosition.x - cos(angle) * collideDist, colliderPosition.y - sin(angle) * collideDist);
+        vec2 force = (target - mPosition) * stiffness * 3.0f;
         addForce( force );
         
-        global = target;
+        mPosition = target;
         
         springContact = true;      //allows parent to see if spring has been contacted
     } else {
@@ -30,14 +30,13 @@ void Spring :: collide(const vec2 & heroLoc, float collideDist ){
 //Calculating acceleration and velocity from mass, stiffness, and damping.
 
 void Spring :: moveTowards(vec2 targetToMoveTowards ){
-    vec2 force = (targetToMoveTowards - global) * stiffness;
+    vec2 force = (targetToMoveTowards - mPosition) * stiffness;
     addForce( force );
-    Dust::update();
 }
 
 
 void Spring :: addForce(vec2 force){
     vec2 accel = force / mass;
-    velocity += accel * deltaTime * 60.0f;
+    addVelocity( accel * deltaTime * 60.0f );
     
 }

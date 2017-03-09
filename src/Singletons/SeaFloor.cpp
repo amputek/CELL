@@ -5,7 +5,7 @@ SeaFloor :: SeaFloor(){
     vec2 loc = vec2(0,0);
     
     for(float i = 1.0f; i >= 0.05f; i*=0.86f){
-        rows.push_back( new GameObject(loc, i));
+        rows.push_back( new GameObject(loc, i, 1));
         paths.push_back( *new vector<vec2>() );
     }
     reverse( rows.begin(), rows.end() );
@@ -22,8 +22,8 @@ void SeaFloor :: update(){
         
         GameObject * r = rows.at(y);
         
-        r->update();
-        
+      //  r->update();
+      //
         paths.at(y).clear();
         
         
@@ -33,16 +33,16 @@ void SeaFloor :: update(){
             float pY = y * 45.0f;
 
             
-            float perlinResult = perlin.fBm( vec3(pX, pY, 0.0f) / perlinDetail );
+   //         float perlinResult = perlin.fBm( vec3(pX, pY, 0.0f) / perlinDetail );
             
-            float waveHeight = 70.0f * r->depth;
+      //      float waveHeight = 70.0f * r->depth;
             
-            float height = r->local.y + (perlinResult * waveHeight);
+         //   float height = r->local.y + (perlinResult * waveHeight);
             
             
-            vec2 point = vec2(x,height);
-            
-            paths.at(y).push_back( point );
+        //    vec2 point = vec2(x,height);
+         //
+          //  paths.at(y).push_back( point );
             
         }
     }
@@ -66,7 +66,7 @@ void SeaFloor:: draw(){
         path.lineTo( vec2( cinder::app::getWindowWidth(), cinder::app::getWindowHeight()) );
         path.lineTo( vec2( 0.0, cinder::app::getWindowHeight() ) );
         path.close();
-        gl::color(ColorA8u(192,177,139, rows.at(n)->depth * 30.0f * globalOpacityMod ) );
+       // gl::color(ColorA8u(192,177,139, rows.at(n)->depth * 30.0f * globalOpacityMod ) );
         gl::drawSolid(path);
         gl::draw(path);
     }

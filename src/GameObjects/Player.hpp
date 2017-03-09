@@ -9,8 +9,8 @@ using namespace ci::app;
 
 class Player : public Braitenberg{
 public:
-    Player(const vec2 & loc, gl::TextureRef * texs );
-    void draw();
+    Player(const vec2 & loc );
+    void draw( CellRenderer & renderer );
     void update(float deltaTime);
     void moveTo(vec2 mousePos);
     void incEaten(int type){ planktonEaten.at(type)++; };
@@ -22,9 +22,7 @@ public:
     void levelUp();
     
 private:
-    
-    gl::TextureRef * img;           //current image
-    gl::TextureRef * imgs[3];  //all possible images a player could be
+    int bodyType = 0;
     int levelCount;             //a counter for the levelling process
     Tail* longTail;
     Tail* rightTail;

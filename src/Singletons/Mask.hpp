@@ -3,21 +3,30 @@
 
 #include <iostream>
 #include "cinder/gl/Fbo.h"
+#include "Renderer.hpp"
 
 using namespace ci;
 
 class Mask{
     
 public:
-    Mask( gl::TextureRef tex );
-    void update(const vec2 & heroLocalPosition, float depthMod);
-    void draw();
+    Mask(){
+        
+    }
+    void update( const vec2 & pos, float d )
+    {
+        local = pos;
+        depthMod = d;
+    }
+    void draw( CellRenderer & renderer )
+    {
+        renderer.drawMask( local, mFbo, depthMod );
+    }
+    gl::FboRef mFbo;
     
 private:
-    gl::FboRef mFbo;
-    gl::TextureRef mTexture;
-    float x1,y1,x2,y2;
-    Rectf drawRect;
+    vec2 local;
+    float depthMod;
     
 };
 

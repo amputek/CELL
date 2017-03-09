@@ -7,13 +7,13 @@
 
 class Friendly : public Swimmer{
 public:
-    Friendly(vec2 loc, gl::TextureRef* tex);
+    Friendly(vec2 loc);
     ~Friendly(){
         delete tail;
     }
     
     
-    void draw();
+    void draw( CellRenderer & renderer );
     void update();
     void birth();
     
@@ -23,7 +23,6 @@ public:
 private:
     float levelCounter = 0.0f;
     Tail* tail;
-    gl::TextureRef* img;
     bool mborn = false;
     bool birthing = false;
     float birthCount = 0.0f;

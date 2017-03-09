@@ -8,7 +8,7 @@
 
 class Egg : public GameObject{
 public:
-    Egg(vec2 loc, gl::TextureRef* tex);
+    Egg(vec2 loc);
     ~Egg(){
         for( vector<Spring*>::iterator p = springs.begin(); p != springs.end(); ++p ){
             delete *p;
@@ -19,7 +19,7 @@ public:
     
     
     void update();
-    void draw();
+    void draw( CellRenderer & renderer );
     void collide(const vec2 & loc, float radius);
     void setInside( vec2 loc);
     
@@ -27,15 +27,10 @@ public:
     bool inside(){ return ins; };
 
 private:
-    vector<Spring*> springs;
-    vector<vec2> drawPositions;
+    vector<Spring*> springs;;
     int ratio;          //constant value - ratio between png and shape size
-    Shape2d mShape;     //The shape - connected points
-
-    gl::TextureRef* img;
     bool ins;           //allows EntityManager to check if player is inside
     float counter = 0;
-    
     const int numSprings = 80;
 };
 

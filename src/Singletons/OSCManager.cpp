@@ -44,21 +44,18 @@ void OSCManager :: recieveMessage(){
             entities->pulse("spark", message.getArgAsInt32(0));
         }
         
-        if(message.getAddress() == "/confirmReply"){
-            sendMessage("/startLoop");
-            initialised = true;
-        }
-        
         if(message.getAddress() == "/audioFinishedLoading"){
-            cout << "Audio finished loading! Start Game." << "\n";
+            cout << "Audio finished loading! Start Game. Telling SC to start loop" << "\n";
 
             if( port != message.getRemotePort() )
             {
                 port = message.getRemotePort();
+                cout << "Switching Port to: " << port << "\n";
                 sender.setup(host, port);
                 listener.setup(12080);
             }
-            sendMessage("/confirm");
+            
+            sendMessage("/startLoop");
             initialised = true;
         } 
     }
@@ -67,12 +64,6 @@ void OSCManager :: recieveMessage(){
 }
 
 //MESSAGES: method names should be self-explanatory
-
-
-void OSCManager :: startLoop(){
-    cout << "starting SC loop" << "\n";
-    sendMessage("/startLoop");
-}
 
 void OSCManager :: quit(){
     cout << "Qutting OSC" << "\n";

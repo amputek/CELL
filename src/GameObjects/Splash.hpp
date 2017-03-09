@@ -8,14 +8,16 @@ using namespace ci;
 
 class Splash : public Finite{
 public:
-    Splash(vec2 aloc, float size, int l, float d, gl::TextureRef * tex );
-    void draw();
-    void update();
-
+    Splash(vec2 position, float size, int lifetime, float depth ) : Finite( position, lifetime, size, depth )
+    {
+        startSize = size;
+    }
     
+    void draw( CellRenderer & cellRenderer ){
+        cellRenderer.drawSplash( mPosition, currentLife, maxLife, startSize );
+    }
+
 private:
-    gl::TextureRef * img;    
-    int opacity;
     float startSize;
 };
 

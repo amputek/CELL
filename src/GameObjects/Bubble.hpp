@@ -6,14 +6,15 @@
 
 class Bubble : public Dust{
 public:
-    Bubble( const vec2 & loc, vec2 const & vel, float d, gl::TextureRef * tex);
-    bool alive();
-    void draw();
     
-private:
-    gl::TextureRef * img;
-    float opacity;
+    Bubble( const vec2 & loc, const vec2 & vel, float depth ) : Dust( loc, depth, randFloat(3,9) * depth * depth, 4.0f, vel ) {
+
+    }
     
+    void draw( CellRenderer & renderer ){
+         renderer.drawBubble( mPosition, mRadius, mDepth );
+    }
+
 };
 
 

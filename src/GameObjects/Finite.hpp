@@ -11,10 +11,16 @@ public:
     void update();
     bool alive(){ return currentLife <= maxLife; };
     
+    
+    float lifeRatio()
+    {
+        return (currentLife / maxLife);
+    }
+
+protected:
     float direction;
     float currentLife = 0.0f;
     float maxLife = 10.0f;
-    
 };
 
 #endif

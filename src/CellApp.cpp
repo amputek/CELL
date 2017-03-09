@@ -4,7 +4,7 @@
 
 
 #include "Globals.hpp"
-#include "Singletons/Images.hpp"
+#include "Singletons/Renderer.hpp"
 #include "Singletons/EntityManager.hpp"
 #include "GameObjects/GameObject.hpp"
 
@@ -30,7 +30,7 @@ class CellApp : public App {
     float lastStepTime;
     
     EntityManager* entityManager;
-    Images* image;
+    CellRenderer* image;
     
     
     bool inFullScreen = true;
@@ -46,7 +46,7 @@ class CellApp : public App {
 
 void CellApp::setup(){
     
-    image = new Images();
+    image = new CellRenderer();
     entityManager = new EntityManager( image );
     
     //Open Cell-Audio.app
@@ -57,6 +57,8 @@ void CellApp::setup(){
         string s = "open -g '" + p.string() + "'";
         system( s.c_str() );
     }
+    
+    inFullScreen = isFullScreen();
     
 
     gl::enableAdditiveBlending( );
@@ -118,7 +120,8 @@ void CellApp::update(){
 void CellApp::draw(){
 
 
-    entityDrawCount = 0;
+    image->refresh();
+
 
     gl::ScopedBlendAdditive additive;
     
@@ -139,7 +142,7 @@ void CellApp::draw(){
     
     drawMenu();
 
-//    gl::drawString( "Framerate: " + to_string( roundf(getAverageFps()) ) + " Delta: " + to_string(deltaTime), vec2( 10.0f, 10.0f ) );
+    gl::drawString( "Framerate: " + to_string( roundf(getAverageFps()) ) + " Delta: " + to_string(deltaTime), vec2( 10.0f, 10.0f ) );
 //    gl::drawString( "Draw Count: " + to_string( entityDrawCount ), vec2( 10.0f, 30.0f ) );
 //
 
@@ -183,30 +186,7 @@ void CellApp::drawSplashScreens()
     
     if( splashOpacity >= 0.0 )
     {
-        double op = splashOpacity;
-        if( op > 1.0f ) op  = 1.0f;
-        gl::color( ColorA8u(op * 130,op * 228,op * 247,op * 255.0f) );
-        
-        Rectf rect = Rectf(-300,-300,300,300);
-        vec2 pos = vec2(-400,-2000);
-        
-        
-        gl::pushModelView();
-        gl::translate( globals::localise( pos, 0.55f ) );
-        gl::draw( image->title1,rect);
-        gl::popModelView();
-        gl::pushModelView();
-        gl::translate( globals::localise( pos, 0.6f ) );
-        gl::draw( image->title2,rect);
-        gl::popModelView();
-        gl::pushModelView();
-        gl::translate( globals::localise( pos, 0.57f ) );
-        gl::draw( image->title3, rect);
-        gl::popModelView();
-        gl::pushModelView();
-        gl::translate( globals::localise( pos, 0.525f ) );
-        gl::draw( image->title4, rect);;
-        gl::popModelView();
+        image->drawTitle( splashOpacity );
     }
 }
 
@@ -219,16 +199,13 @@ void CellApp::drawCursor(){
     showCursor();
     hideCursor();
 
-    //draw cursor
-    gl::ScopedBlendAlpha alpha;
-    gl::color(1.0,1.0,1.0);
-    gl::draw( image->cursorImg, Rectf( mousePos.x - 2, mousePos.y - 2, mousePos.x + 2, mousePos.y + 2) );
+    image->drawCursor( mousePos );
 }
 
 
 CINDER_APP( CellApp, RendererGl( RendererGl::Options().msaa( 4 ) ), [&]( App::Settings *settings ) {
     settings->setFullScreen();
-    //settings->setWindowSize(800, 600);
+    settings->setWindowSize(800, 600);
     settings->setFrameRate(60.0f);
     settings->setHighDensityDisplayEnabled();
     settings->setTitle( "CELL v1.5" );

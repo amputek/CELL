@@ -7,7 +7,7 @@
 
 class Urchin : public Swimmer{
 public:
-    Urchin(vec2 loc, gl::TextureRef* tex);
+    Urchin(vec2 loc);
     
     ~Urchin(){
         for( vector<Feeler*>::iterator p = feelers.begin(); p != feelers.end(); ++p){
@@ -16,7 +16,7 @@ public:
     }
     
     void update();
-    void draw();
+    void draw( CellRenderer & renderer );
     void collide(const vec2 & loc, float colliderSize);
     int contactAmount(){
         int n = contactCount;
@@ -27,7 +27,6 @@ public:
 private:
     void updateFeelers();
     vector<Feeler*> feelers;
-    gl::TextureRef* img;
     int contactCount;
 };
 

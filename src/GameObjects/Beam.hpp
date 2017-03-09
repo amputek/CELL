@@ -7,18 +7,15 @@
 
 class Beam : public GameObject{
 public:
-    Beam(vec2 start, gl::TextureRef* tex);
-    void draw();
+    Beam(vec2 start);
+    void draw( CellRenderer & renderer );
     void update();
-    bool alive(){ return !(local.x < -1000 || local.x > 1800); };
-    
+//    bool alive(){ return !(local.x < -1000 || local.x > 1800); };
+//    
 private:
     float counter;
     float op;
     float life;
-    gl::TextureRef* img;
-    
-    Rectf scaledRect;
 };
 
 

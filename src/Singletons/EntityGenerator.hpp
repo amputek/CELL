@@ -14,7 +14,7 @@
 #include "Player.hpp"
 #include "Spark.hpp"
 #include "Grass.hpp"
-#include "Images.hpp"
+#include "Renderer.hpp"
 
 
 using namespace std;
@@ -41,7 +41,7 @@ public:
     //Referenes to collections, player
     Player * hero;
     vector<GameObject*> * colliders;
-    Images * image;
+    CellRenderer * image;
     
     
     //Counters
@@ -54,14 +54,14 @@ public:
     
     
 private:
-    vec2 inFront(int inFrontBy);
+    vec2 inFront(int inFrontBy, float randomiseAmount);
     float lineSegmentIntersection(const vec2 &start1, const vec2 &end1, const vec2 &start2, const vec2 &end2 );
     
     const int urchinFrequency = 500;
     const int sporeFrequency = 700;
-    const int starFrequency = 1200;
+    const int starFrequency = 900;
     const int jellyFrequency = 1000;
-    const int eggFrequency = 800;
+    const int eggFrequency = 2000;
     const int planktonFrequency = 80;
 
 };

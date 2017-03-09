@@ -9,25 +9,31 @@
 
 #include <iostream>
 #include "Globals.hpp"
+#include "Renderer.hpp"
 
 using namespace globals;
 using namespace ci;
 
 class GameObject{
 public:
-    GameObject(vec2 startWorldPosition, float entityDepth);
-    void update();
-    bool onScreen();
-    vec2 global;
-    vec2 local;
-    float depth;
-    int radius;
+    GameObject(vec2 startWorldPosition, float entityDepth, float entitySize )
+    {
+        mPosition = startWorldPosition;
+        mDepth = entityDepth;
+        mRadius = entitySize;
+    }
     
-    int onScreenSize = 200;
+    float getSize(){ return mRadius; }
+    float getDepth(){ return mDepth; }
+    vec2 getPosition(){ return mPosition; }
+    
+protected:
+    float mRadius;
+    float mDepth;
+    vec2 mPosition;
+    
+    
 
-   // bool operator<( const GameObject& c ) { return depth > c.depth; }
-
-    void deleteObject(){ }
 };
 
 

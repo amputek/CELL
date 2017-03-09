@@ -5,7 +5,7 @@
 #include "Splash.hpp"
 #include "Beam.hpp"
 #include "Bubble.hpp"
-#include "Images.hpp"
+#include "Renderer.hpp"
 #include "Mask.hpp"
 
 using namespace std;
@@ -13,10 +13,10 @@ using namespace ci;
 
 class EnvironmentManager{
 public:
-    EnvironmentManager( Images* imgs );
+    EnvironmentManager( CellRenderer* imgs );
     void splash( vec2 loc, int start, int end );
     void bubble( vec2 local, int amount );
-    void update( const vec2 & heroGlobal, const vec2 & heroLocal);
+    void update( const vec2 & heroGlobal );
     void draw();
     void drawMask();
     
@@ -32,7 +32,7 @@ private:
     vector<Bubble*> bubbles;
 
     
-    Images* image;
+    CellRenderer* image;
     
 };
 

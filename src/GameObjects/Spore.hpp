@@ -12,20 +12,19 @@ using namespace std;
 
 class Spore : public Dust{
 public:
-    Spore(vec2 loc, float depth, int type, gl::TextureRef* tex);
+    Spore(vec2 loc, float depth, int type);
     void update();
-    void draw();
-    void collide(vec2 loc);
+    void draw( CellRenderer & renderer );
+    void collide( const vec2 & loc);
     
     //getters
     int type(){ return sporeType; };
     bool contact(){ return sporeContact; };
     bool alive(){ return health > 0; };
+    int getHealth(){ return health; }
     
-    
-    int health;
 private:
-    gl::TextureRef* img;
+    int health;
     int sporeType;      //three different types of Spore
     bool sporeContact;  //allows EntityManager to check if contact has been made
 };

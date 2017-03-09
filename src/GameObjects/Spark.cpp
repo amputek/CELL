@@ -1,10 +1,7 @@
 #include "Spark.hpp"
 
-Spark :: Spark(const vec2 & loc, int sparkType, gl::TextureRef * tex ) : Swimmer(loc){
-    Swimmer::speed = 0.8f;
-    GameObject::radius = 8.0f;
+Spark :: Spark(const vec2 & loc, int sparkType ) : Swimmer(loc, 8.0f, 0.8f){
     type = sparkType;
-    img = tex;
 }
 
 void Spark :: update(){
@@ -12,9 +9,9 @@ void Spark :: update(){
     
     life += deltaTime * 60.0f;
     
-    //radius returns to 5 after pulse (from SuperCollider)
-    if(radius > 8.0f){
-        radius -= deltaTime *5.0f;
+    //radius returns to 8 after pulse (from SuperCollider)
+    if(mRadius > 8.0f){
+        mRadius -= deltaTime * 5.0f;
     }
     
     Swimmer::update();
@@ -24,7 +21,7 @@ void Spark :: update(){
     
     if( life > 1.0f )
     {
-        finites.push_back( new Finite(global, 12.0f, radius * 0.8f) );
+        finites.push_back( new Finite(mPosition, 12.0f, mRadius * 0.8f) );
         life = 0.0f;
     }
     
@@ -40,31 +37,18 @@ void Spark :: update(){
     
 }
 
-void Spark :: draw(){
+void Spark :: draw( CellRenderer & renderer ){
     
-    if( !onScreen() ) return;
-    entityDrawCount++;
+  
+    vector<vec2> positions;
+    vector<float> sizes;
     
-    if(type == 0){ gl::color(ColorA8u( 255         , 80+radius*3  , 20+radius*4,     220 ) ); }
-    if(type == 1){ gl::color(ColorA8u( 108+radius*3, 5+radius*3   , 255        ,     220 ) ); }
-    if(type == 2){ gl::color(ColorA8u( 75+radius*4 , 228	      , 178	       ,     220 ) ); }
-    
-    //draw a few circles at each Finite position
     for(int i = 0; i < finites.size(); i++){
-        gl::ScopedModelMatrix modelScope;
-        gl::translate( finites.at(i)->local );
-        float r = (1.0 - (finites.at(i)->currentLife / finites.at(i)->maxLife) * 0.5f) * (finites.at(i)->radius);
-        gl::draw( *img, Rectf(-r, -r, r, r ));
+        positions.push_back( finites[i]->getPosition() ) ;
+        sizes.push_back( (1.0 - (finites.at(i)->lifeRatio()) * 0.5f) * (finites.at(i)->getSize() ) );
     }
     
-   // gl::color(Color(1.0,1.0,1.0));
-   // gl::drawLine( local, localise(targetDestination, 1.0f) );
-    
-    gl::ScopedModelMatrix modelScope;
-    gl::translate( local );
-    gl::draw( *img, Rectf(-radius, -radius, radius, radius ));
-    gl::draw( *img, Rectf(-radius/2, -radius/2, radius/2, radius/2 ));
-
-
+    renderer.drawSpark(mPosition, mRadius, type, positions, sizes);
+   
 
 }

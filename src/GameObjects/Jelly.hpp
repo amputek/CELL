@@ -7,7 +7,7 @@
 
 class Jelly : public Swimmer{
 public:
-    Jelly(vec2 loc, int type, gl::TextureRef* tex);
+    Jelly(vec2 loc, int type);
     ~Jelly(){
         for( vector<Feeler*>::iterator p = feelers.begin(); p != feelers.end(); ++p ){
             delete *p;
@@ -15,7 +15,7 @@ public:
     }
     
     void update();
-    void draw();
+    void draw( CellRenderer & renderer );
     void collide(const vec2 & loc, float colliderSize);
     vector<bool> contacts(){
         vector<bool> temp;
@@ -23,16 +23,12 @@ public:
             temp.push_back( feelers.at(i)->inContactWithCollider() );
         return temp;
     };
-    
 
-    
 private:
     
     vector<Feeler*> feelers;
     
     float counter = 0.0f;
-    gl::TextureRef* img;
-    
     float feelerStartRadius = 0.5f; //modifies the radius of the feeler positions (depends on the png being used)
     int jellyType = 0;
 

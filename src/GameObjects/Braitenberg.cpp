@@ -1,15 +1,14 @@
 #include "Braitenberg.hpp"
 
-Braitenberg :: Braitenberg(vec2 loc, bool sl) : GameObject(loc, 1){
-    direction = 0.0;
-    slowsWhenAtTarget = sl;
+Braitenberg :: Braitenberg(vec2 position, bool slowsAtTarget, float radius, float speed) : GameObject(position, 1, radius){
+    mDirection = 0.0;
+    mSpeed = speed;
+    slowsWhenAtTarget = slowsAtTarget;
 }
 
 
-void Braitenberg :: moveTo(vec2 target){
+void Braitenberg :: moveTo(const vec2 & target){
     
-    //make sure target is above ground
-    if(target.y > 0){ target.y = 0; }
     
     //initialise speed modifier
     float speedModifier = 0;
@@ -17,17 +16,17 @@ void Braitenberg :: moveTo(vec2 target){
     //either braitenberg eases towards target or maintains speed (useful for NPCs)
 
     if(slowsWhenAtTarget){
-        float distanceToTarget = length(global-target);
-        speedModifier = distanceToTarget * speed;
+        float distanceToTarget = length(mPosition - target);
+        speedModifier = distanceToTarget * mSpeed;
     } else {
-        speedModifier = fixedDistanceToTarget * speed;
+        speedModifier = fixedDistanceToTarget * mSpeed;
     }
 
     
     
     //position of the left and right sensors
-    vec2 right = vec2(global.x + sin(direction-0.5) * 10, global.y + cos(direction-0.5) * 10);
-    vec2 left = vec2(global.x + sin(direction+0.5) * 10, global.y + cos(direction+0.5) * 10);
+    vec2 right = vec2(mPosition.x + sin(mDirection-0.5) * 10, mPosition.y + cos(mDirection-0.5) * 10);
+    vec2 left = vec2(mPosition.x + sin(mDirection+0.5) * 10, mPosition.y + cos(mDirection+0.5) * 10);
     
     //distance between target and sensors
     float leftDist = length(left-target);
@@ -59,9 +58,9 @@ void Braitenberg :: moveTo(vec2 target){
     
     
     //turn accordingly
-    direction += ( rightMotorSpeed - leftMotorSpeed ) * deltaTime * 10.0f;
+    mDirection += ( rightMotorSpeed - leftMotorSpeed ) * deltaTime * 10.0f;
     
     //increase position depending on direction (with speed)
-    global.x += sin(direction) * speedModifier * deltaTime;
-    global.y += cos(direction) * speedModifier * deltaTime;
+    mPosition.x += sin(mDirection) * speedModifier * deltaTime;
+    mPosition.y += cos(mDirection) * speedModifier * deltaTime;
 }

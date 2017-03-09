@@ -14,10 +14,12 @@ using namespace std;
 class Spring : public Dust{
     
 public:
-    Spring(vec2 loc, float stf, float ms, float damp, float depth );
-    Spring(vec2 loc, float stf, float ms, float damp) : Spring(loc, stf, ms, damp, 1.0f){ };
+    Spring(vec2 startLocation, float depth, float stiffness, float mass, float damping );
     void draw();
     void moveTowards(vec2 target);
+    void setPosition(vec2 target){
+        mPosition = target;
+    }
     void collide(const vec2 & heroLoc, float colDist);
     void addForce(vec2 force);
     

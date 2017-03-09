@@ -1,9 +1,8 @@
 #include "Egg.hpp"
 #include "cinder/Triangulate.h"
 
-Egg :: Egg(vec2 loc, gl::TextureRef* tex) : GameObject(loc, 1){
-    radius = 160;
-    ratio = radius * 2.4;
+Egg :: Egg(vec2 loc) : GameObject(loc, 1, 160){
+    ratio = getSize() * 2.4;
     
 
     float damping = 1.2f;
@@ -15,10 +14,9 @@ Egg :: Egg(vec2 loc, gl::TextureRef* tex) : GameObject(loc, 1){
         float pos =  2 * M_PI * i / numSprings;
         //create new spring with damp, stiffness, mass parameters
         
-        springs.push_back( new Spring( loc + vec2(sin(pos) * radius, cos(pos) * radius ) , stiffness, mass, damping  ) );
+        springs.push_back( new Spring( loc + vec2(sin(pos) * getSize(), cos(pos) * getSize() ) , 1, stiffness, mass, damping  ) );
     }
-    
-    img = tex;
+
     ins = false;
     
     //update a few times upon arrival
@@ -37,24 +35,21 @@ void Egg :: collide(const vec2 & loc, float radius){
 
 //true if a location (hero) is inside radius
 void Egg :: setInside(vec2 loc){
-    ins = dist(loc, global) < radius;
+    ins = dist(loc, mPosition) < getSize();
 }
 
 
 void Egg :: update(){
     
-    GameObject::update();
-    
     counter += deltaTime * 3.0f;
     
-
-
     for(int i = 0; i < numSprings; i++){
         if( randFloat() < 0.2f)
         {
             float pos =  2 * M_PI * i / numSprings;
-            springs.at(i)->moveTowards( global + vec2(sin(pos) * radius, cos(pos) * radius ) );
+            springs.at(i)->moveTowards( mPosition + vec2(sin(pos) * getSize(), cos(pos) * getSize() ) );
         }
+        springs.at(i)->update();
     }
 
     
@@ -66,63 +61,50 @@ void Egg :: update(){
     for(int i = randInt( numSprings-1 ); j < numSprings; i++, j++){
         int t = i % numSprings;
         int t2 = (i+1) % numSprings;
-        springs.at( t )->moveTowards( springs.at( t2 )->global );
+        springs.at( t )->moveTowards( springs.at( t2 )->getPosition() );
     }
 
     j = 0;
     for(int i = numSprings + randInt( numSprings-1); j < numSprings; i--, j++){
         int t = i % numSprings;
         int t2 = (i+1) % numSprings;
-        springs.at( t2 )->moveTowards( springs.at( t )->global );
+        springs.at( t2 )->moveTowards( springs.at( t )->getPosition() );
     }
 
     
-    drawPositions.clear();
-    for(int i = 0; i < numSprings; i++)
-    {
-        int after = i + 1;
-        if( after == numSprings ) after = 0;
-        drawPositions.push_back( springs.at(i)->local );
-        drawPositions.push_back( (springs.at(i)->local + springs.at(after)->local) * 0.5f);
-    }
-    
-    //Average twice
-    for(int n = 0; n < 2; n++)
-    {
-        for(int i = 0; i < drawPositions.size(); i++)
-        {
-            int before = i - 1;
-            if( before < 0 ) before = drawPositions.size()-1;
-            int after = i + 1;
-            if( after == drawPositions.size() ) after = 0;
-            vec2 p = (drawPositions.at(before) + drawPositions.at(after)) * 0.5f;
-            drawPositions.at(i) = (drawPositions.at(i) + p) * 0.5f;
-        }
-    }
-    
+//    drawPositions.clear();
+//    for(int i = 0; i < numSprings; i++)
+//    {
+//        int after = i + 1;
+//        if( after == numSprings ) after = 0;
+//        drawPositions.push_back( springs.at(i)->local );
+//        drawPositions.push_back( (springs.at(i)->local + springs.at(after)->local) * 0.5f);
+//    }
+//    
+//    //Average twice
+//    for(int n = 0; n < 2; n++)
+//    {
+//        for(int i = 0; i < drawPositions.size(); i++)
+//        {
+//            int before = i - 1;
+//            if( before < 0 ) before = drawPositions.size()-1;
+//            int after = i + 1;
+//            if( after == drawPositions.size() ) after = 0;
+//            vec2 p = (drawPositions.at(before) + drawPositions.at(after)) * 0.5f;
+//            drawPositions.at(i) = (drawPositions.at(i) + p) * 0.5f;
+//        }
+//    }
+//    
 
 }
 
 
-void Egg :: draw(){
+void Egg :: draw( CellRenderer & renderer ){
 
-    if( !onScreen() ) return;
-    entityDrawCount++;
-    
-    
-    gl::color(ColorA(1,1,1,0.5 + (sin(counter)*0.20f)) );
-    gl::draw( *img, Rectf(local.x - ratio, local.y - ratio, local.x + ratio, local.y + ratio) );
+    vector<vec2> pos;
+    for( int n = 0; n < springs.size(); n++)
+        pos.push_back( springs[n]->getPosition() );
 
-    mShape.clear();
-    mShape.moveTo( drawPositions.at(0) );
-    for(int i = 1; i < drawPositions.size(); i++)
-    {
-        mShape.lineTo( drawPositions.at(i) );
-    }
-    mShape.close();
-    
-    gl::color(ColorA (0.7,0.25,0.15,0.5)) ;
-    gl::drawSolid( mShape );
-    gl::draw( mShape );
+    renderer.drawEgg( mPosition, ratio, counter, pos );
 
 }

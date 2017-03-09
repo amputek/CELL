@@ -27,17 +27,21 @@ float EntityGenerator ::lineSegmentIntersection(const vec2 &start1, const vec2 &
 
 
 //finds a new location in front of a vector
-vec2 EntityGenerator :: inFront( int inFrontBy){
+vec2 EntityGenerator :: inFront( int inFrontBy, float randomiseAmount ){
     
     float distToEdgeScreen = 3000.0f;
     
     
-    float x = hero->global.x + sin(hero->direction) * 2000;
-    float y = hero->global.y + cos(hero->direction) * 2000;
+    vec2 direction = glm::normalize(hero->targetDestination - hero->getPosition());
+    
+    direction = glm::normalize( direction + randVec2() * randomiseAmount );
+    
+  //  float x = hero->global.x + direction.x * 2000;
+ //   float y = hero->global.y + direction.y * 2000;
     
     
-    vec2 startGlobal = vec2( hero->global.x,  hero->global.y);
-    vec2 endGlobal = vec2(x,y);
+    vec2 startGlobal = vec2( hero->getPosition().x,  hero->getPosition().y);
+    vec2 endGlobal = hero->getPosition() + direction * 2000.0f;
     
     vec2 startLocal = startGlobal - offset;
     vec2 endLocal = endGlobal - offset;
@@ -59,17 +63,17 @@ vec2 EntityGenerator :: inFront( int inFrontBy){
     
     distToEdgeScreen += inFrontBy;
     
-    x = hero->global.x + sin(hero->direction) * distToEdgeScreen;
-    y = hero->global.y + cos(hero->direction) * distToEdgeScreen;
+//    float x = hero->global.x + sin(hero->direction) * distToEdgeScreen;
+//    float y = hero->global.y + cos(hero->direction) * distToEdgeScreen;
     
-    return vec2(x,y);
+    return hero->getPosition() + direction * distToEdgeScreen;
 }
 
 
 //Generate a group of plaknton
 void EntityGenerator::generatePlankton( vector<Plankton*> * plankton, int planktonType, const vec2 & position )
 {
-    plankton->push_back( new Plankton( position, &image->planktonImgs[planktonType], planktonType ) );
+    plankton->push_back( new Plankton( position, planktonType ) );
 }
 
 void EntityGenerator::generatePlankton( vector<Plankton*> * plankton, vector<Egg*> * eggs )
@@ -81,11 +85,11 @@ void EntityGenerator::generatePlankton( vector<Plankton*> * plankton, vector<Egg
 
     
     //position of new plankton in front of the hero
-    vec2 clusterPosition = inFront(rand(100,400));
+    vec2 clusterPosition = inFront(randFloat(100,400), 0.4f);
     
     //make sure plankton do not spawn inside egg
     for(int i = 0; i < eggs->size();i++)
-        if(dist(clusterPosition, eggs->at(i)->global) < eggs->at(i)->radius + 50)
+        if(dist(clusterPosition, eggs->at(i)->getPosition()) < eggs->at(i)->getSize() + 50)
             return;
     
     
@@ -104,7 +108,7 @@ void EntityGenerator::generatePlankton( vector<Plankton*> * plankton, vector<Egg
 void EntityGenerator::generateUrchin( vector<Urchin*> * urchins, const vec2 & urchinPosition )
 {
 
-    urchins->push_back( new Urchin( urchinPosition, &image->urchinImg ) );
+    urchins->push_back( new Urchin( urchinPosition ) );
     
     colliders->push_back( urchins->back() );
     
@@ -114,17 +118,18 @@ void EntityGenerator::generateUrchin( vector<Urchin*> * urchins, const vec2 & ur
 void EntityGenerator::generateUrchin( vector<Urchin*> * urchins )
 {
     //URCHIN - only deep sea
-    if(urchinLastSeen < urchinFrequency || hero->global.y < -1000) return;
+    if(urchinLastSeen < urchinFrequency || hero->getPosition().y < -1000) return;
     
-    generateUrchin( urchins, inFront(200) );
+    generateUrchin( urchins, inFront(200, 0.2f ) );
+    
+    urchinLastSeen = 0;
 }
 
 
 void EntityGenerator::generateStarfish( vector<Starfish*> * starfish, const vec2 & position )
 {
-    starfish->push_back( new Starfish( position, &image->splashImg ) );
+    starfish->push_back( new Starfish( position ) );
     colliders->push_back( starfish->back() );
-    starLastSeen = 0;
 }
 
 void EntityGenerator::generateStarfish( vector<Starfish*> * starfish )
@@ -132,20 +137,18 @@ void EntityGenerator::generateStarfish( vector<Starfish*> * starfish )
     //STARFISH - not shallow waters
     
     if( starLastSeen < starFrequency ) return;
-    if( hero->global.y > -3000 ) return;
+    if( hero->getPosition().y > -3000 ) return;
     
-    generateStarfish( starfish, inFront(400) );
+    generateStarfish( starfish, inFront(400, 0.2f) );
     
+    starLastSeen = 0;
 }
 
 
 void EntityGenerator::generateJellyfish( vector<Jelly*> * jellies, int type, const vec2 & position )
 {
-    jellies->push_back( new Jelly( position, type, &image->jellyImgs[ type ] ) );
-    
+    jellies->push_back( new Jelly( position, type ) );
     colliders->push_back( jellies->back() );
-    
-    jellyLastSeen = 0;
 }
 
 void EntityGenerator::generateJellyfish( vector<Jelly*> * jellies )
@@ -153,14 +156,16 @@ void EntityGenerator::generateJellyfish( vector<Jelly*> * jellies )
     //JELLYFISH - anywhere
     if(jellyLastSeen < jellyFrequency) return;
     
-    generateJellyfish( jellies, randInt(0,3), inFront(300) );
+    generateJellyfish( jellies, randInt(0,3), inFront(300, 0.2f) );
+    
+    jellyLastSeen = 0;
 }
 
 void EntityGenerator::generateSpores( vector<Spore*> * spores, int sporeType, const vec2 & clusterPosition )
 {
     //SPORES - anywhere, more common (every 600 frames)
 
-    int clusterSize = rand(10,20);
+    int clusterSize = randFloat(10,20);
     float startDepth = randFloat(0.4,0.6);
     float endDepth = 1.1;
     float depthDelta = (endDepth - startDepth) / clusterSize;
@@ -172,11 +177,6 @@ void EntityGenerator::generateSpores( vector<Spore*> * spores, int sporeType, co
         
         float sporeDepth = startDepth + (i * depthDelta);
         
-        
-        int blurLevel = 2;
-        if( sporeDepth > 0.5) blurLevel = 1;
-        if( sporeDepth > 0.8) blurLevel = 0;
-                
         if( sporeDepth > 0.8 )
         {
             bool spaceFound = false;
@@ -186,9 +186,9 @@ void EntityGenerator::generateSpores( vector<Spore*> * spores, int sporeType, co
                 
                 for(vector<Spore*>::iterator it = spores->begin(), end = spores->end(); it != end; ++it)
                 {
-                    if( (*it)->depth > 0.8 )
+                    if( (*it)->getDepth() > 0.8 )
                     {
-                        if( glm::distance( (*it)->global, sporePosition ) < (*it)->radius * 2.0f )
+                        if( glm::distance( (*it)->getPosition(), sporePosition ) < (*it)->getSize() * 2.0f )
                         {
                             spaceFound = false;
                             sporePosition += vrand(20.0f);
@@ -199,7 +199,7 @@ void EntityGenerator::generateSpores( vector<Spore*> * spores, int sporeType, co
             }
         }
 
-        spores->push_back(new Spore(sporePosition, sporeDepth, sporeType, &image->sporeImgs[sporeType][blurLevel] ) );
+        spores->push_back(new Spore(sporePosition, sporeDepth, sporeType) );
     }
     
     
@@ -210,7 +210,8 @@ void EntityGenerator::generateSpores( vector<Spore*> * spores, int sporeType, co
 void EntityGenerator::generateSpores( vector<Spore*> * spores )
 {
     if(sporeLastSeen < sporeFrequency ) return;
-    generateSpores( spores, randInt(0,3), inFront(800) );
+    generateSpores( spores, randInt(0,3), inFront(800, 0.2f) );
+    sporeLastSeen = 0;
 }
 
 
@@ -219,19 +220,19 @@ void EntityGenerator::generateSpores( vector<Spore*> * spores )
 
 bool EntityGenerator::generateEgg( vector<Egg*> * eggs, vector<Friendly*> * friendlies, vector<Plankton*> * plankton, bool withFriendly, const vec2 & eggPosition )
 {
-    eggs->push_back(new Egg( eggPosition, &image->eggImg ) );
+    eggs->push_back(new Egg( eggPosition ) );
     
     colliders->push_back( eggs->back() );
     
     if( withFriendly )
     {
-        friendlies->push_back( new Friendly( eggs->back()->global, &image->friendlyImg ) );
+        friendlies->push_back( new Friendly( eggs->back()->getPosition() ) );
         colliders->push_back( friendlies->back() );
     }
 
     //delete any plankton that are inside the egg
     for( vector<Plankton*>::iterator p = plankton->begin(); p < plankton->end(); ){
-        if( dist( (*p)->global, eggs->back()->global ) < eggs->back()->radius ){
+        if( dist( (*p)->getPosition(), eggs->back()->getPosition() ) < eggs->back()->getSize() ){
             delete *p;
             p = plankton->erase(p);
         } else {
@@ -239,8 +240,7 @@ bool EntityGenerator::generateEgg( vector<Egg*> * eggs, vector<Friendly*> * frie
         }
     }
     
-    eggLastSeen = 0;
-    
+
     return true;
 
 }
@@ -248,8 +248,9 @@ bool EntityGenerator::generateEgg( vector<Egg*> * eggs, vector<Friendly*> * frie
 bool EntityGenerator::generateEgg( vector<Egg*> * eggs, vector<Friendly*> * friendlies, vector<Plankton*> * plankton )
 {
     //EGG
-    if(eggLastSeen < eggFrequency) return false;
-    return generateEgg( eggs, friendlies, plankton, true, inFront(800) );
+    if(eggLastSeen < eggFrequency || eggs->size() > 0) return false;
+    eggLastSeen = 0;
+    return generateEgg( eggs, friendlies, plankton, true, inFront(800, 0.3f) );
 }
 
 

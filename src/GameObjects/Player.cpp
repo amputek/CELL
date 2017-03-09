@@ -1,20 +1,14 @@
 #include "Player.hpp"
 
 
-Player :: Player(const vec2 & loc, gl::TextureRef * texs) : Braitenberg(loc, true){
-    Braitenberg::speed = 0.5f;
-    GameObject::radius = 5.0f;
+Player :: Player(const vec2 & loc) : Braitenberg(loc, true, 5.0f, 0.5f){
     level = 1;
     longTail = new Tail( 10, true, 2, false);
     leftTail = new Tail( 2, false, 3, false);
     rightTail = new Tail( 2, false, 3, false);
     playerLevelling = false;
     falling = false;
-    
-    imgs[0] = &texs[0];
-    imgs[1] = &texs[1];
-    imgs[2] = &texs[2];
-    img = imgs[0];
+
     
     for(int i = 0; i < 7; i ++){
         planktonEaten.push_back(0);
@@ -27,35 +21,25 @@ Player :: Player(const vec2 & loc, gl::TextureRef * texs) : Braitenberg(loc, tru
 //move to a specified location
 void Player :: moveTo(vec2 mousePos){
     
-    //make sure mouse location is within window boundaries
-    if(mousePos.x < 0                 ){  mousePos.x = 10;                     }
-    if(mousePos.x > getWindowWidth()  ){  mousePos.x = getWindowWidth() - 10;  }
-    if(mousePos.y < 0                 ){  mousePos.y = 10;                     }
-    if(mousePos.y > getWindowHeight() ){  mousePos.y = getWindowHeight() - 10; }
     
-    vec2 dest = globalise(mousePos, 1);
-    
-    if(falling == true){
-        Braitenberg::moveTo( vec2(dest.x, -6500) );  //falls back towards water
-    } else {
-        Braitenberg::moveTo(dest);                  //standard movement
-    }
-    
+    setDestination( globalise(mousePos, 1) );
+
+    Braitenberg::moveTo( targetDestination );
     
 }
 
 void Player :: slow(bool t){
     if(t == true){
-        speed = 0.15f;
+        mSpeed = 0.15f;
     } else {
-        speed = 0.5f;
+        mSpeed = 0.5f;
     }
 }
 
 
 void Player :: update(float deltaTime){
     
-    falling = global.y < -7000;
+    falling = mPosition.y < -7000;
     
     //check if player is in the process of 'levelling up'
     if(playerLevelling == true){
@@ -66,33 +50,21 @@ void Player :: update(float deltaTime){
     }
     
     //update tails
-    longTail->update(vec2(global.x - sin(direction) * radius, global.y - cos(direction) * radius), direction);
-    leftTail->update(vec2(global.x - sin(direction - 1.0) * radius, global.y - cos(direction - 1.0) * radius), direction);
-    rightTail->update(vec2(global.x - sin(direction + 1.0) * radius, global.y - cos(direction + 1.0) * radius), direction);
+    longTail->update(vec2(mPosition.x - sin(mDirection) * mRadius, mPosition.y - cos(mDirection) * mRadius), mDirection);
+    leftTail->update(vec2(mPosition.x - sin(mDirection - 1.0) * mRadius, mPosition.y - cos(mDirection - 1.0) * mRadius), mDirection);
+    rightTail->update(vec2(mPosition.x - sin(mDirection + 1.0) * mRadius, mPosition.y - cos(mDirection + 1.0) * mRadius), mDirection);
     
-    Braitenberg::update();
 }
 
 
-void Player:: draw(){
+void Player:: draw( CellRenderer & renderer ){
     
-    entityDrawCount++;
-    
-    gl::color(Color(1,1,1));
-    gl::ScopedBlendAlpha alpha;
-    gl::pushModelView();
-    gl::translate(local );
-    gl::rotate( -direction + M_PI );
-    gl::draw( *img , Rectf( -radius*2, -radius*2, radius*2, radius*2) );
-    gl::popModelView();
-    
-    
-    //draw tails
-    longTail->draw();
-    
-    if(sideTailsOn == true){
-        leftTail->draw();
-        rightTail->draw();
+    renderer.drawPlayer(mPosition, mDirection, mRadius, bodyType);
+    longTail->draw( renderer );
+    if( sideTailsOn )
+    {
+        leftTail->draw( renderer );
+        rightTail->draw( renderer );
     }
 }
 
@@ -109,11 +81,11 @@ void Player :: levelUp(){
     level++;
     
     if(level < 40 && level % 3 == 0){
-        radius++;
+        mRadius++;
     }
-    if(level == 20){ img = imgs[0];       }
+    if(level == 20){ bodyType = 1;        }
     if(level == 20){ sideTailsOn = true;  }
-    if(level == 40){ img = imgs[1];       }
+    if(level == 40){ bodyType = 2;        }
     if(level == 12){ longTail->setWide(); }
     if(level == 35){ longTail->setFins(); }
     

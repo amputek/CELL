@@ -12,20 +12,29 @@ using namespace std;
 
 class Braitenberg : public GameObject{
     
-  public:
-    Braitenberg(vec2 loc, bool sl);
-    void moveTo(vec2 loc);
+public:
+    Braitenberg(vec2 startPosition, bool canSlow, float raduis, float speed );
+    void moveTo( const vec2 & loc);
 
-    float direction;
-    float speed;
+
+    vec2 targetDestination;
+    void setDestination(vec2 dest){
+        targetDestination = dest;
+    };
     
-  private:
+private:
     float leftMotorSpeed, rightMotorSpeed;
     const float turnLimit = 0.3;
     const float turnSpeed = 0.05;
     bool slowsWhenAtTarget;
     
     const float fixedDistanceToTarget = 200.0f;
+  
+protected:
+    float mDirection;
+    float mSpeed;
+    
+
 };
 
 #endif

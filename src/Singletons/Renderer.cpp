@@ -1,6 +1,6 @@
-#include "Images.hpp"
+#include "Renderer.hpp"
 
-Images :: Images(){
+CellRenderer :: CellRenderer(){
     
     planktonImgs[0] = loadPngImage( "plankton/a" );
     planktonImgs[1] = loadPngImage( "plankton/b" );
@@ -48,6 +48,11 @@ Images :: Images(){
     title4     =     loadPngImage( "title/4" );
 
 
+
+    gl::Fbo::Format format;
+    miniMap = gl::Fbo::create( 800, 600, format );
+    
+    
 
     
 //    loadPngImage( "mask-3"            );

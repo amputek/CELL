@@ -1,11 +1,8 @@
 #include "Friendly.hpp"
 
 
-Friendly :: Friendly(vec2 loc, gl::TextureRef* tex) : Swimmer(loc){
-    speed = 0.5f;
-    radius = 6.0f;
-    tail = new Tail( 2, false, radius*0.1, false );
-    img = tex;
+Friendly :: Friendly(vec2 loc) : Swimmer(loc, 6.0f, randFloat(0.4f,0.6f) ){
+    tail = new Tail( 2, false, 0.6f, false );
 }
 
 //when hero reaches friendly, it gets born
@@ -23,17 +20,17 @@ void Friendly :: update(){
     //level up automatically, every 500 frames
     if(mborn == true){
         levelCounter += deltaTime * 60.0f;
-        if(radius < 20.0f){
+        if( mRadius < 20.0f){
             if(levelCounter > 800.0f)
             {
-                radius++;
+                mRadius++;
                 levelCounter = 0.0f;
                 tail->incLength(1.0);
             }
         }
     }
     
-    tail->update(vec2(global.x - sin(direction) * radius, global.y - cos(direction) * radius), direction);
+    tail->update(vec2(mPosition.x - sin(mDirection) * mRadius, mPosition.y - cos(mDirection) * mRadius), mDirection);
 
     if(birthing == true){
         birthCount += deltaTime * 60.0f;
@@ -44,20 +41,9 @@ void Friendly :: update(){
 }
 
 
-void Friendly :: draw(){
+void Friendly :: draw( CellRenderer & renderer ){
     
-    if( !onScreen() ) return;
-    entityDrawCount++;
-        gl::pushModelView();
-    gl::translate(local );
-    gl::rotate( -direction + M_PI );
-    gl::draw( *img , Rectf( -radius*2, -radius*2, radius*2, radius*2) );
-    gl::popModelView();
-    
-    //friendly starts without tail
-    if(mborn){
-        tail->draw();
-    }
-    
+    renderer.drawFriendly( mPosition, mDirection, mRadius );
+    if( mborn ) tail->draw( renderer );
     
 }

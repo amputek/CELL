@@ -19,7 +19,6 @@ public:
     void recieveMessage();
     
     //messages - self exlpanatory names
-    void startLoop();
     void quit();
     void eatPlankton(int type, float pan, float dist);
     void eighthPlankton();

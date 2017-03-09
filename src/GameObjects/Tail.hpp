@@ -20,16 +20,14 @@ public:
     
     
     void update(vec2 loc, float d);
-    void draw();
+    void draw( CellRenderer & renderer );
     void incLength( float a ){ length+=a; };
     void incWidth( float a ){ width+= a; };
     void setWide(){ wideTail = true; };
     void setFins(){ fins = true; };
     
 private:
-    void addFin(int top, int mid, int point);
-    void updateTailPaths();
-    
+
     vector<Finite*> tail;
     
     float direction;
@@ -41,14 +39,7 @@ private:
     bool wideTail;
     bool fins;
     
-    //drawing bits
-    Path2d mPath;
-    Path2d lPath;
-    Path2d rPath;
-    vector<Path2d> finPaths;
-    vector<Path2d> ridgePaths;
-    
-    
+
     float newFiniteCounter = 0.0f;
 };
 
