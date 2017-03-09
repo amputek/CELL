@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "GameObject.hpp"
+#include "Renderer.hpp"
 
 using namespace ci;
 

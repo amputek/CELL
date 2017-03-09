@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "Dust.hpp"
+#include "Renderer.hpp"
 
 class Bubble : public Dust{
 public:

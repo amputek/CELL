@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Swimmer.hpp"
 #include "Feeler.hpp"
+#include "Renderer.hpp"
 
 class Jelly : public Swimmer{
 public:

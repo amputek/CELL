@@ -2,7 +2,6 @@
 #define EntityManager_hpp
 
 #include <iostream>
-//#include "cinder/app/AppBasic.hpp"
 
 //ENTITIIES
 #include "Plankton.hpp"
@@ -15,10 +14,8 @@
 #include "Friendly.hpp"
 #include "Player.hpp"
 #include "Spark.hpp"
-#include "Grass.hpp"
 
 // IO + Managers
-#include "Renderer.hpp"
 #include "OscManager.hpp"
 #include "EntityGenerator.hpp"
 #include "EnvironmentManager.hpp"
@@ -30,7 +27,7 @@ using namespace std;
 class EntityManager {
     
 public:
-    EntityManager( CellRenderer* img );
+    EntityManager( CellRenderer * img );
     
 	void update( );
     void updateHero( const vec2 & mouseLoc, bool canMove );

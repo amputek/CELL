@@ -2,11 +2,10 @@
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
 
-
 #include "Globals.hpp"
 #include "Singletons/Renderer.hpp"
 #include "Singletons/EntityManager.hpp"
-#include "GameObjects/GameObject.hpp"
+
 
 using namespace ci;
 using namespace ci::app;
@@ -84,6 +83,12 @@ void CellApp::keyDown( KeyEvent event ){
     {
         if(!gameStarted) return;
         gamePaused = !gamePaused;
+    }
+    
+    
+    if( event.getChar() == 'm')
+    {
+        image->miniMapActive = !image->miniMapActive;
     }
     
 }

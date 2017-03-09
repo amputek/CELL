@@ -7,28 +7,32 @@
 #include <iostream>
 #include "Feeler.hpp"
 #include "Swimmer.hpp"
+#include "Renderer.hpp"
 
 class Starfish : public Swimmer{
 public:
     Starfish(vec2 loc);
     ~Starfish()
     {
-        for( vector<Feeler*>::iterator p = feelers.begin(); p != feelers.end(); ++p){
+        for( vector<Feeler*>::iterator p = mFeelers.begin(); p != mFeelers.end(); ++p){
             delete *p;
         }
     }
     void update();
-    void draw( CellRenderer & renderer );
+    void draw( CellRenderer * renderer );
     void collide(const vec2 & loc);
-    
-    bool fleeing = false;
-    
+    bool isFleeing() const{ return mFleeing; }
+
     //getters
-    bool activated();
-    float contacts = 0.0f;
+    bool reachedContactThreshold();
+
+    
 private:
-    vector<Feeler*> feelers;
-    float spinCounter;
+    vector<Feeler*> mFeelers;
+    float mSpinCounter;
+    float mContacts = 0.0f;
+    bool mFleeing = false;
+    
 
 };
 

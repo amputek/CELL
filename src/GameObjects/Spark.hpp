@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Swimmer.hpp"
 #include "Finite.hpp"
+#include "Renderer.hpp"
 
 class Spark : public Swimmer{
 public:

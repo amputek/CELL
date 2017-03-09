@@ -24,7 +24,7 @@ public:
     void addForce(vec2 force);
     
     //getters
-    bool contact(){ return springContact; };
+    bool contact() const { return springContact; };
     
 private:
     float mass;

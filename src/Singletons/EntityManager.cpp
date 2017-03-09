@@ -34,6 +34,9 @@ EntityManager :: EntityManager( CellRenderer* img){
         }
     }
     
+    
+    entityGenerator->generateStarfish( &starfish, vec2(-400,-2000));
+    
     colliders.push_back(hero);
     
 
@@ -66,6 +69,7 @@ void EntityManager :: update( ){
     updateOffset( );
     environment->update( hero->getPosition() );
 
+    
     if( getElapsedFrames() < 400 ) return;
     
     entityGenerator->generatePlankton( &plankton, &eggs );
@@ -192,7 +196,7 @@ void EntityManager :: updateUrchins(){
             }
         
             //OSC message - distance and collision amount
-            oscManager->urchin( dist( (*p)->getPosition(), hero->getPosition() ), (*p)->contactAmount() );
+            oscManager->urchin( dist( (*p)->getPosition(), hero->getPosition() ), (*p)->getContactAmount() );
             
             ++p;
         }
@@ -254,7 +258,7 @@ void EntityManager :: updateSpores(){
             }
             
             //sound happens if there's any contact with the field
-            if((*p)->contact() == true){
+            if( (*p)->isInContact() ){
                 environment->splash( (*p)->getPosition(), 22*(*p)->getDepth(), 30 );
                 oscManager->sporeBoop( (*p)->getHealth() );
             }
@@ -262,14 +266,14 @@ void EntityManager :: updateSpores(){
             //reset field counter if the character is near enough to any field
 
             //checks if health is low enough
-            if((*p)->alive() == false){
+            if( !(*p)->isAlive() ){
                 
                 ended = true;
                 
                 //do spark-creating business (new Spark, bubbles, splashes, OSC message)
-                sparks.push_back(new Spark((*p)->getPosition(), (*p)->type()  ) );
+                sparks.push_back(new Spark((*p)->getPosition(), (*p)->getType()  ) );
                 
-                oscManager->newSpark( (*p)->type() );
+                oscManager->newSpark( (*p)->getType() );
                 colliders.push_back( sparks.back() );
                 
                 environment->bubble( (*p)->getPosition(), 6 );
@@ -439,7 +443,7 @@ void EntityManager :: updateStarfish(){
             (*p)->update();
             
             //chord change if active
-            if( (*p)->activated() == true){
+            if( (*p)->reachedContactThreshold() ){
                 oscManager->changeChord();
                 environment->splash( (*p)->getPosition(), 20.0f, 100.0f );
                 environment->bubble( (*p)->getPosition(), 5 );
@@ -447,7 +451,7 @@ void EntityManager :: updateStarfish(){
  
             
             //periodically creates bubbles
-            if( (*p)->fleeing )
+            if( (*p)->isFleeing() )
             {
                 if( getElapsedFrames() % 15 == 0) environment->bubble( (*p)->getPosition(), 1 );
                 if( getElapsedFrames() % 3  == 0) environment->splash( (*p)->getPosition(), 30.0f, 40.0f);
@@ -553,20 +557,20 @@ void EntityManager :: drawEntities(){
     drawBackground();
     
     environment->draw();
+    
 
     gl::enableAlphaBlending();
-    for(int i = 0; i < spores.size();     i++){ spores.at(i)->draw( *image );   }
+    for(int i = 0; i < spores.size();     i++){ spores.at(i)->draw( image );   }
 
     gl::enableAdditiveBlending();
     for(int i = 0; i < urchins.size();    i++){ urchins.at(i)->draw( *image );   }
-    for(int i = 0; i < starfish.size();   i++){ starfish.at(i)->draw( *image );    }
+    for(int i = 0; i < starfish.size();   i++){ starfish.at(i)->draw( image );    }
 
-    gl::color(1,1,1);
+
     for(int i = 0; i < plankton.size();   i++){ plankton.at(i)->draw( *image ); }
 
     for(int i = 0; i < jellies.size();    i++){ jellies.at(i)->draw( *image );  }
     
-    gl::color(1,1,1);
     for(int i = 0; i < friendlies.size(); i++){ friendlies.at(i)->draw( *image );  }
     
     for(int i = 0; i < sparks.size();     i++){ sparks.at(i)->draw( *image );  }

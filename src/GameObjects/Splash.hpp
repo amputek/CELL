@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "Finite.hpp"
+#include "Renderer.hpp"
 
 using namespace ci;
 

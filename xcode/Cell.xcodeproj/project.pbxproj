@@ -61,7 +61,6 @@
 		FC20564C1E68C924007EE6B3 /* cell.icns in Resources */ = {isa = PBXBuildFile; fileRef = FC20564B1E68C924007EE6B3 /* cell.icns */; };
 		FC771C171E5A64BE00D14ABD /* EntityGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC771C151E5A64BE00D14ABD /* EntityGenerator.cpp */; };
 		FC787A8D1E59633100DBB5AE /* Cell-Audio.app in Resources */ = {isa = PBXBuildFile; fileRef = FC787A8C1E59633100DBB5AE /* Cell-Audio.app */; };
-		FC938DEC1E57A5FF00F26DC5 /* Grass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC938DEA1E57A5FF00F26DC5 /* Grass.cpp */; };
 		FCD101481E6CD323001B91DA /* Urchin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FCD101471E6CD323001B91DA /* Urchin.cpp */; };
 /* End PBXBuildFile section */
 
@@ -173,8 +172,6 @@
 		FC771C151E5A64BE00D14ABD /* EntityGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EntityGenerator.cpp; path = Singletons/EntityGenerator.cpp; sourceTree = "<group>"; };
 		FC771C161E5A64BE00D14ABD /* EntityGenerator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = EntityGenerator.hpp; path = Singletons/EntityGenerator.hpp; sourceTree = "<group>"; };
 		FC787A8C1E59633100DBB5AE /* Cell-Audio.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; name = "Cell-Audio.app"; path = "../resources/Cell-Audio.app"; sourceTree = "<group>"; };
-		FC938DEA1E57A5FF00F26DC5 /* Grass.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Grass.cpp; path = GameObjects/Grass.cpp; sourceTree = "<group>"; };
-		FC938DEB1E57A5FF00F26DC5 /* Grass.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Grass.hpp; path = GameObjects/Grass.hpp; sourceTree = "<group>"; };
 		FCD101471E6CD323001B91DA /* Urchin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Urchin.cpp; path = GameObjects/Urchin.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -545,7 +542,6 @@
 		D4FA58141C95B8DC00B579B0 /* GameObjects */ = {
 			isa = PBXGroup;
 			children = (
-				FC938DED1E57A61400F26DC5 /* Grass */,
 				D43623EC1C97C5090068AA89 /* Starfish */,
 				D43623E81C97C3EA0068AA89 /* Friendly */,
 				D43623E41C97C0890068AA89 /* Spark */,
@@ -595,15 +591,6 @@
 				DB24501C90EC4349ABAEA612 /* UdpSocket.cpp */,
 			);
 			name = posix;
-			sourceTree = "<group>";
-		};
-		FC938DED1E57A61400F26DC5 /* Grass */ = {
-			isa = PBXGroup;
-			children = (
-				FC938DEA1E57A5FF00F26DC5 /* Grass.cpp */,
-				FC938DEB1E57A5FF00F26DC5 /* Grass.hpp */,
-			);
-			name = Grass;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -687,7 +674,6 @@
 				D43623AE1C97A86D0068AA89 /* EntityManager.cpp in Sources */,
 				D43623DC1C97BC6C0068AA89 /* Mask.cpp in Sources */,
 				D43623EB1C97C4FF0068AA89 /* Starfish.cpp in Sources */,
-				FC938DEC1E57A5FF00F26DC5 /* Grass.cpp in Sources */,
 				D43623A51C97A40D0068AA89 /* Feeler.cpp in Sources */,
 				D43623F51C97C6F00068AA89 /* SeaSurface.cpp in Sources */,
 				5F144A4B80554B85AF74F9EE /* OscMessage.cpp in Sources */,

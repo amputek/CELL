@@ -5,7 +5,7 @@ Swimmer :: Swimmer(vec2 loc, float rad, float speed) : Braitenberg(loc, false, r
     inSpace = true;
 }
 
-Swimmer :: Swimmer(vec2 loc, bool canSlow, float rad, float speed) : Braitenberg(loc, canSlow, rad, speed){
+Swimmer :: Swimmer(vec2 loc, float rad, float speed, bool canSlow) : Braitenberg(loc, canSlow, rad, speed){
     targetDestination = loc;
     inSpace = true;
 }

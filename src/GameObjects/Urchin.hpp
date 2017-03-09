@@ -4,13 +4,14 @@
 #include <iostream>
 #include "Swimmer.hpp"
 #include "Feeler.hpp"
+#include "Renderer.hpp"
 
 class Urchin : public Swimmer{
 public:
     Urchin(vec2 loc);
     
     ~Urchin(){
-        for( vector<Feeler*>::iterator p = feelers.begin(); p != feelers.end(); ++p){
+        for( vector<Feeler*>::iterator p = mFeelers.begin(); p != mFeelers.end(); ++p){
             delete *p;
         }
     }
@@ -18,16 +19,16 @@ public:
     void update();
     void draw( CellRenderer & renderer );
     void collide(const vec2 & loc, float colliderSize);
-    int contactAmount(){
-        int n = contactCount;
-        //if(contactCount > 0 ) contactCount = 0;
-        return n;
+    
+    
+    int getContactAmount() const {
+        return mContactCount;
     };
     
 private:
     void updateFeelers();
-    vector<Feeler*> feelers;
-    int contactCount;
+    vector<Feeler*> mFeelers;
+    int mContactCount;
 };
 
 #endif

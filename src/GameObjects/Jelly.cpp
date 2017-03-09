@@ -18,7 +18,7 @@ Jelly :: Jelly(vec2 loc, int type) : Swimmer(loc, randFloat(18,40), 0.002f ){
         float tentacleStartWidth = randFloat(3.0f, 6.0f);
         float tentacleEndWidth = 0.2f;
         
-        feelers.push_back( new Feeler(mPosition, 1, feelerLength, tentacleStartWidth, tentacleEndWidth));
+        feelers.push_back( new Feeler(mPosition, 1, feelerLength, tentacleStartWidth, tentacleEndWidth, 3.0f));
 
     }
 }
@@ -31,19 +31,7 @@ void Jelly :: collide(const vec2 & loc, float colliderSize){
 }
 
 void Jelly :: draw( CellRenderer & renderer ){
-    
-    vector< vector< vec2 > > positions;
-    
-    for(int i = 0; i < feelers.size(); i++){
-        vector<vec2> pos;
-        for( int n = 0; n < feelers[i]->springs.size(); n++)
-            pos.push_back( feelers[i]->springs[n]->getPosition() );
-        positions.push_back( pos );
-    }
-
-    
-    renderer.drawJellyfish( mPosition, mRadius, positions, jellyType, counter, 4.0f );
-
+    renderer.drawJellyfish( mPosition, mRadius, feelers, jellyType, counter, 4.0f );
 }
 
 

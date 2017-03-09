@@ -9,7 +9,6 @@
 
 #include <iostream>
 #include "Globals.hpp"
-#include "Renderer.hpp"
 
 using namespace globals;
 using namespace ci;
@@ -23,9 +22,9 @@ public:
         mRadius = entitySize;
     }
     
-    float getSize(){ return mRadius; }
-    float getDepth(){ return mDepth; }
-    vec2 getPosition(){ return mPosition; }
+    float getSize() const { return mRadius; }
+    float getDepth() const { return mDepth; }
+    vec2 getPosition() const { return mPosition; }
     
 protected:
     float mRadius;

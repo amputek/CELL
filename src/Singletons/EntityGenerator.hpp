@@ -13,7 +13,6 @@
 #include "Friendly.hpp"
 #include "Player.hpp"
 #include "Spark.hpp"
-#include "Grass.hpp"
 #include "Renderer.hpp"
 
 

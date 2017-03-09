@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include "Spring.hpp"
-#include "cinder/TriMesh.h"
+#include "Renderer.hpp"
 
 
 class Egg : public GameObject{
