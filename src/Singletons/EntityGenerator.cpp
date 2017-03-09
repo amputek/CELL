@@ -31,15 +31,9 @@ vec2 EntityGenerator :: inFront( int inFrontBy, float randomiseAmount ){
     
     float distToEdgeScreen = 3000.0f;
     
-    
     vec2 direction = glm::normalize(hero->targetDestination - hero->getPosition());
-    
     direction = glm::normalize( direction + randVec2() * randomiseAmount );
-    
-  //  float x = hero->global.x + direction.x * 2000;
- //   float y = hero->global.y + direction.y * 2000;
-    
-    
+
     vec2 startGlobal = vec2( hero->getPosition().x,  hero->getPosition().y);
     vec2 endGlobal = hero->getPosition() + direction * 2000.0f;
     
@@ -118,7 +112,7 @@ void EntityGenerator::generateUrchin( vector<Urchin*> * urchins, const vec2 & ur
 void EntityGenerator::generateUrchin( vector<Urchin*> * urchins )
 {
     //URCHIN - only deep sea
-    if(urchinLastSeen < urchinFrequency || hero->getPosition().y < -1000) return;
+    if(urchinLastSeen < urchinFrequency || hero->getPosition().y < -1000 || urchins->size() > 2 ) return;
     
     generateUrchin( urchins, inFront(200, 0.2f ) );
     
@@ -136,7 +130,7 @@ void EntityGenerator::generateStarfish( vector<Starfish*> * starfish )
 {
     //STARFISH - not shallow waters
     
-    if( starLastSeen < starFrequency ) return;
+    if( starLastSeen < starFrequency || starfish->size() > 2 ) return;
     if( hero->getPosition().y > -3000 ) return;
     
     generateStarfish( starfish, inFront(400, 0.2f) );
@@ -154,7 +148,7 @@ void EntityGenerator::generateJellyfish( vector<Jelly*> * jellies, int type, con
 void EntityGenerator::generateJellyfish( vector<Jelly*> * jellies )
 {
     //JELLYFISH - anywhere
-    if(jellyLastSeen < jellyFrequency) return;
+    if(jellyLastSeen < jellyFrequency || jellies->size() > 3 ) return;
     
     generateJellyfish( jellies, randInt(0,3), inFront(300, 0.2f) );
     

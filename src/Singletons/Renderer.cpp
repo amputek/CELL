@@ -52,7 +52,7 @@ CellRenderer :: CellRenderer(){
     gl::Fbo::Format format;
     miniMap = gl::Fbo::create( 800, 600, format );
     
-    
+
 
     
 //    loadPngImage( "mask-3"            );
