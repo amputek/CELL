@@ -34,9 +34,6 @@ EntityManager :: EntityManager( CellRenderer* img){
         }
     }
     
-    
-    entityGenerator->generateStarfish( &starfish, vec2(-400,-2000));
-    
     colliders.push_back(hero);
     
 
@@ -88,22 +85,9 @@ void EntityManager :: update( ){
 void EntityManager :: updateHero( const vec2 & mousePos, bool canMove ){
 
     
-    if( getElapsedFrames() == 2 )
-    {
-        for(int i = 0; i < 25; i++)
-        {
-            hero->levelUp();
-        }
-    }
-
-    
     hero->moveTo( canMove ? mousePos : vec2( getWindowWidth() / 2, getWindowHeight() / 2 - 50) );
-
-    
     hero->update( deltaTime );
-    
-    //hero->global = globalise( mousePos, 1.0f );
-    
+
     oscManager->setDepth( (-hero->getPosition().y) / 7000 );
     
     //constantly make splashes around hero
@@ -113,6 +97,7 @@ void EntityManager :: updateHero( const vec2 & mousePos, bool canMove ){
         environment->splash(hero->getPosition(), hero->getSize() * 1.8, randFloat(hero->getSize() * 2.4, hero->getSize() * 10.0f) );
     }
 }
+
 
 void EntityManager :: updatePlankton(){
     
@@ -131,24 +116,26 @@ void EntityManager :: updatePlankton(){
             while(!deleteThisPlankton && i < colliders.size()){
                 
                 //check if collider has eaten plankton
-                if(dist( (*p)->getPosition(), colliders.at(i)->getPosition()) < (*p)->getSize() + colliders.at(i)->getSize() ){
+                if( inContact( *p, colliders.at(i) ) )
+                {
                     
                     //do plankton eating business (bubbles, splashes, osc message)
                     environment->bubble( (*p)->getPosition(), 3);
                     environment->splash( (*p)->getPosition(), 1, 75 );
                     float pan = ( (*p)->getPosition().x - hero->getPosition().x);
-                    oscManager->eatPlankton( (*p)->type(), pan , dist(hero->getPosition(), (*p)->getPosition()) );
+                    oscManager->eatPlankton( (*p)->getType(), pan , dist(hero->getPosition(), (*p)->getPosition()) );
                     
                     //if collider is the HERO ( collider #0 ) and not any other entity
-                    if(i == 0){
+                    if( colliders.at(i) == hero )
+                    {
                         //hero levels up etc
-                        hero->incEaten( (*p)->type() );
-                        if(hero->getEaten() % 20 == 0){
-                            hero->levelUp();
+                        if( hero->incEaten( (*p)->getType() ) )
+                        {
                             environment->splash( hero->getPosition(), 0, 100 );
                             oscManager->eighthPlankton();
                         }
                     }
+                    
                     deleteThisPlankton = true;
                 }
                 i++;
@@ -270,16 +257,18 @@ void EntityManager :: updateSpores(){
                 
                 ended = true;
                 
-                //do spark-creating business (new Spark, bubbles, splashes, OSC message)
-                sparks.push_back(new Spark((*p)->getPosition(), (*p)->getType()  ) );
                 
-                oscManager->newSpark( (*p)->getType() );
-                colliders.push_back( sparks.back() );
-                
-                environment->bubble( (*p)->getPosition(), 6 );
-                for(int i = 0; i < 10; i++){
-                    environment->splash( (*p)->getPosition() + vrand(10), randFloat(5,20), randFloat(5,35) );
+                if( sparks.size() == 0 || randFloat() < 0.5f )
+                {
+                    //do spark-creating business (new Spark, bubbles, splashes, OSC message)
+                    sparks.push_back(new Spark((*p)->getPosition(), (*p)->getType()  ) );
+                    oscManager->newSpark( (*p)->getType() );
+                    colliders.push_back( sparks.back() );
                 }
+                    
+                environment->bubble( (*p)->getPosition(), 6 );
+                environment->splash( (*p)->getPosition() + vrand(10), (*p)->getSize(), (*p)->getSize() * 2.5f );
+
             }
         }
         
@@ -420,7 +409,17 @@ void EntityManager :: updateFriendlies(){
 //            }
         }
         
-        ++p;
+
+        if( farFromHero( (*p)->getPosition() ) == true ){
+            removeFromColliders( (GameObject*)(*p) );
+            delete *p;
+            p = friendlies.erase(p);
+        } else {
+            ++p;
+        }
+        
+        
+        
         index++;
         
     }

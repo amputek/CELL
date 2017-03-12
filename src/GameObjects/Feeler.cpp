@@ -9,12 +9,13 @@ Feeler :: Feeler(vec2 loc, float depth, int jointCount, float base, float tip, f
     float mass = 5.0f;
     float damping = 7.0f;
     
+    vec2 dir = randVec2();
+    
     for(int i = 0; i < jointCount; i++){
-        vec2 springPosition = loc + vec2(i * 2.0f,i * 2.0f);
+        vec2 springPosition = loc + (dir * (float)i);
         float springStiffness = i == 0 ? 10.0f : stiffness;
         springs.push_back( new Spring(springPosition, depth, springStiffness, mass, damping ) );
     }
-
     update();
     mFeelerInContact = false;
 };

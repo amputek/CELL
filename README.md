@@ -1,4 +1,4 @@
-Cell v1.5
+Cell v1.0
 =========
 
 CELL is a procedural audio-visual game built in Cinder and SuperCollider.

@@ -112,7 +112,7 @@ void EntityGenerator::generateUrchin( vector<Urchin*> * urchins, const vec2 & ur
 void EntityGenerator::generateUrchin( vector<Urchin*> * urchins )
 {
     //URCHIN - only deep sea
-    if(urchinLastSeen < urchinFrequency || hero->getPosition().y < -1000 || urchins->size() > 2 ) return;
+    if(urchinLastSeen < urchinFrequency || hero->getPosition().y < -1000 || urchins->size() > 0 ) return;
     
     generateUrchin( urchins, inFront(200, 0.2f ) );
     
@@ -131,9 +131,8 @@ void EntityGenerator::generateStarfish( vector<Starfish*> * starfish )
     //STARFISH - not shallow waters
     
     if( starLastSeen < starFrequency || starfish->size() > 2 ) return;
-    if( hero->getPosition().y > -3000 ) return;
     
-    generateStarfish( starfish, inFront(400, 0.2f) );
+    generateStarfish( starfish, inFront(300, 0.2f) );
     
     starLastSeen = 0;
 }

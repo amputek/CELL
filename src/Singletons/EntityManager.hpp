@@ -68,6 +68,14 @@ private:
         return false;
     }
 
+    
+    bool inContact( GameObject * a, GameObject * b )
+    {
+        return distance( a->getPosition(), b->getPosition() ) < a->getSize() + b->getSize();
+    }
+
+    
+    
     //Collections
     Player* hero;
     vector<Friendly*> friendlies;

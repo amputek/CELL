@@ -16,6 +16,9 @@ class CellApp : public App {
 	void setup() override;
     void cleanup() override;
     void keyDown( KeyEvent event ) override;
+    void mouseMove( MouseEvent event ) override {
+        hideCursor();
+    }
 	void update() override;
 	void draw() override;
     vec2 mousePosition();
@@ -48,6 +51,8 @@ void CellApp::setup(){
     image = new CellRenderer();
     entityManager = new EntityManager( image );
     
+    //hideCursor();
+    
     //Open Cell-Audio.app
     if( runAudio )
     {
@@ -61,6 +66,8 @@ void CellApp::setup(){
     
 
     gl::enableAdditiveBlending( );
+    
+
     
 }
 
@@ -88,7 +95,7 @@ void CellApp::keyDown( KeyEvent event ){
     
     if( event.getChar() == 'm')
     {
-        image->miniMapActive = !image->miniMapActive;
+     //   image->miniMapActive = !image->miniMapActive;
     }
     
 }
@@ -147,7 +154,7 @@ void CellApp::draw(){
     
     drawMenu();
 
-    gl::drawString( "Framerate: " + to_string( roundf(getAverageFps()) ) + " Delta: " + to_string(deltaTime), vec2( 10.0f, 10.0f ) );
+  //  gl::drawString( "Framerate: " + to_string( roundf(getAverageFps()) ) + " Delta: " + to_string(deltaTime), vec2( 10.0f, 10.0f ) );
 //    gl::drawString( "Draw Count: " + to_string( entityDrawCount ), vec2( 10.0f, 30.0f ) );
 //
 
@@ -196,14 +203,7 @@ void CellApp::drawSplashScreens()
 }
 
 void CellApp::drawCursor(){
-
-
     vec2 mousePos = mousePosition();
-
-    //This is dumb-- but only way to get around Cinder cursor bug
-    showCursor();
-    hideCursor();
-
     image->drawCursor( mousePos );
 }
 

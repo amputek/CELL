@@ -265,6 +265,7 @@ void CellRenderer::drawFriendly( const vec2 & global, float direction, float rad
     {
         entityDrawCount++;
         gl::pushModelView();
+        gl::color(1,1,1);
         gl::translate( pos );
         gl::rotate( -direction + M_PI );
         gl::draw( friendlyImg , Rectf( -radius*2, -radius*2, radius*2, radius*2) );
@@ -418,8 +419,8 @@ void CellRenderer::drawJellyfish( const vec2 & global, float radius, const vecto
 {
     
     vec2 pos = toLocal( global, 1 );
-    bool isOnScreen = onScreen( pos, 100 );
-    
+    bool isOnScreen = onScreen( pos, 150 );
+
     if( isOnScreen )
     {
         
@@ -462,7 +463,7 @@ void CellRenderer::drawJellyfish( const vec2 & global, float radius, const vecto
 
 void CellRenderer::drawUrchin( const vec2 & global, float radius, const vector< Feeler * > & feelers )
 {
-    
+
     vec2 local = toLocal(global,1);
     
     bool isOnScreen = onScreen( local, radius + 50 );

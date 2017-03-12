@@ -56,12 +56,12 @@ private:
     vec2 inFront(int inFrontBy, float randomiseAmount);
     float lineSegmentIntersection(const vec2 &start1, const vec2 &end1, const vec2 &start2, const vec2 &end2 );
     
-    const int urchinFrequency = 500;
-    const int sporeFrequency = 700;
-    const int starFrequency = 900;
-    const int jellyFrequency = 1000;
-    const int eggFrequency = 2000;
-    const int planktonFrequency = 80;
+    const int urchinFrequency = 1000;
+    const int sporeFrequency = 1400;
+    const int starFrequency = 1400;
+    const int jellyFrequency = 2000;
+    const int eggFrequency = 4000;
+    const int planktonFrequency = 100;
 
 };
 

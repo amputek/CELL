@@ -19,7 +19,7 @@ public:
     CellRenderer();
 
     int entityDrawCount = 0;
-    bool miniMapActive = true;
+    bool miniMapActive = false;
     
 
     void drawCursor( const vec2 & mousePos )

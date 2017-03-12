@@ -13,15 +13,25 @@ public:
     void draw( CellRenderer & renderer );
     void update(float deltaTime);
     void moveTo(vec2 mousePos);
-    void incEaten(int type){ planktonEaten.at(type)++; };
+    bool incEaten(int type){
+        planktonEaten++;
+        if( planktonEaten % 20 == 0 )
+        {
+            levelUp();
+            return true;
+        }
+        return false;
+    };
     void slow(bool t);
     
     //getters
-    int getEaten();
     bool levelling(){ return playerLevelling; };
-    void levelUp();
+
     
 private:
+    
+    void levelUp();
+    
     int bodyType = 0;
     int levelCount;             //a counter for the levelling process
     Tail* longTail;
@@ -30,7 +40,7 @@ private:
     bool falling;               //true if player is above surface
     bool playerLevelling;       //true if player is levelling
     bool sideTailsOn = false;    //the shorter side tails that the player has at a high enough level
-    vector<int> planktonEaten;  //number of each type of plankton eaten
+    int planktonEaten;  //number of each type of plankton eaten
     int level;                  //current level
 };
 

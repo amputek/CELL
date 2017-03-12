@@ -8,13 +8,6 @@ Player :: Player(const vec2 & loc) : Braitenberg(loc, true, 5.0f, 0.5f){
     rightTail = new Tail( 2, false, 3, false);
     playerLevelling = false;
     falling = false;
-
-    
-    for(int i = 0; i < 7; i ++){
-        planktonEaten.push_back(0);
-    }
-
-    
 }
 
 
@@ -66,15 +59,6 @@ void Player:: draw( CellRenderer & renderer ){
         leftTail->draw( renderer );
         rightTail->draw( renderer );
     }
-}
-
-//returns number of eaten plankton
-int Player :: getEaten(){
-    int eaten = 0;
-    for(int i = 0; i < planktonEaten.size(); i++){
-        eaten += planktonEaten.at(i);
-    }
-    return eaten;
 }
 
 void Player :: levelUp(){

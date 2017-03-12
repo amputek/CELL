@@ -11,7 +11,7 @@ void Spark :: update(){
     
     //radius returns to 8 after pulse (from SuperCollider)
     if(mRadius > 8.0f){
-        mRadius -= deltaTime * 5.0f;
+        mRadius -= deltaTime * 25.0f;
     }
     
     Swimmer::update();

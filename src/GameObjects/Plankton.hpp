@@ -12,11 +12,10 @@ public:
     Plankton( vec2 loc, int t);
     ~Plankton(){ }
     void draw( CellRenderer & renderer );
-    bool checkEaten(const vec2 & loc);
-    int type(){ return planktonType; };
+    const int getType() const { return mPlanktonType; };
 private:
-    int planktonType;
-    float rotation = 0.0f;
+    int mPlanktonType;
+    float mRotation = 0.0f;
 };
 
 #endif

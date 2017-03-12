@@ -1,13 +1,13 @@
 #include "Urchin.hpp"
 
-Urchin :: Urchin(vec2 loc) : Swimmer(loc, true, randFloat(10,30), 0.002f ){
+Urchin :: Urchin(vec2 loc) : Swimmer(loc, randFloat(2,35), 0.002f, true ){
     
 
-    int feelerLength = mRadius * randFloat(0.2,0.5);
+    int feelerLength = randInt(4,15);
     float tentacleStartWidth = 4.0f;
     float tentacleEndWidth = 0.2f;
     
-    for(int i = 0; i < randInt(15,40); i++){
+    for(int i = 0; i < randInt(10,30); i++){
         mFeelers.push_back(new Feeler(loc, 1, feelerLength, tentacleStartWidth, tentacleEndWidth));
     }
 
