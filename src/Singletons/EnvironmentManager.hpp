@@ -13,7 +13,8 @@ using namespace ci;
 
 class EnvironmentManager{
 public:
-    EnvironmentManager( CellRenderer* imgs );
+    EnvironmentManager(){};
+    EnvironmentManager( CellRenderer * imgs );
     void splash( vec2 loc, int start, int end );
     void bubble( vec2 local, int amount );
     void update( const vec2 & heroGlobal );

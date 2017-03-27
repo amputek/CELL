@@ -6,12 +6,26 @@
 #include "cinder/gl/Texture.h"
 #include "cinder/Log.h"
 #include "Globals.hpp"
-#include "Feeler.hpp"
 
 using namespace std;
 using namespace ci::app;
 using namespace ci;
 using namespace gl;
+using namespace std;
+
+
+
+
+struct FeelerStruct
+{
+    FeelerStruct() { }
+    FeelerStruct( vector<vec2> mPoints, float tipWidth, float baseWidth) : mPoints(mPoints), mTipWidth(tipWidth), mBaseWidth(baseWidth){ }
+    vector<vec2> mPoints;
+    float mTipWidth;
+    float mBaseWidth;
+};
+
+
 
 class CellRenderer{
 public:
@@ -111,11 +125,11 @@ public:
     
     void drawSpore( const vec2 & global, float radius, float depth, int sporeType );
     
-    void drawStarfish( const vec2 & global, const vector<Feeler*> & feelers, float contacts );
+    void drawStarfish( const vec2 & global, const vector<FeelerStruct> & feelers, float contacts );
     
     void drawBeam( const vec2 & global, float depth, float op );
 
-    void drawJellyfish( const vec2 & global, float radius, const vector<Feeler*> & feelers, int jellyType, float counter, float baseWidth );
+    void drawJellyfish( const vec2 & global, float radius, const vector<FeelerStruct> & feelers, int jellyType, float counter, float baseWidth );
     
     void drawPlankton( const vec2 & global, float depth, float radius, int planktonType, float rotation );
     
@@ -123,9 +137,15 @@ public:
     
     void drawSpark( const vec2 & global, float radius, int type, const vector<vec2> & positions, const vector<float> & sizes );
     
-    void drawUrchin( const vec2 & global, float radius, const vector< Feeler * > & feelers );
+    void drawUrchin( const vec2 & global, float radius, const vector<FeelerStruct> & feelers );
     
     void drawTail( vector<vec2> positions, bool wideTail, bool fins, float width, float direction );
+    
+    void debugDestination( const vec2 & pos, const vec2 & dest )
+    {
+        gl::color(1,1,1);
+        drawLine(toLocal(pos),toLocal(dest));
+    }
     
     void refresh()
     {
@@ -241,7 +261,7 @@ private:
     }
     
     
-    Shape2d drawFeeler( Feeler * feeler );
+    Shape2d drawFeeler( const FeelerStruct & feeler );
 
     
     Path2d drawFin( const vec2 & top, const vec2 & mid, const vec2 & point, const vec2 & nextPoint, float width )

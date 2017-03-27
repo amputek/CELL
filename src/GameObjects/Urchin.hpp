@@ -2,33 +2,65 @@
 #define Urchin_hpp
 
 #include <iostream>
-#include "Swimmer.hpp"
-#include "Feeler.hpp"
-#include "Renderer.hpp"
+#include "FeelerCreature.hpp"
 
-class Urchin : public Swimmer{
+#include "OSCManager.hpp"
+#include "EnvironmentManager.hpp"
+
+class Urchin : public FeelerCreature{
 public:
-    Urchin(vec2 loc);
     
-    ~Urchin(){
-        for( vector<Feeler*>::iterator p = mFeelers.begin(); p != mFeelers.end(); ++p){
-            delete *p;
-        }
+    Urchin(vec2 loc) : FeelerCreature(loc, randFloat(2,35), 0.05f )
+    {
+        GameObject::mType = URCHIN;
+        
+        addFeelers(randInt(10,30), randInt(4,15), 6.0f, 0.2f);
+        
+        ENTITY_COUNT++;
     }
     
-    void update();
-    void draw( CellRenderer & renderer );
-    void collide(const vec2 & loc, float colliderSize);
+    ~Urchin(){
+        ENTITY_COUNT--;
+    }
     
+    void update()
+    {
+        
+        if( randFloat() < 0.001f )
+        {
+            setDestination( mPosition + vrand(400.0f) );
+        }
+        
+        int i = 0;
+        for( auto f : mFeelers )
+        {
+            //distribute feelers equally around the Urchin
+            float angle = 2 * M_PI * i / mFeelers.size();
+            f->setHomePosition( mPosition + vec2(sin(angle) * mRadius, cos(angle) * mRadius ) );
+            f->addForce( (f->getPosition() - mPosition) * 1.0f );
+            i++;
+        }
+        
+        FeelerCreature::update();
+    }
     
-    int getContactAmount() const {
-        return mContactCount;
-    };
+    void collide( vector<GameObject*> & gameObjects, GameObject * hero, EnvironmentManager & environment, OSCManager & oscManager )
+    {
+        //Use default collision behaviour
+        FeelerCreature::collide(gameObjects, hero, environment, oscManager);
+        oscManager.urchin( dist( mPosition, hero->getPosition() ), mFeelersInContact );
+    }
     
-private:
-    void updateFeelers();
-    vector<Feeler*> mFeelers;
-    int mContactCount;
+    void draw( CellRenderer & renderer )
+    {
+        renderer.drawUrchin(mPosition, mRadius, getDrawFeelers() );
+        debugDraw( renderer );
+    }
+
+    static int SEENCOUNT;
+    static int ENTITY_COUNT;
+    const static int SPAWN_FREQUENCY = 1000;
+
 };
 
 #endif

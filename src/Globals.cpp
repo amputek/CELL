@@ -7,7 +7,8 @@ namespace globals {
     float deltaTime = 0.0166f;
 
     int entityDrawCount = 0;
-      //random vector
+    
+    //random vector
     vec2 vrand(float x){
         return vec2( randFloat(-x,x), randFloat(-x,x) );
     }

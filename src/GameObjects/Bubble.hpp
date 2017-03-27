@@ -2,13 +2,12 @@
 #define Bubble_hpp
 
 #include <iostream>
-#include "Dust.hpp"
-#include "Renderer.hpp"
+#include "PhysicsObject.hpp"
 
-class Bubble : public Dust{
+class Bubble : public PhysicsObject, public IDrawable{
 public:
     
-    Bubble( const vec2 & loc, const vec2 & vel, float depth ) : Dust( loc, depth, randFloat(3,9) * depth * depth, 4.0f, vel ) {
+    Bubble( const vec2 & loc, const vec2 & vel, float depth ) : PhysicsObject( loc, depth, randFloat(3,9) * depth * depth, 4.0f, vel ) {
 
     }
     

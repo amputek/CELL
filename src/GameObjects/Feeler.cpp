@@ -14,21 +14,23 @@ Feeler :: Feeler(vec2 loc, float depth, int jointCount, float base, float tip, f
     for(int i = 0; i < jointCount; i++){
         vec2 springPosition = loc + (dir * (float)i);
         float springStiffness = i == 0 ? 10.0f : stiffness;
-        springs.push_back( new Spring(springPosition, depth, springStiffness, mass, damping ) );
+        springs.push_back( new SpringyObject(springPosition, depth, springStiffness, mass, damping ) );
     }
     update();
-    mFeelerInContact = false;
+
 };
 
 
 
-void Feeler :: collide(const vec2 & heroLoc, float colliderSize ){
+bool Feeler :: collide(const vec2 & entityPosition, float colliderSize ){
+    bool feelerInContact = false;
     for(int i = 1; i < springs.size(); i++){
-        springs.at(i)->collide(heroLoc, colliderSize);
-        if(springs.at(i)->contact() ){
-            mFeelerInContact = true;
+        if( springs.at(i)->collide(entityPosition, colliderSize) )
+        {
+            feelerInContact = true;
         }
     }
+    return feelerInContact;
 }
 
 bool Feeler :: feelTowards( const vec2 & colliderPos, float minDist, float force ){
@@ -39,7 +41,7 @@ bool Feeler :: feelTowards( const vec2 & colliderPos, float minDist, float force
     
         float alongRatio = (float)i / springs.size();
         
-        Spring * spring = springs.at(i);
+        SpringyObject * spring = springs.at(i);
         if( glm::distance( spring->getPosition(), colliderPos ) < minDist )
         {
             activated = true;
@@ -63,14 +65,15 @@ void Feeler :: addForce(const vec2 & force){
 
 void Feeler :: update(){
     
-    mFeelerInContact = false;
+    positions.clear();
     
     //all other springs gets updated against the prior spring
     for(int i = 0; i < springs.size(); i++){
         if( i > 0) springs.at(i)->moveTowards(springs.at(i-1)->getPosition());
         springs.at(i)->update();
+        positions.push_back( springs.at(i)->getPosition() );
     }
-
+    
 }
 
 

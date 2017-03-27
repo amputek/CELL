@@ -1,5 +1,7 @@
 #include "EnvironmentManager.hpp"
 
+
+
 EnvironmentManager :: EnvironmentManager( CellRenderer* imgs ){
     image = imgs;
     

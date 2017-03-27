@@ -3,23 +3,23 @@
 
 #include <iostream>
 #include "Finite.hpp"
-#include "Renderer.hpp"
+
 
 using namespace ci;
 
-class Splash : public Finite{
+class Splash : public Finite, public IDrawable{
 public:
     Splash(vec2 position, float size, int lifetime, float depth ) : Finite( position, lifetime, size, depth )
     {
-        startSize = size;
+        mStartSize = size;
     }
     
     void draw( CellRenderer & cellRenderer ){
-        cellRenderer.drawSplash( mPosition, currentLife, maxLife, startSize );
+        cellRenderer.drawSplash( mPosition, currentLife, maxLife, mStartSize );
     }
 
 private:
-    float startSize;
+    float mStartSize;
 };
 
 

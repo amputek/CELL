@@ -17,7 +17,7 @@ public:
         : Feeler( loc, depth, joints, 4.0f, 0.2f, 2.0f ){ }
 
     ~Feeler(){
-        for( vector<Spring*>::iterator p = springs.begin(); p != springs.end(); ++p){
+        for( vector<SpringyObject*>::iterator p = springs.begin(); p != springs.end(); ++p){
             delete *p;
         }
     }
@@ -34,30 +34,22 @@ public:
         }
     }
     
+    FeelerStruct getDrawStruct()
+    {
+        return FeelerStruct( positions, tipWidth, baseWidth);
+    }
+    
     void update();
-    void collide(const vec2 & heroLoc, float colliderSize);
+    bool collide(const vec2 & entityPosition, float colliderSize);
     void addForce(const vec2 & force);
     bool feelTowards( const vec2 & colliderPos, float minDist, float force );
     
-    const vector<vec2> getPoints() const {
-        vector<vec2> positions;
-        for(int i = 0; i < springs.size(); i++)
-            positions.push_back( springs.at(i)->getPosition() );
-        return positions;
-    };
-    
-    //getters
-    bool inContactWithCollider(){ return mFeelerInContact; };
-
-    float getBaseWidth(){ return baseWidth; }
-    float getTipWidth(){ return tipWidth; }
-    
 private:
-   
-    bool mFeelerInContact;
-  
+
     
-    vector<Spring*> springs;
+  
+    vector<SpringyObject*> springs;
+    vector<vec2> positions;
     
     float baseWidth = 4.0f;
     float tipWidth = 0.2f;

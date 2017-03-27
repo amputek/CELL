@@ -7,29 +7,55 @@
 #ifndef Spring_hpp
 #define Spring_hpp
 
-#include "Dust.hpp"
+#include "PhysicsObject.hpp"
 
 using namespace std;
 
-class Spring : public Dust{
+class SpringyObject : public PhysicsObject{
     
 public:
-    Spring(vec2 startLocation, float depth, float stiffness, float mass, float damping );
-    void draw();
-    void moveTowards(vec2 target);
-    void setPosition(vec2 target){
+    SpringyObject(vec2 startLocation, float depth, float stiffness, float mass, float damping )
+        : PhysicsObject(startLocation, 1, 1, damping), mStiffness(stiffness), mMass(mass){ }
+
+    
+    void moveTowards(const vec2 & targetToMoveTowards)
+    {
+        vec2 force = (targetToMoveTowards - mPosition) * mStiffness;
+        addForce( force );
+    }
+    
+    void setPosition(vec2 target)
+    {
         mPosition = target;
     }
-    void collide(const vec2 & heroLoc, float colDist);
-    void addForce(vec2 force);
     
-    //getters
-    bool contact() const { return springContact; };
+    bool collide(const vec2 & colliderPosition, float collideDist)
+    {
+        if(dist(colliderPosition, mPosition) > collideDist) return false;
+        
+
+        vec2 d = colliderPosition - mPosition;
+        float angle = atan2(d.y, d.x);
+        vec2 target = vec2(colliderPosition.x - cos(angle) * collideDist, colliderPosition.y - sin(angle) * collideDist);
+        vec2 force = (target - mPosition) * mStiffness * 3.0f;
+        addForce( force );
+        
+        mPosition = target;
+        
+        return true;
+    }
+    
+    void addForce(vec2 force)
+    {
+        vec2 accel = force / mMass;
+        addVelocity( accel * deltaTime * 60.0f );
+    }
+    
+
     
 private:
-    float mass;
-    float stiffness;
-    bool springContact;
+    float mMass;
+    float mStiffness;
 };
 
 #endif

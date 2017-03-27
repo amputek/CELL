@@ -1,15 +1,5 @@
-//
-//  EntityGenerator.cpp
-//  Cell
-//
-//  Created by Rob Dawson on 19/02/2017.
-//
-//
-
 #include "EntityGenerator.hpp"
-
-
-
+#include "EntityManager.hpp"
 
 float EntityGenerator ::lineSegmentIntersection(const vec2 &start1, const vec2 &end1, const vec2 &start2, const vec2 &end2 )
 {
@@ -31,7 +21,7 @@ vec2 EntityGenerator :: inFront( int inFrontBy, float randomiseAmount ){
     
     float distToEdgeScreen = 3000.0f;
     
-    vec2 direction = glm::normalize(hero->targetDestination - hero->getPosition());
+    vec2 direction = glm::normalize(hero->getDestination() - hero->getPosition());
     direction = glm::normalize( direction + randVec2() * randomiseAmount );
 
     vec2 startGlobal = vec2( hero->getPosition().x,  hero->getPosition().y);
@@ -65,96 +55,75 @@ vec2 EntityGenerator :: inFront( int inFrontBy, float randomiseAmount ){
 
 
 //Generate a group of plaknton
-void EntityGenerator::generatePlankton( vector<Plankton*> * plankton, int planktonType, const vec2 & position )
+void EntityGenerator::generatePlankton( vector<GameObject*> & entities, int planktonType, const vec2 & position )
 {
-    plankton->push_back( new Plankton( position, planktonType ) );
+    entities.push_back( new Plankton( position, planktonType ) );
 }
 
-void EntityGenerator::generatePlankton( vector<Plankton*> * plankton, vector<Egg*> * eggs )
+void EntityGenerator::generatePlankton( vector<GameObject*> & entities )
 {
     
-    if( getElapsedFrames() % planktonFrequency != 0 ) return;
-    if( plankton->size() > 40) return;
+    if( getElapsedFrames() % Plankton::SPAWN_FREQUENCY != 0 ) return;
+    if( Plankton::ENTITY_COUNT > 40) return;
     
 
-    
     //position of new plankton in front of the hero
     vec2 clusterPosition = inFront(randFloat(100,400), 0.4f);
     
-    //make sure plankton do not spawn inside egg
-    for(int i = 0; i < eggs->size();i++)
-        if(dist(clusterPosition, eggs->at(i)->getPosition()) < eggs->at(i)->getSize() + 50)
-            return;
-    
-    
+
     int planktonCount = randInt(1,8);
     
     for(int i = 0; i < planktonCount; i++){
         int planktonType = randInt(0,5);
         vec2 planktonPosition = clusterPosition + vrand(100);
-        generatePlankton( plankton, planktonType, planktonPosition );
+        generatePlankton( entities, planktonType, planktonPosition );
     }
     
 }
 
 
 
-void EntityGenerator::generateUrchin( vector<Urchin*> * urchins, const vec2 & urchinPosition )
+void EntityGenerator::generateUrchin( vector<GameObject*> & entities, const vec2 & urchinPosition )
 {
-
-    urchins->push_back( new Urchin( urchinPosition ) );
-    
-    colliders->push_back( urchins->back() );
-    
-    urchinLastSeen = 0;
+    entities.push_back( new Urchin( urchinPosition ) );
+    Urchin::SEENCOUNT = 0;
 }
 
-void EntityGenerator::generateUrchin( vector<Urchin*> * urchins )
+void EntityGenerator::generateUrchin(vector<GameObject*> & entities)
 {
     //URCHIN - only deep sea
-    if(urchinLastSeen < urchinFrequency || hero->getPosition().y < -1000 || urchins->size() > 0 ) return;
-    
-    generateUrchin( urchins, inFront(200, 0.2f ) );
-    
-    urchinLastSeen = 0;
+    if(Urchin::SEENCOUNT < Urchin::SPAWN_FREQUENCY || hero->getPosition().y < -1000 || Urchin::ENTITY_COUNT > 0 ) return;
+    generateUrchin( entities, inFront(200, 0.2f ) );
 }
 
 
-void EntityGenerator::generateStarfish( vector<Starfish*> * starfish, const vec2 & position )
+void EntityGenerator::generateStarfish( vector<GameObject*> & entities, const vec2 & position )
 {
-    starfish->push_back( new Starfish( position ) );
-    colliders->push_back( starfish->back() );
+    entities.push_back( new Starfish( position ) );
+    Starfish::SEENCOUNT = 0;
 }
 
-void EntityGenerator::generateStarfish( vector<Starfish*> * starfish )
+void EntityGenerator::generateStarfish( vector<GameObject*> & entities )
 {
     //STARFISH - not shallow waters
-    
-    if( starLastSeen < starFrequency || starfish->size() > 2 ) return;
-    
-    generateStarfish( starfish, inFront(300, 0.2f) );
-    
-    starLastSeen = 0;
+    if( Starfish::SEENCOUNT < Starfish::SPAWN_FREQUENCY || Starfish::ENTITY_COUNT > 2 ) return;
+    generateStarfish( entities, inFront(300, 0.2f) );
 }
 
 
-void EntityGenerator::generateJellyfish( vector<Jelly*> * jellies, int type, const vec2 & position )
+void EntityGenerator::generateJellyfish( vector<GameObject*> & entities, int type, const vec2 & position )
 {
-    jellies->push_back( new Jelly( position, type ) );
-    colliders->push_back( jellies->back() );
-}
+    entities.push_back( new Jelly( position, type ) );
+    Jelly::SEENCOUNT = 0;}
 
-void EntityGenerator::generateJellyfish( vector<Jelly*> * jellies )
+void EntityGenerator::generateJellyfish( vector<GameObject*> & entities )
 {
-    //JELLYFISH - anywhere
-    if(jellyLastSeen < jellyFrequency || jellies->size() > 3 ) return;
-    
-    generateJellyfish( jellies, randInt(0,3), inFront(300, 0.2f) );
-    
-    jellyLastSeen = 0;
+    if(Jelly::SEENCOUNT < Jelly::SPAWN_FREQUENCY || Jelly::ENTITY_COUNT > 3 ) return;
+    generateJellyfish( entities, randInt(0,3), inFront(300, 0.2f) );
 }
 
-void EntityGenerator::generateSpores( vector<Spore*> * spores, int sporeType, const vec2 & clusterPosition )
+
+void EntityGenerator::generateSpores( vector<GameObject*> & entities, int sporeType, const vec2 & clusterPosition )
 {
     //SPORES - anywhere, more common (every 600 frames)
 
@@ -177,73 +146,49 @@ void EntityGenerator::generateSpores( vector<Spore*> * spores, int sporeType, co
             {
                 spaceFound = true;
                 
-                for(vector<Spore*>::iterator it = spores->begin(), end = spores->end(); it != end; ++it)
-                {
-                    if( (*it)->getDepth() > 0.8 )
-                    {
-                        if( glm::distance( (*it)->getPosition(), sporePosition ) < (*it)->getSize() * 2.0f )
-                        {
-                            spaceFound = false;
-                            sporePosition += vrand(20.0f);
-                            break;
-                        }
-                    }
-                }
+//                for(vector<GameObject*>::iterator it = gameObjects->begin(), end = gameObjects->end(); it != end; ++it)
+//                {
+//                    if( (*it)->getDepth() > 0.8 )
+//                    {
+//                        if( glm::distance( (*it)->getPosition(), sporePosition ) < (*it)->getSize() * 2.0f )
+//                        {
+//                            spaceFound = false;
+//                            sporePosition += vrand(20.0f);
+//                            break;
+//                        }
+//                    }
+//                }
             }
         }
 
-        spores->push_back(new Spore(sporePosition, sporeDepth, sporeType) );
+        entities.push_back(new Spore(sporePosition, sporeDepth, SporeType(sporeType) ) );
     }
     
-    
-    sporeLastSeen = 0;
-
+    Spore::SEENCOUNT = 0;
 }
 
-void EntityGenerator::generateSpores( vector<Spore*> * spores )
+void EntityGenerator::generateSpores(vector<GameObject*> & entities )
 {
-    if(sporeLastSeen < sporeFrequency ) return;
-    generateSpores( spores, randInt(0,3), inFront(800, 0.2f) );
-    sporeLastSeen = 0;
+    if(Spore::SEENCOUNT < Spore::SPAWN_FREQUENCY ) return;
+    generateSpores( entities, randInt(0,3), inFront(800, 0.2f) );
 }
 
 
-
-
-
-bool EntityGenerator::generateEgg( vector<Egg*> * eggs, vector<Friendly*> * friendlies, vector<Plankton*> * plankton, bool withFriendly, const vec2 & eggPosition )
+bool EntityGenerator::generateEgg( vector<GameObject*> & entities, bool withFriendly, const vec2 & eggPosition )
 {
-    eggs->push_back(new Egg( eggPosition ) );
-    
-    colliders->push_back( eggs->back() );
-    
-    if( withFriendly )
-    {
-        friendlies->push_back( new Friendly( eggs->back()->getPosition() ) );
-        colliders->push_back( friendlies->back() );
-    }
+    entities.push_back( new Egg( eggPosition ) );
 
-    //delete any plankton that are inside the egg
-    for( vector<Plankton*>::iterator p = plankton->begin(); p < plankton->end(); ){
-        if( dist( (*p)->getPosition(), eggs->back()->getPosition() ) < eggs->back()->getSize() ){
-            delete *p;
-            p = plankton->erase(p);
-        } else {
-            ++p;
-        }
-    }
+    if( withFriendly ) entities.push_back( new Friendly( eggPosition ) );
+    Egg::SEENCOUNT = 0;
     
-
     return true;
-
 }
 
-bool EntityGenerator::generateEgg( vector<Egg*> * eggs, vector<Friendly*> * friendlies, vector<Plankton*> * plankton )
+bool EntityGenerator::generateEgg( vector<GameObject*> & entities )
 {
     //EGG
-    if(eggLastSeen < eggFrequency || eggs->size() > 0) return false;
-    eggLastSeen = 0;
-    return generateEgg( eggs, friendlies, plankton, true, inFront(800, 0.3f) );
+    if(Egg::SEENCOUNT < Egg::SPAWN_FREQUENCY || Egg::ENTITY_COUNT > 0) return false;
+    return generateEgg( entities, true, inFront(100, 0.3f) );
 }
 
 

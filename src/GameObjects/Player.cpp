@@ -7,19 +7,13 @@ Player :: Player(const vec2 & loc) : Braitenberg(loc, true, 5.0f, 0.5f){
     leftTail = new Tail( 2, false, 3, false);
     rightTail = new Tail( 2, false, 3, false);
     playerLevelling = false;
-    falling = false;
+    
+    GameObject::mType = PLAYER;
+    GameObject::mPermanent = true;
 }
 
 
-//move to a specified location
-void Player :: moveTo(vec2 mousePos){
-    
-    
-    setDestination( globalise(mousePos, 1) );
 
-    Braitenberg::moveTo( targetDestination );
-    
-}
 
 void Player :: slow(bool t){
     if(t == true){
@@ -30,12 +24,12 @@ void Player :: slow(bool t){
 }
 
 
-void Player :: update(float deltaTime){
+void Player :: update(){
     
-    falling = mPosition.y < -7000;
+    Braitenberg::update();
     
     //check if player is in the process of 'levelling up'
-    if(playerLevelling == true){
+    if(playerLevelling){
         levelCount++;
         if(levelCount >= 40){       //player levels up for 40 ticks
             playerLevelling = false;

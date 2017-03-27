@@ -33,15 +33,15 @@ void OSCManager :: recieveMessage(){
         
         listener.getNextMessage(&message);
         if(message.getAddress() == "/friendlyPulse"){
-            entities->pulse("friendly", message.getArgAsInt32(0));
+            entities->pulseEvents->push_back( * new PulseEvent( FRIENDLY, message.getArgAsInt32(0) ) );
         }
         
         if(message.getAddress() == "/twirlPulse"){
-            entities->pulse("urchin", 0);
+            entities->pulseEvents->push_back( * new PulseEvent( URCHIN, message.getArgAsInt32(0) ) );
         }
         
         if(message.getAddress() == "/sparkPulse"){
-            entities->pulse("spark", message.getArgAsInt32(0));
+            entities->pulseEvents->push_back( * new PulseEvent( SPARK, message.getArgAsInt32(0) ) );
         }
         
         if(message.getAddress() == "/audioFinishedLoading"){
@@ -90,7 +90,7 @@ void OSCManager :: eighthPlankton(){
 
 void OSCManager :: sporeBoop(int health){
     osc::Message msg;
-    msg.addIntArg(4 - health);
+    msg.addIntArg(health);
     sendMessage(msg, "/sporeBoop");
 }
 
@@ -132,12 +132,15 @@ void OSCManager :: newFriendly(){
 }
 
 void OSCManager :: bornFriendly( int index ){
+    cout << "FRIENDLY BORN: " << index << endl;
     osc::Message msg;
     msg.addIntArg(index);
     sendMessage(msg, "/bornFriendly");
 }
 
 void OSCManager :: updateFriendly(int index, float pan, float dist){
+    
+    cout << "UPDATE FRIENDLY: " << index << endl;
     osc::Message msg;
     msg.addIntArg(index);
     msg.addFloatArg(pan);
@@ -149,7 +152,7 @@ void OSCManager :: changeChord(){
     sendMessage("/changeChord");
 }
 
-void OSCManager :: jelly(vector<bool> feelersInContact, float dist){
+void OSCManager :: jelly(int feelerContactCount, float dist){
     
     
     jellySendCounter += deltaTime;
@@ -157,21 +160,12 @@ void OSCManager :: jelly(vector<bool> feelersInContact, float dist){
     if( jellySendCounter < 0.16f ) return;
     jellySendCounter = 0.0f;
     
-    
-    bool send = false;
+    if( feelerContactCount == 0) return;
     
     osc::Message msg;
-    
     msg.addFloatArg(dist);
-    
-    for(int i = 0; i < feelersInContact.size(); i++){
-        if( feelersInContact.at(i) ) send = true;
-        msg.addIntArg( feelersInContact.at(i) );
-    }
-    
-    if(send){
-        sendMessage(msg, "/jelly");
-    }
+    msg.addIntArg( feelerContactCount );
+    sendMessage(msg, "/jelly");
 }
 
 void OSCManager :: setDepth(float d){

@@ -8,14 +8,14 @@ CellRenderer :: CellRenderer(){
     planktonImgs[3] = loadPngImage( "plankton/d" );
     planktonImgs[4] = loadPngImage( "plankton/e" );
     
-    beamImg =       loadPngImage( "environment/beam3"            );
-    bubbleImgs[0] = loadPngImage( "environment/bubble/0"     );
-    bubbleImgs[1] = loadPngImage( "environment/bubble/1"     );
+    beamImg =       loadPngImage( "environment/beam3" );
+    bubbleImgs[0] = loadPngImage( "environment/bubble/0" );
+    bubbleImgs[1] = loadPngImage( "environment/bubble/1" );
     bubbleImgs[2] = loadPngImage( "environment/bubble/2" );
-    splashImg =     loadPngImage( "environment/splash"            );
-    maskImg =       loadPngImage( "environment/mask-1"            );
+    splashImg =     loadPngImage( "environment/splash" );
+    maskImg =       loadPngImage( "environment/mask-1" );
     
-    cursorImg =              loadPngImage( "cursor"            );
+    cursorImg = loadPngImage( "cursor" );
    
     sporeImgs[0][0] = loadPngImage( "spore/orange_0" );
     sporeImgs[0][1] = loadPngImage( "spore/orange_1" );
@@ -29,23 +29,23 @@ CellRenderer :: CellRenderer(){
     sporeImgs[2][1] = loadPngImage( "spore/green_1" );
     sporeImgs[2][2] = loadPngImage( "spore/green_2" );
 
-    playerImgs[0] = loadPngImage( "player/zero2"    );
-    playerImgs[1] = loadPngImage( "player/one"      );
-    playerImgs[2] = loadPngImage( "player/two"      );
+    playerImgs[0] = loadPngImage( "player/zero2" );
+    playerImgs[1] = loadPngImage( "player/one" );
+    playerImgs[2] = loadPngImage( "player/two" );
     
-    jellyImgs[0] = loadPngImage( "jelly/blue"      );
-    jellyImgs[1] = loadPngImage( "jelly/green"     );
-    jellyImgs[2] = loadPngImage( "jelly/pink"      );
+    jellyImgs[0] = loadPngImage( "jelly/blue" );
+    jellyImgs[1] = loadPngImage( "jelly/green" );
+    jellyImgs[2] = loadPngImage( "jelly/pink" );
     
-    friendlyImg = loadPngImage( "friendly"        );
-    urchinImg =   loadPngImage( "twirl"           );
-    eggImg =      loadPngImage( "egg"             );
-    sparkImg =    loadPngImage( "spark"            );
+    friendlyImg = loadPngImage( "friendly" );
+    urchinImg = loadPngImage( "twirl" );
+    eggImg = loadPngImage( "egg" );
+    sparkImg = loadPngImage( "spark" );
     
-    title1     =     loadPngImage( "title/1" );
-    title2     =     loadPngImage( "title/2" );
-    title3     =     loadPngImage( "title/3" );
-    title4     =     loadPngImage( "title/4" );
+    title1 = loadPngImage( "title/1" );
+    title2 = loadPngImage( "title/2" );
+    title3 = loadPngImage( "title/3" );
+    title4 = loadPngImage( "title/4" );
 
 
 
@@ -297,11 +297,13 @@ void CellRenderer::drawSpark( const vec2 & global, float radius, int type, const
             float r = sizes[i];
             gl::draw( sparkImg, Rectf(-r, -r, r, r ));
         }
+    
         
         gl::ScopedModelMatrix modelScope;
         gl::translate( pos );
         gl::draw( sparkImg, Rectf(-radius, -radius, radius, radius ));
         gl::draw( sparkImg, Rectf(-radius/2, -radius/2, radius/2, radius/2 ));
+        
         
     }
     
@@ -389,8 +391,8 @@ void CellRenderer::drawEgg( const vec2 & global, float ratio, float counter, con
     addToMiniMap( global, ColorA (0.7,0.25,0.15,0.5), ratio * 0.5f, isOnScreen);
 }
 
-
-void CellRenderer::drawStarfish( const vec2 & global, const vector< Feeler * > & feelers, float contacts )
+//
+void CellRenderer::drawStarfish( const vec2 & global, const vector<FeelerStruct> & feelers, float contacts )
 {
     
     vec2 pos = toLocal( global, 1 );
@@ -415,7 +417,7 @@ void CellRenderer::drawStarfish( const vec2 & global, const vector< Feeler * > &
 }
 
 
-void CellRenderer::drawJellyfish( const vec2 & global, float radius, const vector<Feeler*> & feelers, int jellyType, float counter, float baseWidth )
+void CellRenderer::drawJellyfish( const vec2 & global, float radius, const vector<FeelerStruct> & feelers, int jellyType, float counter, float baseWidth )
 {
     
     vec2 pos = toLocal( global, 1 );
@@ -461,7 +463,7 @@ void CellRenderer::drawJellyfish( const vec2 & global, float radius, const vecto
     
 }
 
-void CellRenderer::drawUrchin( const vec2 & global, float radius, const vector< Feeler * > & feelers )
+void CellRenderer::drawUrchin( const vec2 & global, float radius, const vector<FeelerStruct> & feelers )
 {
 
     vec2 local = toLocal(global,1);
@@ -490,12 +492,12 @@ void CellRenderer::drawUrchin( const vec2 & global, float radius, const vector< 
 }
 
 
-Shape2d CellRenderer::drawFeeler( Feeler * feeler )
+Shape2d CellRenderer::drawFeeler( const FeelerStruct & feeler )
 {
     vector<vec2> drawPositions;
     drawPositions.clear();
     
-    vector<vec2> positions = feeler->getPoints();
+    vector<vec2> positions = feeler.mPoints;
     
     for(int i = 0; i < positions.size() - 1; i++)
     {
@@ -517,11 +519,11 @@ Shape2d CellRenderer::drawFeeler( Feeler * feeler )
     vec2 original1 = drawPositions.at(0);
     vec2 next1 = drawPositions.at(1);
     vec2 toNext1 = glm::normalize(next1 - original1);
-    vec2 mod1 = vec2( -toNext1.y, toNext1.x ) * feeler->getBaseWidth() * 0.5f;
+    vec2 mod1 = vec2( -toNext1.y, toNext1.x ) * feeler.mBaseWidth * 0.5f;
     vec2 right1= original1 - mod1;
     
     
-    float currentWidth = feeler->getTipWidth();
+    float currentWidth = feeler.mTipWidth;
     for(int n = (int)drawPositions.size() - 1; n >= 1; n--)
     {
         vec2 original = drawPositions.at(n);
@@ -530,7 +532,7 @@ Shape2d CellRenderer::drawFeeler( Feeler * feeler )
         vec2 mod = vec2( -toNext.y, toNext.x ) * currentWidth * 0.5f;
         vec2 right = original + mod;
         
-        currentWidth += ( (feeler->getBaseWidth() - feeler->getTipWidth()) / drawPositions.size());
+        currentWidth += ( (feeler.mBaseWidth - feeler.mTipWidth) / drawPositions.size());
         
         drawPositions.at(n) -= mod;
         drawPositions.push_back( right );

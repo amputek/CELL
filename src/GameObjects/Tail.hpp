@@ -3,12 +3,12 @@
 
 #include <iostream>
 #include "Finite.hpp"
-#include "Renderer.hpp"
+#include "GameObject.hpp"
 
 using namespace std;
 using namespace ci;
 
-class Tail{
+class Tail : public IDrawable{
     
 public:
     Tail( int ln, bool wt, float wd, bool fn );

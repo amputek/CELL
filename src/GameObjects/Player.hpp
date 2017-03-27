@@ -7,12 +7,11 @@
 
 using namespace ci::app;
 
-class Player : public Braitenberg{
+class Player : public Braitenberg, public IDrawable, public IPredates, public ICollideable{
 public:
     Player(const vec2 & loc );
     void draw( CellRenderer & renderer );
-    void update(float deltaTime);
-    void moveTo(vec2 mousePos);
+    void update();
     bool incEaten(int type){
         planktonEaten++;
         if( planktonEaten % 20 == 0 )
@@ -28,6 +27,13 @@ public:
     bool levelling(){ return playerLevelling; };
 
     
+    void collide( vector<GameObject*> & gameObjects, GameObject * hero, EnvironmentManager & environment, OSCManager & oscManager ){ }
+
+    vec2 getDestination() const
+    {
+        return Braitenberg::mTargetDestination;
+    }
+    
 private:
     
     void levelUp();
@@ -37,7 +43,6 @@ private:
     Tail* longTail;
     Tail* rightTail;
     Tail* leftTail;
-    bool falling;               //true if player is above surface
     bool playerLevelling;       //true if player is levelling
     bool sideTailsOn = false;    //the shorter side tails that the player has at a high enough level
     int planktonEaten;  //number of each type of plankton eaten

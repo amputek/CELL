@@ -24,81 +24,46 @@
 using namespace ci;
 using namespace std;
 
+struct PulseEvent
+{
+    PulseEvent( EntityType type, int index ) : entityType(type), index(index){ }
+    EntityType entityType;
+    int index;
+};
+
 class EntityManager {
     
 public:
+    EntityManager(){ }
     EntityManager( CellRenderer * img );
     
 	void update( );
     void updateHero( const vec2 & mouseLoc, bool canMove );
     void drawEntities();
     
-    //pulsers (triggers sent from OSC)
-    void pulse(string species, int index);
     void quit();
     
-    EnvironmentManager* environment;
+    
+    
+    vector<PulseEvent> * pulseEvents;
     
 private:
     
-    //private update functions
+    //private update/draw functions
     void updateOffset();
-
-    void updatePlankton();
-    void updateUrchins();
-    void updateSpores();
-    void updateSparks();
-    void updateEggs();
-    void updateStarfish();
-    void updateJellies();
-    void updateFriendlies();
-    void drawGrass();
     void drawBackground();
     
-    
-    //General purpose Functions
-    void removeFromColliders(GameObject* collider);
-    bool farFromHero( const vec2 & location );
-    bool offScreenBy( const vec2 & location, float d )
-    {
-        if( location.x > getWindowWidth() + d ) return true;
-        if( location.x < -d ) return true;
-        if( location.y > getWindowHeight() + d ) return true;
-        if( location.y < -d ) return true;
-        return false;
-    }
+    //Reference to player gameObject
+    Player * hero;
 
-    
-    bool inContact( GameObject * a, GameObject * b )
-    {
-        return distance( a->getPosition(), b->getPosition() ) < a->getSize() + b->getSize();
-    }
-
-    
-    
-    //Collections
-    Player* hero;
-    vector<Friendly*> friendlies;
-    vector<Plankton*> plankton;
-    vector<Jelly*> jellies;
-    vector<Egg*> eggs;
-    vector<Spore*> spores;
-    vector<Urchin*> urchins;
-    vector<Starfish*> starfish;
-    vector<Spark*> sparks;
-    
-    //colliders can eat plankton, collide with jellyfish and urchins
-    vector<GameObject*> colliders;
-
-    
-    //game values + counters
-    bool insideEgg;
+    //Entity collection
+    vector<GameObject*> gameObjects;
     
     //Managers etc
-    OSCManager* oscManager;
-
-    CellRenderer* image;
-    EntityGenerator * entityGenerator;
+    OSCManager * oscManager;
+    CellRenderer * renderer;
+    EntityGenerator entityGenerator;
+    EnvironmentManager environment;
 };
 
 #endif

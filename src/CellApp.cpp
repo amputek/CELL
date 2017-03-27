@@ -13,6 +13,7 @@ using namespace std;
 
 class CellApp : public App {
   public:
+    CellApp(){ }
 	void setup() override;
     void cleanup() override;
     void keyDown( KeyEvent event ) override;
@@ -31,30 +32,33 @@ class CellApp : public App {
 
     float lastStepTime;
     
-    EntityManager* entityManager;
-    CellRenderer* image;
+    EntityManager entityManager;
+    CellRenderer image;
     
     
-    bool inFullScreen = true;
+    bool inFullScreen = false;
     bool gamePaused = false;
     bool gameStarted = true;
 
-    bool runAudio = true;
+    bool RUN_AUDIO = true;
     
     
     float splashOpacity = 0.0f;
     
+    
 };
+
+
 
 void CellApp::setup(){
     
-    image = new CellRenderer();
-    entityManager = new EntityManager( image );
+    image = * new CellRenderer();
+    entityManager = * new EntityManager( &image );
     
     //hideCursor();
     
     //Open Cell-Audio.app
-    if( runAudio )
+    if( RUN_AUDIO )
     {
         DataSourceRef rf = loadResource( "Cell-Audio.app");
         auto p = rf->getFilePath();
@@ -74,7 +78,7 @@ void CellApp::setup(){
 void CellApp::cleanup()
 {
     CI_LOG_I( "Cleaning up application." );
-    entityManager->quit();
+    entityManager.quit();
 }
 
 
@@ -95,7 +99,7 @@ void CellApp::keyDown( KeyEvent event ){
     
     if( event.getChar() == 'm')
     {
-     //   image->miniMapActive = !image->miniMapActive;
+        image.miniMapActive = !image.miniMapActive;
     }
     
 }
@@ -117,6 +121,7 @@ void CellApp::update(){
 
     float currentTime = app::getElapsedSeconds();
     deltaTime = currentTime - lastStepTime;
+    if( deltaTime < 0.005f ) deltaTime = 0.005f;
     if( deltaTime > 0.1f ) deltaTime = 0.1f;
     lastStepTime = currentTime;
     
@@ -124,35 +129,35 @@ void CellApp::update(){
     if(gamePaused) return;
     if(!gameStarted) return;
     
-    entityManager->updateHero( mousePosition(), getElapsedFrames() > 400 );
-    entityManager->update(  );
+    entityManager.updateHero( mousePosition(), getElapsedFrames() > 0 );
+    entityManager.update(  );
 
 }
 
 void CellApp::draw(){
 
 
-    image->refresh();
+    image.refresh();
 
 
     gl::ScopedBlendAdditive additive;
     
     if(gameStarted){
         gameFrames++;
-        entityManager->drawEntities();
+        entityManager.drawEntities();
     } else {
          gl::clear( Color(0,0,0) );
     }
 
-    drawSplashScreens();
+   // drawSplashScreens();
     
     
-    entityManager->environment->drawMask();
+ //   entityManager.environment.drawMask();
     
     
     drawCursor();
     
-    drawMenu();
+  //  drawMenu();
 
   //  gl::drawString( "Framerate: " + to_string( roundf(getAverageFps()) ) + " Delta: " + to_string(deltaTime), vec2( 10.0f, 10.0f ) );
 //    gl::drawString( "Draw Count: " + to_string( entityDrawCount ), vec2( 10.0f, 30.0f ) );
@@ -198,18 +203,18 @@ void CellApp::drawSplashScreens()
     
     if( splashOpacity >= 0.0 )
     {
-        image->drawTitle( splashOpacity );
+        image.drawTitle( splashOpacity );
     }
 }
 
 void CellApp::drawCursor(){
     vec2 mousePos = mousePosition();
-    image->drawCursor( mousePos );
+    image.drawCursor( mousePos );
 }
 
 
 CINDER_APP( CellApp, RendererGl( RendererGl::Options().msaa( 4 ) ), [&]( App::Settings *settings ) {
-    settings->setFullScreen();
+    //settings->setFullScreen();
     settings->setWindowSize(800, 600);
     settings->setFrameRate(60.0f);
     settings->setHighDensityDisplayEnabled();
