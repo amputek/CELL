@@ -14,26 +14,22 @@ using namespace ci;
 class EnvironmentManager{
 public:
     EnvironmentManager(){};
-    EnvironmentManager( CellRenderer * imgs );
-    void splash( vec2 loc, int start, int end );
-    void bubble( vec2 local, int amount );
-    void update( const vec2 & heroGlobal );
-    void draw();
+    EnvironmentManager( CellRenderer * imgs, vector<GameObject*> * entities  );
+    void splash( const vec2 & loc, int start, int end );
+    void bubble( const vec2 & local, int amount );
+    void update( const vec2 & heroPosition );
     void drawMask();
     
 private:
-    void updateBeams();
-    void updateBubbles();
-    void updateSplashes();
-    
-    //Collections and Objects
-    Mask* mask;
-    vector<Splash*> splashes;
-    vector<Beam*> beams;
-    vector<Bubble*> bubbles;
 
+    //Pointer to renderer's mask
+    Mask * mask;
     
-    CellRenderer* image;
+    //Pointer to actual entity collection
+    vector<GameObject*> * entities;
+    
+    //Pointer to renderer
+    CellRenderer * renderer;
     
 };
 

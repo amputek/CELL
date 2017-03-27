@@ -22,12 +22,9 @@ public:
     
     void update(){
         currentLife += deltaTime * 60.0f;
+        if( currentLife > maxLife ) mDeleteMe = true;
     }
 
-    
-    bool alive(){ return currentLife <= maxLife; };
-    
-    
     float lifeRatio()
     {
         return (currentLife / maxLife);

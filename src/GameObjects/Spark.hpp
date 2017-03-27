@@ -18,7 +18,6 @@ public:
     
         ENTITY_COUNT++;
         
-        cout << "NEW SPARK: " << mPosition << " " << mType << endl;
     }
     
     ~Spark()
@@ -53,7 +52,8 @@ public:
         
         for( vector<Finite*>::iterator p = mFinites.begin(); p != mFinites.end(); ){
             (*p)->update();
-            if((*p)->alive() == false){
+            if((*p)->mDeleteMe )
+            {
                 delete *p;
                 p = mFinites.erase(p);
             } else {

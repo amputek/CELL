@@ -1,11 +1,3 @@
-//
-//  FeelerCreature.hpp
-//  Cell
-//
-//  Created by Rob Dawson on 25/03/2017.
-//
-//
-
 #ifndef FeelerCreature_hpp
 #define FeelerCreature_hpp
 
@@ -23,7 +15,6 @@ public:
     
     
     ~FeelerCreature(){
-        cout << "Destructing feeler creature!" << "\n";
         for( vector<Feeler*>::iterator p = mFeelers.begin(); p != mFeelers.end(); ++p){
             delete *p;
         }

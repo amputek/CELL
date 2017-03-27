@@ -16,6 +16,8 @@ int Friendly::ENTITY_COUNT = 0;
 int Spore::ENTITY_COUNT = 0;
 int Plankton::ENTITY_COUNT = 0;
 int Spark::ENTITY_COUNT = 0;
+int Bubble::ENTITY_COUNT = 0;
+int Beam::ENTITY_COUNT = 0;
 
 int Spore::sparksSpawned = 0;
 
@@ -26,25 +28,25 @@ EntityManager :: EntityManager( CellRenderer * img ){
     oscManager = new OSCManager();
     oscManager->entities = this;
     
-    gameObjects = * new vector<GameObject*>();
-    
+    gameObjects = new vector<GameObject*>();
+    cout << "Init: " << &gameObjects << endl;
 
     //set up managers, singletons
     renderer = img;
-    environment = * new EnvironmentManager( renderer );
+    environment = * new EnvironmentManager( renderer, gameObjects );
     
     //first entities: the hero (player) and the starting egg
     hero = new Player(vec2(-400,-1500) );
   //  offset = hero->global;
 //    
 //    
-    entityGenerator = * new EntityGenerator();
+    entityGenerator = * new EntityGenerator( gameObjects );
     entityGenerator.hero = hero;
     entityGenerator.image = renderer;
     
 
     
-    gameObjects.push_back( hero );
+    gameObjects->push_back( hero );
   //  gameObjects.push_back(new Spark( vec2(-400,-2000), SporeType::ORANGE ) );
 
 
@@ -57,7 +59,7 @@ EntityManager :: EntityManager( CellRenderer * img ){
         
         if( pos.x > -150 || pos.x < -650 || pos.y > -1850 || pos.y < -2150 )
         {
-            entityGenerator.generatePlankton( gameObjects, randInt(0,5), pos );
+            entityGenerator.generatePlankton( randInt(0,5), pos );
         }
     }
     
@@ -79,29 +81,19 @@ void EntityManager :: quit(){
 //and activates PCG
 void EntityManager :: update( ){
     
-    oscManager->recieveMessage();
 
     
-    if( entityGenerator.generateEgg( gameObjects ) )
-    {
-        oscManager->newFriendly();
-    }
-    
-    entityGenerator.generatePlankton( gameObjects );
-    entityGenerator.generateSpores( gameObjects );
-    
+    oscManager->recieveMessage();
+
+    entityGenerator.generate();
+
     
     //Update
     
-    for( vector<GameObject*>::iterator itEntity = gameObjects.begin(); itEntity < gameObjects.end(); ++itEntity )
+    for( vector<GameObject*>::iterator itEntity = gameObjects->begin(); itEntity < gameObjects->end(); ++itEntity )
     {
-        GameObject * ptrEntity = *itEntity;
-        
-        IDynamic * isDyanmic = dynamic_cast<IDynamic*>( ptrEntity );
-        if( isDyanmic )
-        {
-            isDyanmic->update();
-        }
+        IDynamic * isDyanmic = dynamic_cast<IDynamic*>( *itEntity );
+        if( isDyanmic ) isDyanmic->update();
     }
 
     
@@ -111,7 +103,7 @@ void EntityManager :: update( ){
     {
         PulseEvent pulse = *itPulse;
         int count = 0;
-        for( vector<GameObject*>::iterator itEntity = gameObjects.begin(); itEntity < gameObjects.end(); ++itEntity )
+        for( vector<GameObject*>::iterator itEntity = gameObjects->begin(); itEntity < gameObjects->end(); ++itEntity )
         {
             GameObject * ptrEntity = *itEntity;
             if( ptrEntity->mType == pulse.entityType )
@@ -128,16 +120,17 @@ void EntityManager :: update( ){
             }
         }
     }
+    
+    //Clear events list
+    pulseEvents->clear();
 
     
     //Collisions...
     
-    for( vector<GameObject*>::iterator itEntity = gameObjects.begin(); itEntity < gameObjects.end(); ++itEntity )
+    for( vector<GameObject*>::iterator itEntity = gameObjects->begin(); itEntity < gameObjects->end(); ++itEntity )
     {
         ICollideable * isCollideable = dynamic_cast<ICollideable*>( *itEntity );
-        if( !isCollideable ) continue;
-        
-        isCollideable->collide( gameObjects, hero, environment, *oscManager );
+        if( isCollideable ) isCollideable->collide( *gameObjects, hero, environment, *oscManager );
     }
     
 
@@ -145,7 +138,7 @@ void EntityManager :: update( ){
 
     //Delete...
         
-    for( vector<GameObject*>::iterator itEntity = gameObjects.begin(); itEntity < gameObjects.end(); )
+    for( vector<GameObject*>::iterator itEntity = gameObjects->begin(); itEntity < gameObjects->end(); )
     {
         GameObject * ptrEntity = *itEntity;
         
@@ -155,28 +148,22 @@ void EntityManager :: update( ){
         if(ptrEntity->mDeleteMe)
         {
             delete ptrEntity;
-            itEntity = gameObjects.erase( itEntity );
+            itEntity = gameObjects->erase( itEntity );
         } else {
             ++itEntity;
         }
     }
 
     
-    pulseEvents->clear();
+
 
    
     updateOffset( );
     environment.update( hero->getPosition() );
 
     
-  //  if( getElapsedFrames() < 400 ) return;
-    
-//    entityGenerator->generatePlankton( gameObjects, eggs );
 
-    Spore::SEENCOUNT++;
-    Starfish::SEENCOUNT++;
-    Jelly::SEENCOUNT++;
-    Egg::SEENCOUNT++;
+    
 }
 
 //UPDATE METHODS FOR ENTITY COLLECTIONS
@@ -209,7 +196,7 @@ void EntityManager :: updateOffset(){
 
     vec2 offsetPos = renderer->toLocal(hero->getPosition(),1);
     
-    for( vector<GameObject*>::iterator itEntity = gameObjects.begin(); itEntity < gameObjects.end(); ++itEntity )
+    for( vector<GameObject*>::iterator itEntity = gameObjects->begin(); itEntity < gameObjects->end(); ++itEntity )
     {
         GameObject * ptrEntity = *itEntity;
         if( ptrEntity->mType == EGG )
@@ -256,12 +243,11 @@ void EntityManager :: drawEntities()
 
     drawBackground();
     
-    environment.draw();
     
     string entityString = "";
     
     
-    for( vector<GameObject*>::iterator entity = gameObjects.begin(); entity < gameObjects.end(); ++entity ){
+    for( vector<GameObject*>::iterator entity = gameObjects->begin(); entity < gameObjects->end(); ++entity ){
         
         entityString = entityString + to_string((*entity)->mType);
         
@@ -274,9 +260,19 @@ void EntityManager :: drawEntities()
     }
     
     
-    gl::disableAlphaBlending();
+    
     gl::color(1,1,1);
-    gl::drawString( entityString, vec2( 10.0f, 10.0f ) );
+    gl::drawString( "Plankton: " + to_string(Plankton::ENTITY_COUNT), vec2( 10.0f, 10.0f ) );
+    gl::drawString( "Jellyfish: " + to_string(Jelly::ENTITY_COUNT), vec2( 10.0f, 25.0f ) );
+    gl::drawString( "Starfish: " + to_string(Starfish::ENTITY_COUNT), vec2( 10.0f, 40.0f ) );
+    gl::drawString( "Urchin: " + to_string(Urchin::ENTITY_COUNT), vec2( 10.0f, 55.0f ) );
+    gl::drawString( "Friendly: " + to_string(Friendly::ENTITY_COUNT), vec2( 10.0f, 70.0f ) );
+    gl::drawString( "Spark: " + to_string(Spark::ENTITY_COUNT), vec2( 10.0f, 85.0f ) );
+    gl::drawString( "Spore: " + to_string(Spore::ENTITY_COUNT), vec2( 10.0f, 100.0f ) );
+    gl::drawString( "Egg: " + to_string(Egg::ENTITY_COUNT), vec2( 10.0f, 115.0f ) );
+    
+
+    
 }
 
 

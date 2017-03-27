@@ -8,7 +8,7 @@ class Jelly : public FeelerCreature{
 public:
     
     
-    Jelly(vec2 loc, int type) : FeelerCreature(loc, randFloat(18,40), 0.04f ){
+    Jelly(vec2 loc, int type) : FeelerCreature(loc, randFloat(18,40), 0.15f ){
         
         
         GameObject::mType = JELLYFISH;

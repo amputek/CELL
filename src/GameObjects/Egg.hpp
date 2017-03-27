@@ -2,7 +2,7 @@
 #define Egg_hpp
 
 #include <iostream>
-#include "Spring.hpp"
+#include "SpringyObject.hpp"
 #include "Player.hpp"
 #include "Friendly.hpp"
 #include "OSCManager.hpp"

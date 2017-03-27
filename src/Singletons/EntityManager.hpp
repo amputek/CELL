@@ -56,8 +56,8 @@ private:
     //Reference to player gameObject
     Player * hero;
 
-    //Entity collection
-    vector<GameObject*> gameObjects;
+    //Entity collection -- its a pointer so other subsystems can reference it
+    vector<GameObject*> * gameObjects;
     
     //Managers etc
     OSCManager * oscManager;

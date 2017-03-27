@@ -27,13 +27,11 @@
 		A3850656E4D1466A8C466D9B /* UdpSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DB24501C90EC4349ABAEA612 /* UdpSocket.cpp */; };
 		BCE670DCA28D49C894C4141B /* OscSender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 20C0BC35BA8D4BCDACD22313 /* OscSender.cpp */; };
 		D01E5502007B41D4ABEE1270 /* OscPrintReceivedElements.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F23AE27781841FD87EF5A23 /* OscPrintReceivedElements.cpp */; };
-		D43623A51C97A40D0068AA89 /* Feeler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623A31C97A40D0068AA89 /* Feeler.cpp */; };
 		D43623AE1C97A86D0068AA89 /* EntityManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623AC1C97A86D0068AA89 /* EntityManager.cpp */; };
 		D43623B71C97ADE80068AA89 /* EnvironmentManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623B51C97ADE80068AA89 /* EnvironmentManager.cpp */; };
 		D43623C31C97B7530068AA89 /* Swimmer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623C11C97B7530068AA89 /* Swimmer.cpp */; };
 		D43623DC1C97BC6C0068AA89 /* Mask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623DA1C97BC6C0068AA89 /* Mask.cpp */; };
 		D43623EF1C97C6080068AA89 /* OSCManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623ED1C97C6080068AA89 /* OSCManager.cpp */; };
-		D4531B731C9679890096D85D /* Tail.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4531B711C9679890096D85D /* Tail.cpp */; };
 		D4531B761C967E900096D85D /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4531B741C967E900096D85D /* Player.cpp */; };
 		D48B79991C95A561004BB8A7 /* images in Resources */ = {isa = PBXBuildFile; fileRef = D48B79981C95A561004BB8A7 /* images */; };
 		D4FA58121C95B23400B579B0 /* Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4FA58101C95B23400B579B0 /* Renderer.cpp */; };
@@ -44,7 +42,6 @@
 		FC20564C1E68C924007EE6B3 /* cell.icns in Resources */ = {isa = PBXBuildFile; fileRef = FC20564B1E68C924007EE6B3 /* cell.icns */; };
 		FC771C171E5A64BE00D14ABD /* EntityGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC771C151E5A64BE00D14ABD /* EntityGenerator.cpp */; };
 		FC787A8D1E59633100DBB5AE /* Cell-Audio.app in Resources */ = {isa = PBXBuildFile; fileRef = FC787A8C1E59633100DBB5AE /* Cell-Audio.app */; };
-		FCCBB0A41E870CB20068939C /* GameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FCCBB0A31E870CB20068939C /* GameObject.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -83,9 +80,8 @@
 		B8A49EF9BBFE449EBB52A9D0 /* OscHostEndianness.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OscHostEndianness.h; path = ../blocks/OSC/src/osc/OscHostEndianness.h; sourceTree = "<group>"; };
 		B9BC33F11BC540B2A6E72563 /* OscMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OscMessage.h; path = ../blocks/OSC/src/OscMessage.h; sourceTree = "<group>"; };
 		BF09F36E7CC542418950AFCF /* OscReceivedElements.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OscReceivedElements.h; path = ../blocks/OSC/src/osc/OscReceivedElements.h; sourceTree = "<group>"; };
-		D43623A31C97A40D0068AA89 /* Feeler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Feeler.cpp; path = GameObjects/Feeler.cpp; sourceTree = "<group>"; };
 		D43623A41C97A40D0068AA89 /* Feeler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Feeler.hpp; path = GameObjects/Feeler.hpp; sourceTree = "<group>"; };
-		D43623A71C97A4890068AA89 /* Spring.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Spring.hpp; path = GameObjects/Spring.hpp; sourceTree = "<group>"; };
+		D43623A71C97A4890068AA89 /* SpringyObject.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = SpringyObject.hpp; path = GameObjects/SpringyObject.hpp; sourceTree = "<group>"; };
 		D43623AA1C97A5450068AA89 /* PhysicsObject.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = PhysicsObject.hpp; path = GameObjects/PhysicsObject.hpp; sourceTree = "<group>"; };
 		D43623AC1C97A86D0068AA89 /* EntityManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EntityManager.cpp; path = Singletons/EntityManager.cpp; sourceTree = "<group>"; };
 		D43623AD1C97A86D0068AA89 /* EntityManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = EntityManager.hpp; path = Singletons/EntityManager.hpp; sourceTree = "<group>"; };
@@ -110,7 +106,6 @@
 		D43623EE1C97C6080068AA89 /* OSCManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = OSCManager.hpp; path = Singletons/OSCManager.hpp; sourceTree = "<group>"; };
 		D4531B6C1C9676870096D85D /* Braitenberg.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Braitenberg.hpp; path = GameObjects/Braitenberg.hpp; sourceTree = "<group>"; };
 		D4531B6F1C9677BE0096D85D /* Finite.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Finite.hpp; path = GameObjects/Finite.hpp; sourceTree = "<group>"; };
-		D4531B711C9679890096D85D /* Tail.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Tail.cpp; path = GameObjects/Tail.cpp; sourceTree = "<group>"; };
 		D4531B721C9679890096D85D /* Tail.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Tail.hpp; path = GameObjects/Tail.hpp; sourceTree = "<group>"; };
 		D4531B741C967E900096D85D /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Player.cpp; path = GameObjects/Player.cpp; sourceTree = "<group>"; };
 		D4531B751C967E900096D85D /* Player.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Player.hpp; path = GameObjects/Player.hpp; sourceTree = "<group>"; };
@@ -136,7 +131,6 @@
 		FC771C151E5A64BE00D14ABD /* EntityGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EntityGenerator.cpp; path = Singletons/EntityGenerator.cpp; sourceTree = "<group>"; };
 		FC771C161E5A64BE00D14ABD /* EntityGenerator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = EntityGenerator.hpp; path = Singletons/EntityGenerator.hpp; sourceTree = "<group>"; };
 		FC787A8C1E59633100DBB5AE /* Cell-Audio.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; name = "Cell-Audio.app"; path = "../resources/Cell-Audio.app"; sourceTree = "<group>"; };
-		FCCBB0A31E870CB20068939C /* GameObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameObject.cpp; path = GameObjects/GameObject.cpp; sourceTree = "<group>"; };
 		FCCBB0A61E8724640068939C /* FeelerCreature.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FeelerCreature.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -323,8 +317,7 @@
 			isa = PBXGroup;
 			children = (
 				D43623A41C97A40D0068AA89 /* Feeler.hpp */,
-				D43623A31C97A40D0068AA89 /* Feeler.cpp */,
-				D43623A71C97A4890068AA89 /* Spring.hpp */,
+				D43623A71C97A4890068AA89 /* SpringyObject.hpp */,
 			);
 			name = Feeler;
 			sourceTree = "<group>";
@@ -342,7 +335,6 @@
 			isa = PBXGroup;
 			children = (
 				D4531B721C9679890096D85D /* Tail.hpp */,
-				D4531B711C9679890096D85D /* Tail.cpp */,
 			);
 			name = Tail;
 			sourceTree = "<group>";
@@ -361,7 +353,6 @@
 			isa = PBXGroup;
 			children = (
 				D4FA58161C95B90500B579B0 /* GameObject.hpp */,
-				FCCBB0A31E870CB20068939C /* GameObject.cpp */,
 				D43623AA1C97A5450068AA89 /* PhysicsObject.hpp */,
 			);
 			name = GameObject;
@@ -521,17 +512,14 @@
 			files = (
 				D4FA58121C95B23400B579B0 /* Renderer.cpp in Sources */,
 				79E8F6375FB14FB49AB20E68 /* OscBundle.cpp in Sources */,
-				FCCBB0A41E870CB20068939C /* GameObject.cpp in Sources */,
 				D43623B71C97ADE80068AA89 /* EnvironmentManager.cpp in Sources */,
 				D4FA581A1C95B9CF00B579B0 /* Globals.cpp in Sources */,
 				8A00D81156544937A57DCDA0 /* OscListener.cpp in Sources */,
 				D43623AE1C97A86D0068AA89 /* EntityManager.cpp in Sources */,
 				D43623DC1C97BC6C0068AA89 /* Mask.cpp in Sources */,
-				D43623A51C97A40D0068AA89 /* Feeler.cpp in Sources */,
 				5F144A4B80554B85AF74F9EE /* OscMessage.cpp in Sources */,
 				D43623EF1C97C6080068AA89 /* OSCManager.cpp in Sources */,
 				BCE670DCA28D49C894C4141B /* OscSender.cpp in Sources */,
-				D4531B731C9679890096D85D /* Tail.cpp in Sources */,
 				FC771C171E5A64BE00D14ABD /* EntityGenerator.cpp in Sources */,
 				6CD3DD7262634B2E8ED40A58 /* IpEndpointName.cpp in Sources */,
 				F60C1AE8FE22423188FDC3DE /* OscOutboundPacketStream.cpp in Sources */,

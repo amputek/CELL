@@ -8,8 +8,27 @@
 class Beam : public GameObject, public IDynamic, public IDrawable{
 public:
 
-    Beam(vec2 start): GameObject(start, randFloat(0.4,1.6), 1) { }
+    Beam(vec2 start): GameObject(start, randFloat(0.4,1.6), 1)
+    {
+        ENTITY_COUNT++;
+    }
+    ~Beam()
+    {
+        ENTITY_COUNT--;
+    }
     
+    void offScreenBy( CellRenderer * renderer )
+    {
+        if( mDeleteMe ) return;
+        
+        vec2 localPos = renderer->toLocal( mPosition, mDepth );
+        
+        if( (localPos.x < -1000 || localPos.x > getWindowWidth() + 1000 ) )
+        {
+            mDeleteMe = true;
+        }
+
+    }
     //fluctuating opacity
     //new 'born' beams rise to full opacity over a period of 20 frames
     void update()
@@ -23,6 +42,8 @@ public:
     {
         renderer.drawBeam( mPosition, mDepth, mOpacity );
     }
+    
+    static int ENTITY_COUNT;
     
 private:
     float mCounter = 0.0f;
