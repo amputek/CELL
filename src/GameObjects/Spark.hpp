@@ -63,12 +63,12 @@ public:
         
     }
     
-    void collide( vector<GameObject*> & gameObjects, GameObject * hero, EnvironmentManager & environment, OSCManager & oscManager )
+    void collide( vector<GameObject*> * gameObjects, GameObject * hero, EnvironmentManager & environment, OSCManager & oscManager )
     {
    
         Swimmer::collide( gameObjects, hero, environment, oscManager );
         
-        for( vector<GameObject*>::iterator itCollider = gameObjects.begin(); itCollider < gameObjects.end(); ++itCollider )
+        for( vector<GameObject*>::iterator itCollider = gameObjects->begin(); itCollider < gameObjects->end(); ++itCollider )
         {
             GameObject * ptrCollider = *itCollider;
             if( ptrCollider == this ) continue; //dont collide with yourself!

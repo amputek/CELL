@@ -83,40 +83,38 @@ void EntityGenerator::generatePlankton( )
 void EntityGenerator::generateUrchin( const vec2 & urchinPosition )
 {
     entities->push_back( new Urchin( urchinPosition ) );
-    Urchin::SEENCOUNT = 0;
 }
 
 void EntityGenerator::generateUrchin()
 {
     //URCHIN - only deep sea
-    if(Urchin::SEENCOUNT < Urchin::SPAWN_FREQUENCY || hero->getPosition().y < -1000 || Urchin::ENTITY_COUNT > 0 ) return;
-    generateUrchin( inFront(200, 0.2f ) );
+    if(Urchin::TIME_SINCE_ON_SCREEN < Urchin::SPAWN_FREQUENCY || hero->getPosition().y < -1000 || Urchin::ENTITY_COUNT > 0 ) return;
+    generateUrchin( inFront(Urchin::SPAWN_OFF_SCREEN_BY, 0.2f ) );
 }
 
 
 void EntityGenerator::generateStarfish(  const vec2 & position )
 {
     entities->push_back( new Starfish( position ) );
-    Starfish::SEENCOUNT = 0;
 }
 
 void EntityGenerator::generateStarfish( )
 {
     //STARFISH - not shallow waters
-    if( Starfish::SEENCOUNT < Starfish::SPAWN_FREQUENCY || Starfish::ENTITY_COUNT > 2 ) return;
-    generateStarfish(inFront(300, 0.2f) );
+    if( Starfish::TIME_SINCE_ON_SCREEN < Starfish::SPAWN_FREQUENCY || Starfish::ENTITY_COUNT > 2 ) return;
+    generateStarfish(inFront(Starfish::SPAWN_OFF_SCREEN_BY, 0.2f) );
 }
 
 
 void EntityGenerator::generateJellyfish( int type, const vec2 & position )
 {
     entities->push_back( new Jelly( position, type ) );
-    Jelly::SEENCOUNT = 0;}
+}
 
 void EntityGenerator::generateJellyfish( )
 {
-    if(Jelly::SEENCOUNT < Jelly::SPAWN_FREQUENCY || Jelly::ENTITY_COUNT > 3 ) return;
-    generateJellyfish( randInt(0,3), inFront(300, 0.2f) );
+    if(Jelly::TIME_SINCE_ON_SCREEN < Jelly::SPAWN_FREQUENCY || Jelly::ENTITY_COUNT > 0 ) return;
+    generateJellyfish( randInt(0,3), inFront(Jelly::SPAWN_OFF_SCREEN_BY, 0.2f) );
 }
 
 
@@ -161,12 +159,11 @@ void EntityGenerator::generateSpores( int sporeType, const vec2 & clusterPositio
         entities->push_back(new Spore(sporePosition, sporeDepth, SporeType(sporeType) ) );
     }
     
-    Spore::SEENCOUNT = 0;
 }
 
 void EntityGenerator::generateSpores( )
 {
-    if(Spore::SEENCOUNT < Spore::SPAWN_FREQUENCY ) return;
+    if(Spore::TIME_SINCE_ON_SCREEN < Spore::SPAWN_FREQUENCY ) return;
     generateSpores( randInt(0,3), inFront(800, 0.2f) );
 }
 
@@ -176,16 +173,15 @@ bool EntityGenerator::generateEgg( bool withFriendly, const vec2 & eggPosition )
     entities->push_back( new Egg( eggPosition ) );
 
     if( withFriendly ) entities->push_back( new Friendly( eggPosition ) );
-    Egg::SEENCOUNT = 0;
-    
+
     return true;
 }
 
 bool EntityGenerator::generateEgg( )
 {
     //EGG
-    if(Egg::SEENCOUNT < Egg::SPAWN_FREQUENCY || Egg::ENTITY_COUNT > 0) return false;
-    return generateEgg( true, inFront(100, 0.3f) );
+    if(Egg::TIME_SINCE_ON_SCREEN < Egg::SPAWN_FREQUENCY || Egg::ENTITY_COUNT > 0) return false;
+    return generateEgg( true, inFront(Egg::SPAWN_OFF_SCREEN_BY, 0.3f) );
 }
 
 void EntityGenerator::generateBeams()

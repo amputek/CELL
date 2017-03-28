@@ -13,6 +13,7 @@ namespace globals {
     extern vec2 globalise(vec2 loc, float d);
     extern float dist(vec2 locA, vec2 locB);
     
+    extern bool DEBUG_MODE;
 }
 
 

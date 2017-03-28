@@ -34,6 +34,11 @@ public:
     {
         mVelocity += v;
     }
+    
+    float getVelocityLength()
+    {
+        return length(mVelocity);
+    }
 
 
 private:

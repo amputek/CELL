@@ -14,8 +14,6 @@ using namespace gl;
 using namespace std;
 
 
-
-
 struct FeelerStruct
 {
     FeelerStruct() { }
@@ -26,7 +24,6 @@ struct FeelerStruct
 };
 
 
-
 class CellRenderer{
 public:
     
@@ -35,7 +32,6 @@ public:
     int entityDrawCount = 0;
     bool miniMapActive = false;
     
-
     void drawCursor( const vec2 & mousePos )
     {
         gl::ScopedBlendAlpha alpha;
@@ -109,9 +105,10 @@ public:
         
         gl::pushModelView();
         gl::disableAlphaBlending();
-        color( ColorA(1,1,1,0.8));
+        color( ColorA(1,1,1,0.6));
         gl::ScopedModelMatrix m;
-        gl::draw( miniMap->getColorTexture(), Rectf( 0,0,400,300) );
+        gl::ScopedBlendAlpha a;
+        gl::draw( miniMap->getColorTexture(), Rectf( getWindowWidth() - 400,0,getWindowWidth(),300) );
         gl::popModelView();
     }
     
@@ -123,21 +120,21 @@ public:
 
     void drawSplash( const vec2 & global, float currentLife, float maxLife, float startSize );
     
-    void drawSpore( const vec2 & global, float radius, float depth, int sporeType );
+    bool drawSpore( const vec2 & global, float radius, float depth, int sporeType );
     
-    void drawStarfish( const vec2 & global, const vector<FeelerStruct> & feelers, float contacts );
+    bool drawStarfish( const vec2 & global, const vector<FeelerStruct> & feelers, float contacts );
     
     void drawBeam( const vec2 & global, float depth, float op );
 
-    void drawJellyfish( const vec2 & global, float radius, const vector<FeelerStruct> & feelers, int jellyType, float counter, float baseWidth );
+    bool drawJellyfish( const vec2 & global, float radius, const vector<FeelerStruct> & feelers, int jellyType, float counter, float baseWidth );
     
     void drawPlankton( const vec2 & global, float depth, float radius, int planktonType, float rotation );
     
-    void drawEgg( const vec2 & global, float ratio, float counter, const vector<vec2> & positions );
+    bool drawEgg( const vec2 & global, float ratio, float counter, const vector<vec2> & positions );
     
     void drawSpark( const vec2 & global, float radius, int type, const vector<vec2> & positions, const vector<float> & sizes );
     
-    void drawUrchin( const vec2 & global, float radius, const vector<FeelerStruct> & feelers );
+    bool drawUrchin( const vec2 & global, float radius, const vector<FeelerStruct> & feelers );
     
     void drawTail( vector<vec2> positions, bool wideTail, bool fins, float width, float direction );
     

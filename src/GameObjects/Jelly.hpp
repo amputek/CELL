@@ -8,10 +8,19 @@ class Jelly : public FeelerCreature{
 public:
     
     
-    Jelly(vec2 loc, int type) : FeelerCreature(loc, randFloat(18,40), 0.15f ){
-        
+    
+    static int TIME_SINCE_ON_SCREEN;
+    static int ENTITY_COUNT;
+    const static int SPAWN_FREQUENCY = 400;
+    const static int SPAWN_OFF_SCREEN_BY = 400;
+    const static int DESPAWN_OFF_SCREEN_BY = 600;
+
+    
+    Jelly(vec2 loc, int type) : FeelerCreature(loc, randFloat(18,40), 0.15f )
+    {
         
         GameObject::mType = JELLYFISH;
+        GameObject::mDespawnOffScreenDist = DESPAWN_OFF_SCREEN_BY;
         
         jellyType = type;
         
@@ -27,7 +36,9 @@ public:
             addFeeler( randInt(10,30), randFloat(3.0f, 6.0f), 0.2f );
         }
         
+        ignore(EGG);
         ENTITY_COUNT++;
+        TIME_SINCE_ON_SCREEN = 0;
     }
     
     ~Jelly(){
@@ -50,21 +61,21 @@ public:
     }
 
     void draw( CellRenderer & renderer ){
-        renderer.drawJellyfish( mPosition, mRadius, getDrawFeelers(), jellyType, counter, 4.0f );
+        
+        bool drawn = renderer.drawJellyfish( mPosition, mRadius, getDrawFeelers(), jellyType, counter, 4.0f );
+        if( drawn ) TIME_SINCE_ON_SCREEN = 0;
+        
         debugDraw( renderer );        
     }
     
     
-    void collide( vector<GameObject*> & gameObjects, GameObject * hero, EnvironmentManager & environment, OSCManager & oscManager )
+    void collide( vector<GameObject*> * gameObjects, GameObject * hero, EnvironmentManager & environment, OSCManager & oscManager )
     {
         FeelerCreature::collide( gameObjects, hero, environment, oscManager );
-        oscManager.jelly( mFeelersInContact, dist( mPosition, hero->getPosition() ) );
+        if( mFeelersInContact > 0 ) oscManager.jelly( mFeelersInContact, dist( mPosition, hero->getPosition() ) );
     }
     
     
-    static int SEENCOUNT;
-    static int ENTITY_COUNT;
-    const static int SPAWN_FREQUENCY = 400;
 
 private:
     float counter = 0.0f;

@@ -230,7 +230,7 @@ void CellRenderer::drawTail( vector<vec2> positions, bool wideTail, bool fins, f
 
 
 
-void CellRenderer::drawSpore( const vec2 & global, float radius, float depth, int sporeType )
+bool CellRenderer::drawSpore( const vec2 & global, float radius, float depth, int sporeType )
 {
     entityDrawCount++;
     
@@ -253,6 +253,8 @@ void CellRenderer::drawSpore( const vec2 & global, float radius, float depth, in
     }
     
     addToMiniMap( global, Color(0.5,1,0.5), radius, isOnScreen);
+    
+    return isOnScreen;
 }
 
 void CellRenderer::drawFriendly( const vec2 & global, float direction, float radius )
@@ -331,7 +333,7 @@ void CellRenderer::drawPlankton( const vec2 & global, float depth, float radius,
 }
 
 
-void CellRenderer::drawEgg( const vec2 & global, float ratio, float counter, const vector<vec2> & positions )
+bool CellRenderer::drawEgg( const vec2 & global, float ratio, float counter, const vector<vec2> & positions )
 {
     
     vec2 local = toLocal(global,1);
@@ -389,10 +391,12 @@ void CellRenderer::drawEgg( const vec2 & global, float ratio, float counter, con
     
     
     addToMiniMap( global, ColorA (0.7,0.25,0.15,0.5), ratio * 0.5f, isOnScreen);
+    
+    return isOnScreen;
 }
 
 //
-void CellRenderer::drawStarfish( const vec2 & global, const vector<FeelerStruct> & feelers, float contacts )
+bool CellRenderer::drawStarfish( const vec2 & global, const vector<FeelerStruct> & feelers, float contacts )
 {
     
     vec2 pos = toLocal( global, 1 );
@@ -414,10 +418,11 @@ void CellRenderer::drawStarfish( const vec2 & global, const vector<FeelerStruct>
     
     addToMiniMap( global, Color(1.0,0.9,0.1), 50, isOnScreen );
     
+    return isOnScreen;
 }
 
 
-void CellRenderer::drawJellyfish( const vec2 & global, float radius, const vector<FeelerStruct> & feelers, int jellyType, float counter, float baseWidth )
+bool CellRenderer::drawJellyfish( const vec2 & global, float radius, const vector<FeelerStruct> & feelers, int jellyType, float counter, float baseWidth )
 {
     
     vec2 pos = toLocal( global, 1 );
@@ -461,9 +466,10 @@ void CellRenderer::drawJellyfish( const vec2 & global, float radius, const vecto
     
     addToMiniMap( global, Color(0.6,0.3,1.0), radius, isOnScreen);
     
+    return isOnScreen;
 }
 
-void CellRenderer::drawUrchin( const vec2 & global, float radius, const vector<FeelerStruct> & feelers )
+bool CellRenderer::drawUrchin( const vec2 & global, float radius, const vector<FeelerStruct> & feelers )
 {
 
     vec2 local = toLocal(global,1);
@@ -489,6 +495,8 @@ void CellRenderer::drawUrchin( const vec2 & global, float radius, const vector<F
     }
     
     addToMiniMap( global, Color(1,0.2,1.0), radius, isOnScreen);
+    
+    return isOnScreen;
 }
 
 
@@ -547,7 +555,21 @@ Shape2d CellRenderer::drawFeeler( const FeelerStruct & feeler )
     Shape2d mShape;
     mShape.moveTo( drawPositions.at(0) );
     for(int n = 0; n < drawPositions.size(); n++)
-        mShape.lineTo( drawPositions.at(n) );
+    {
+        if( n > 0 )
+        {
+            if( drawPositions.at(n-1).x != drawPositions.at(n).x )
+            {
+                mShape.lineTo( drawPositions.at(n) );
+            }
+            else
+            {
+                cout << "FEELER SHAPE BUG!" << endl;
+            }
+        }
+
+    }
+    
     mShape.close();
     
     

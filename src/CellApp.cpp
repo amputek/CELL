@@ -36,11 +36,13 @@ class CellApp : public App {
     CellRenderer image;
     
     
-    bool inFullScreen = false;
+    
     bool gamePaused = false;
     bool gameStarted = true;
 
-    bool RUN_AUDIO = true;
+    
+    bool IN_FULL_SCREEN = false;
+    const bool RUN_AUDIO = true;
     
     
     float splashOpacity = 0.0f;
@@ -66,7 +68,7 @@ void CellApp::setup(){
         system( s.c_str() );
     }
     
-    inFullScreen = isFullScreen();
+    IN_FULL_SCREEN = isFullScreen();
     
 
     gl::enableAdditiveBlending( );
@@ -85,9 +87,9 @@ void CellApp::cleanup()
 void CellApp::keyDown( KeyEvent event ){
     if( event.getChar() == 'f' )
     {
-        inFullScreen = !inFullScreen;
-        setFullScreen( inFullScreen );
-        if( !inFullScreen ) setWindowSize(800, 600);
+        IN_FULL_SCREEN = !IN_FULL_SCREEN;
+        setFullScreen( IN_FULL_SCREEN );
+        if( !IN_FULL_SCREEN ) setWindowSize(800, 600);
     }
     
     if( event.getChar() == KeyEvent::KEY_ESCAPE )
@@ -99,14 +101,15 @@ void CellApp::keyDown( KeyEvent event ){
     
     if( event.getChar() == 'm')
     {
-        image.miniMapActive = !image.miniMapActive;
+        DEBUG_MODE = !DEBUG_MODE;
+        image.miniMapActive = DEBUG_MODE;
     }
     
 }
 
 vec2 CellApp::mousePosition()
 {
-    if( inFullScreen )
+    if( IN_FULL_SCREEN )
     {
         return getMousePos();
     }
@@ -151,17 +154,20 @@ void CellApp::draw(){
 
    // drawSplashScreens();
     
+    gl::ScopedBlendAlpha alpha;
     
- //   entityManager.environment.drawMask();
     
     
     drawCursor();
     
-  //  drawMenu();
+    drawMenu();
 
-  //  gl::drawString( "Framerate: " + to_string( roundf(getAverageFps()) ) + " Delta: " + to_string(deltaTime), vec2( 10.0f, 10.0f ) );
-//    gl::drawString( "Draw Count: " + to_string( entityDrawCount ), vec2( 10.0f, 30.0f ) );
-//
+    if( DEBUG_MODE )
+    {
+        entityManager.printEntityStats();
+        gl::drawString( "Framerate: " + to_string( roundf(getAverageFps()) ) + " Delta: " + to_string(deltaTime), vec2( 10.0f, 140.0f ) );
+        gl::drawString( "Draw Count: " + to_string( image.entityDrawCount ), vec2( 10.0f, 160.0f ) );
+    }
 
 }
 
@@ -181,6 +187,8 @@ void CellApp::drawMenu()
     gl::drawString("Pause: ESC"           , menuPos + vec2(20.0f,40.0f) );
     gl::drawString("Quit: cmd-Q"          , menuPos + vec2(20.0f,60.0f) );
     gl::drawString("(C) Rob Dawson, 2017" , menuPos + vec2(20.0f,100.0f) );
+    
+    
 }
 
 void CellApp::drawSplashScreens()
@@ -214,7 +222,9 @@ void CellApp::drawCursor(){
 
 
 CINDER_APP( CellApp, RendererGl( RendererGl::Options().msaa( 4 ) ), [&]( App::Settings *settings ) {
-    //settings->setFullScreen();
+    
+
+//    settings->setFullScreen();
     settings->setWindowSize(800, 600);
     settings->setFrameRate(60.0f);
     settings->setHighDensityDisplayEnabled();

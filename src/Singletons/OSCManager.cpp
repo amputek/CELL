@@ -33,6 +33,7 @@ void OSCManager :: recieveMessage(){
         
         listener.getNextMessage(&message);
         if(message.getAddress() == "/friendlyPulse"){
+            cout << "Friendly pulse " << message.getArgAsInt32(0) << endl;
             entities->pulseEvents->push_back( * new PulseEvent( FRIENDLY, message.getArgAsInt32(0) ) );
         }
         
@@ -127,22 +128,16 @@ void OSCManager :: surface(int where){
     sendMessage(msg, "/surface");
 }
 
-void OSCManager :: newFriendly(){
-    sendMessage("/newFriendly");
-}
-
-void OSCManager :: bornFriendly( int index ){
-    cout << "FRIENDLY BORN: " << index << endl;
+void OSCManager :: bornFriendly( int id ){
+    cout << "FRIENDLY BORN: " << id << endl;
     osc::Message msg;
-    msg.addIntArg(index);
+    msg.addIntArg(id);
     sendMessage(msg, "/bornFriendly");
 }
 
-void OSCManager :: updateFriendly(int index, float pan, float dist){
-    
-    cout << "UPDATE FRIENDLY: " << index << endl;
+void OSCManager :: updateFriendly(int id, float pan, float dist){
     osc::Message msg;
-    msg.addIntArg(index);
+    msg.addIntArg(id);
     msg.addFloatArg(pan);
     msg.addFloatArg(dist);
     sendMessage(msg, "/updateFriendly");
@@ -154,13 +149,13 @@ void OSCManager :: changeChord(){
 
 void OSCManager :: jelly(int feelerContactCount, float dist){
     
+    if( feelerContactCount == 0) return;
     
     jellySendCounter += deltaTime;
     
-    if( jellySendCounter < 0.16f ) return;
+    if( jellySendCounter < 0.35f ) return;
     jellySendCounter = 0.0f;
     
-    if( feelerContactCount == 0) return;
     
     osc::Message msg;
     msg.addFloatArg(dist);

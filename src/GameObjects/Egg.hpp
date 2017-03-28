@@ -12,6 +12,13 @@
 class Egg : public GameObject, public IDynamic, public IDrawable, public ICollideable{
 public:
     
+    static int TIME_SINCE_ON_SCREEN;
+    static int ENTITY_COUNT;
+    const static int SPAWN_FREQUENCY = 2000;
+    const static int SPAWN_OFF_SCREEN_BY = 800;
+    const static int DESPAWN_OFF_SCREEN_BY = 1200;
+    
+    
     Egg(vec2 loc ) : GameObject(loc, 1, 160)
     {
         mDrawSize = mRadius * 2.4;
@@ -34,8 +41,11 @@ public:
         
         GameObject::mType = EGG;
         GameObject::mPermanent = false;
-        GameObject::mAllowedOffScreenBy = 2000;
+        GameObject::mDespawnOffScreenDist = DESPAWN_OFF_SCREEN_BY;
+
+        
         ENTITY_COUNT++;
+        TIME_SINCE_ON_SCREEN = 0;
     }
     
     ~Egg(){
@@ -83,24 +93,30 @@ public:
     }
 
     
-    void collide( vector<GameObject*> & gameObjects, GameObject * hero, EnvironmentManager & environment, OSCManager & oscManager )
+    void collide( vector<GameObject*> * gameObjects, GameObject * hero, EnvironmentManager & environment, OSCManager & oscManager )
     {
         
-        for( vector<GameObject*>::iterator itCollider = gameObjects.begin(); itCollider < gameObjects.end(); ++itCollider )
+        for( vector<GameObject*>::iterator itCollider = gameObjects->begin(); itCollider < gameObjects->end(); ++itCollider )
         {
             GameObject * ptrCollider = *itCollider;
             if( ptrCollider == this ) continue;
             ICollideable * isCollider = dynamic_cast<ICollideable*>( ptrCollider );
             if( !isCollider ) continue;
             
+            
+            
             if( ptrCollider->mType == PLANKTON )
             {
                 if( nearby(ptrCollider, this, mRadius) ) ptrCollider->mDeleteMe = true;
+                continue;
             }
             
-            for( auto spring : springs )
-            {
-                spring->collide( ptrCollider->getPosition(), ptrCollider->getSize() * 3 );
+            if( ptrCollider->mType == PLAYER || ptrCollider->mType == FRIENDLY || ptrCollider->mType == SPARK )
+            {            
+                for( auto spring : springs )
+                {
+                    spring->collide( ptrCollider->getPosition(), ptrCollider->getSize() * 3 );
+                }
             }
         }
         
@@ -137,7 +153,8 @@ public:
         for( int n = 0; n < springs.size(); n++)
             pos.push_back( springs[n]->getPosition() );
         
-        renderer.drawEgg( mPosition, mDrawSize, mPulseCounter, pos );
+        bool drawn = renderer.drawEgg( mPosition, mDrawSize, mPulseCounter, pos );
+        if( drawn ) TIME_SINCE_ON_SCREEN = 0;
     }
 
     
@@ -146,9 +163,7 @@ public:
         return mPlayerInside;
     };
     
-    static int SEENCOUNT;
-    static int ENTITY_COUNT;
-    const static int SPAWN_FREQUENCY = 2000;
+
 
 private:
     

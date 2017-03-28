@@ -42,8 +42,8 @@ enum SporeType
 class GameObject
 {
 public:
-    GameObject(vec2 startWorldPosition, float entityDepth, float entitySize, float offDistRequired = 400.0f, bool permanent = false )
-        : mPosition(startWorldPosition), mDepth(entityDepth), mRadius(entitySize), mAllowedOffScreenBy(offDistRequired), mPermanent(permanent) { }
+    GameObject(vec2 startWorldPosition, float entityDepth, float entitySize, bool permanent = false )
+        : mPosition(startWorldPosition), mDepth(entityDepth), mRadius(entitySize), mPermanent(permanent) { }
     
     virtual ~GameObject(){
         
@@ -57,15 +57,13 @@ public:
     {
         if( mPermanent ) return;
         if( !mDeleteMe ){
-            mDeleteMe = !renderer->onScreen( mPosition, mDepth, mAllowedOffScreenBy );
+            mDeleteMe = !renderer->onScreen( mPosition, mDepth, mDespawnOffScreenDist );
         }
     }
     
-
+    float mDespawnOffScreenDist = 400; //despawn off screen
     
-    float mAllowedOffScreenBy = 400;
     EntityType mType;
-    
     
     bool mDeleteMe = false;
     
@@ -87,6 +85,7 @@ protected:
 
 };
 
+
 class IDrawable{
 public:
     virtual void draw( CellRenderer & renderer ) = 0;
@@ -104,7 +103,7 @@ class IPredates
 class ICollideable
 {
 public:
-    virtual void collide( vector<GameObject*> & gameObjects, GameObject * hero, EnvironmentManager & environment, OSCManager & oscManager ) = 0;
+    virtual void collide( vector<GameObject*> * gameObjects, GameObject * hero, EnvironmentManager & environment, OSCManager & oscManager ) = 0;
 };
 
 

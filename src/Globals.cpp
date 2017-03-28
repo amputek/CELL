@@ -2,6 +2,9 @@
 #include "Globals.hpp"
 
 namespace globals {
+    
+    bool DEBUG_MODE = false;
+    
     vec2 offset = vec2(-400,-2000);
     
     float deltaTime = 0.0166f;

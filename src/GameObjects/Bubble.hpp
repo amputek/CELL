@@ -7,11 +7,16 @@
 class Bubble : public PhysicsObject, public IDrawable{
 public:
     
+    
+    static int ENTITY_COUNT;
+    static const int DESPAWN_OFF_SCREEN_BY = 600;
+    
     Bubble( const vec2 & loc, const vec2 & vel, float depth ) : PhysicsObject( loc, depth, randFloat(3,9) * depth * depth, 4.0f, vel )
     {
         ENTITY_COUNT++;
-        GameObject::mAllowedOffScreenBy = 1000;
+        GameObject::mDespawnOffScreenDist = DESPAWN_OFF_SCREEN_BY;
     }
+    
     ~Bubble()
     {
         ENTITY_COUNT--;
@@ -26,8 +31,6 @@ public:
     void draw( CellRenderer & renderer ){
          renderer.drawBubble( mPosition, mRadius, mDepth );
     }
-    
-    static int ENTITY_COUNT;
 
 };
 

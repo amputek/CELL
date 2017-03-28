@@ -1,12 +1,11 @@
 #include "EntityManager.hpp"
 
 
-int Starfish::SEENCOUNT = 1;
-int Jelly::SEENCOUNT = 2;
-int Urchin::SEENCOUNT = 3;
-int Egg::SEENCOUNT = 1800;
-int Friendly::SEENCOUNT = 5;
-int Spore::SEENCOUNT = 6;
+int Starfish::TIME_SINCE_ON_SCREEN = 1;
+int Jelly::TIME_SINCE_ON_SCREEN = 2;
+int Urchin::TIME_SINCE_ON_SCREEN = 3;
+int Egg::TIME_SINCE_ON_SCREEN = Egg::SPAWN_FREQUENCY - 100;
+int Spore::TIME_SINCE_ON_SCREEN = 6;
 
 int Starfish::ENTITY_COUNT = 0;
 int Jelly::ENTITY_COUNT = 0;
@@ -47,7 +46,8 @@ EntityManager :: EntityManager( CellRenderer * img ){
 
     
     gameObjects->push_back( hero );
-  //  gameObjects.push_back(new Spark( vec2(-400,-2000), SporeType::ORANGE ) );
+
+    entityGenerator.generateSpores(0, vec2(-400,-1000));
 
 
  
@@ -86,7 +86,18 @@ void EntityManager :: update( ){
     oscManager->recieveMessage();
 
     entityGenerator.generate();
+    
 
+
+    
+    //Temporary collection of collideable-only entities
+    vector<GameObject*> colliders;
+    for( vector<GameObject*>::iterator itEntity = gameObjects->begin(); itEntity < gameObjects->end(); ++itEntity )
+    {
+        ICollideable * isCollideable = dynamic_cast<ICollideable*>( *itEntity );
+        if( isCollideable ) colliders.push_back( *itEntity );
+    }
+    
     
     //Update
     
@@ -103,19 +114,39 @@ void EntityManager :: update( ){
     {
         PulseEvent pulse = *itPulse;
         int count = 0;
-        for( vector<GameObject*>::iterator itEntity = gameObjects->begin(); itEntity < gameObjects->end(); ++itEntity )
+        for( vector<GameObject*>::iterator itEntity = colliders.begin(); itEntity < colliders.end(); ++itEntity )
         {
             GameObject * ptrEntity = *itEntity;
+         
+            
+            
+            
+            
             if( ptrEntity->mType == pulse.entityType )
             {
-                if( count == (*itPulse).index )
-                {
-                    environment.splash( ptrEntity->getPosition(), ptrEntity->getSize(), ptrEntity->getSize() * 2 );
-                    if( pulse.entityType == SPARK ) static_cast<Spark*>(ptrEntity)->pulse();
-                    break;
-                }
                 
-                count++;
+                if( pulse.entityType == FRIENDLY )
+                {
+                    cout << static_cast<Friendly*>( ptrEntity )->id << " " << pulse.index << endl;
+                    if( static_cast<Friendly*>( ptrEntity )->id == pulse.index )
+                    {
+                        cout << "Pulse handled!" << endl;
+                        environment.splash( ptrEntity->getPosition(), ptrEntity->getSize(), ptrEntity->getSize() * 5 );
+                    }
+                }
+                else
+                {
+                
+                    if( count == (*itPulse).index )
+                    {
+                        cout << "Pulse handled!" << endl;
+                        environment.splash( ptrEntity->getPosition(), ptrEntity->getSize(), ptrEntity->getSize() * 2 );
+                        if( pulse.entityType == SPARK ) static_cast<Spark*>(ptrEntity)->pulse();
+                        break;
+                    }
+                    
+                    count++;
+                }
                 
             }
         }
@@ -127,10 +158,21 @@ void EntityManager :: update( ){
     
     //Collisions...
     
-    for( vector<GameObject*>::iterator itEntity = gameObjects->begin(); itEntity < gameObjects->end(); ++itEntity )
+    for( vector<GameObject*>::iterator itEntity = colliders.begin(); itEntity < colliders.end(); ++itEntity )
     {
         ICollideable * isCollideable = dynamic_cast<ICollideable*>( *itEntity );
-        if( isCollideable ) isCollideable->collide( *gameObjects, hero, environment, *oscManager );
+        isCollideable->collide( &colliders, hero, environment, *oscManager );
+        
+        if( (*itEntity)->mType == SPORE )
+        {
+            Spore * spore = static_cast<Spore*>(*itEntity);
+            if( spore->isDead() )
+            {
+                gameObjects->push_back(new Spark(spore->getPosition(), spore->getSporeType() ));
+                oscManager->newSpark( spore->getSporeType()  );
+                Spore::sparksSpawned++;
+            }
+        }
     }
     
 
@@ -143,6 +185,7 @@ void EntityManager :: update( ){
         GameObject * ptrEntity = *itEntity;
         
         ptrEntity->offScreenBy( renderer );
+        
         
         //if entity needs to be deleted (eg through being eaten, or being too far off-screen), delete
         if(ptrEntity->mDeleteMe)
@@ -236,6 +279,19 @@ void EntityManager :: updateOffset(){
 
 //DRAWING
 
+template< class T >
+string printStats()
+{
+    return to_string(T::ENTITY_COUNT) + " - " + to_string(T::TIME_SINCE_ON_SCREEN) + " / " + to_string(T::SPAWN_FREQUENCY);
+}
+
+template< class T >
+string printStatsSimple()
+{
+    return to_string(T::ENTITY_COUNT);
+}
+
+
 void EntityManager :: drawEntities()
 {
     
@@ -260,19 +316,25 @@ void EntityManager :: drawEntities()
     }
     
     
-    
-    gl::color(1,1,1);
-    gl::drawString( "Plankton: " + to_string(Plankton::ENTITY_COUNT), vec2( 10.0f, 10.0f ) );
-    gl::drawString( "Jellyfish: " + to_string(Jelly::ENTITY_COUNT), vec2( 10.0f, 25.0f ) );
-    gl::drawString( "Starfish: " + to_string(Starfish::ENTITY_COUNT), vec2( 10.0f, 40.0f ) );
-    gl::drawString( "Urchin: " + to_string(Urchin::ENTITY_COUNT), vec2( 10.0f, 55.0f ) );
-    gl::drawString( "Friendly: " + to_string(Friendly::ENTITY_COUNT), vec2( 10.0f, 70.0f ) );
-    gl::drawString( "Spark: " + to_string(Spark::ENTITY_COUNT), vec2( 10.0f, 85.0f ) );
-    gl::drawString( "Spore: " + to_string(Spore::ENTITY_COUNT), vec2( 10.0f, 100.0f ) );
-    gl::drawString( "Egg: " + to_string(Egg::ENTITY_COUNT), vec2( 10.0f, 115.0f ) );
+    environment.drawMask();
     
 
     
+
+}
+
+void EntityManager:: printEntityStats()
+{
+    gl::enableAlphaBlending();
+    gl::color(1,1,1);
+    gl::drawString( "Jellyfish: " + printStats<Jelly>(), vec2( 10.0f, 10.0f ) );
+    gl::drawString( "Starfish: " + printStats<Starfish>(), vec2( 10.0f, 25.0f ) );
+    gl::drawString( "Urchin: " + printStats<Urchin>(), vec2( 10.0f, 40.0f ) );
+    gl::drawString( "Spore: " + printStats<Spore>(), vec2( 10.0f, 55.0f ) );
+    gl::drawString( "Egg: " + printStats<Egg>(), vec2( 10.0f, 70.0f ) );
+    gl::drawString( "Plankton: " + printStatsSimple<Plankton>(), vec2( 10.0f, 85.0f ) );
+    gl::drawString( "Friendly: " + printStatsSimple<Friendly>(), vec2( 10.0f, 100.0f ) );
+    gl::drawString( "Spark: " + printStatsSimple<Spark>(), vec2( 10.0f, 115.0f ) );
 }
 
 

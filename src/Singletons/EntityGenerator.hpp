@@ -29,15 +29,14 @@ public:
     
     bool generate()
     {
-        Starfish::SEENCOUNT++;
-        Spore::SEENCOUNT++;
-        Jelly::SEENCOUNT++;
-        Urchin::SEENCOUNT++;
-        Egg::SEENCOUNT++;
+        Starfish::TIME_SINCE_ON_SCREEN++;
+        Spore::TIME_SINCE_ON_SCREEN++;
+        Jelly::TIME_SINCE_ON_SCREEN++;
+        Urchin::TIME_SINCE_ON_SCREEN++;
+        Egg::TIME_SINCE_ON_SCREEN++;
         
         generateBubbles();
         generateBeams();
-        
         generatePlankton();
         generateStarfish();
         generateSpores();

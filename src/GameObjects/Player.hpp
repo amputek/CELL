@@ -27,7 +27,7 @@ public:
     bool levelling(){ return playerLevelling; };
 
     
-    void collide( vector<GameObject*> & gameObjects, GameObject * hero, EnvironmentManager & environment, OSCManager & oscManager ){ }
+    void collide( vector<GameObject*> * gameObjects, GameObject * hero, EnvironmentManager & environment, OSCManager & oscManager ){ }
 
     vec2 getDestination() const
     {

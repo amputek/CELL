@@ -14,17 +14,28 @@
 
 class Starfish : public FeelerCreature{
 public:
+    
+    static int TIME_SINCE_ON_SCREEN;
+    static int ENTITY_COUNT;
+    const static int SPAWN_FREQUENCY = 1400;
+    const static int SPAWN_OFF_SCREEN_BY = 200;
+    const static int DESPAWN_OFF_SCREEN_BY = 400;
 
     Starfish(vec2 loc) : FeelerCreature(loc, randFloat(20,30), 0.5f )
     {
-        GameObject::mType = STARFISH;
+        GameObject::mType = STARFISH;        
+        GameObject::mDespawnOffScreenDist = DESPAWN_OFF_SCREEN_BY;
         
         for(int i = 0; i < 30; i++){
             int feelerLength = randInt(4,8);
             addFeeler( feelerLength, 20.0f, 0.3f );
         }
         
+        ignore(EGG);
+        
         ENTITY_COUNT++;
+        TIME_SINCE_ON_SCREEN = 0;
+        
 
     }
     
@@ -66,7 +77,7 @@ public:
     }
     
     
-    void collide( vector<GameObject*> & gameObjects, GameObject * hero, EnvironmentManager & environment, OSCManager & oscManager )
+    void collide( vector<GameObject*> * gameObjects, GameObject * hero, EnvironmentManager & environment, OSCManager & oscManager )
     {
         if( mFleeing ) return;
         
@@ -109,7 +120,8 @@ public:
     
 
     void draw( CellRenderer & renderer ){
-        renderer.drawStarfish( mPosition, getDrawFeelers(), mContactAmount );
+        bool drawn = renderer.drawStarfish( mPosition, getDrawFeelers(), mContactAmount );
+        if( drawn ) TIME_SINCE_ON_SCREEN = 0;
         debugDraw( renderer );
     }
     
@@ -117,10 +129,8 @@ public:
     
     bool isFleeing() const{ return mFleeing; }
 
-    //getters
-    static int SEENCOUNT;
-    static int ENTITY_COUNT;
-    const static int SPAWN_FREQUENCY = 1400;
+
+    
     
 private:
     float mSpinCounter = 0.0f;

@@ -11,13 +11,26 @@ using namespace ci;
 
 class Plankton : public GameObject, public IDrawable, public ICollideable{
 public:
-    Plankton( vec2 loc, int t) : GameObject(loc, randFloat(0.9,1.1), randFloat(6,13) ){
+    
+    
+    
+    static int ENTITY_COUNT;
+    const static int SPAWN_FREQUENCY = 100;
+    const static int SPAWN_OFF_SCREEN_BY = 100;
+    const static int DESPAWN_OFF_SCREEN_BY = 400;
+
+    
+    Plankton( vec2 loc, int t) : GameObject(loc, randFloat(0.9,1.1), randFloat(6,13) )
+    {
+        
         mPlanktonType = t;
         mRotation = randFloat(0, M_PI * 2);
 
         GameObject::mType = PLANKTON;
+        GameObject::mDespawnOffScreenDist = DESPAWN_OFF_SCREEN_BY;
+        
+        
         ENTITY_COUNT++;
-    
     }
     
     ~Plankton(){
@@ -29,10 +42,10 @@ public:
         renderer.drawPlankton(mPosition, mDepth, mRadius, mPlanktonType, mRotation );
     }
     
-    void collide( vector<GameObject*> & gameObjects, GameObject * hero, EnvironmentManager & environment, OSCManager & oscManager )
+    void collide( vector<GameObject*> * gameObjects, GameObject * hero, EnvironmentManager & environment, OSCManager & oscManager )
     {
         
-        for( vector<GameObject*>::iterator itPredator = gameObjects.begin(); itPredator < gameObjects.end(); ++itPredator )
+        for( vector<GameObject*>::iterator itPredator = gameObjects->begin(); itPredator < gameObjects->end(); ++itPredator )
         {
             GameObject * ptrPredator = *itPredator;
             if( ptrPredator == this ) continue;            
@@ -45,7 +58,7 @@ public:
                 
                 environment.bubble( mPosition, 3);
                 environment.splash( mPosition, 1, 75 );
-                oscManager.eatPlankton( mType, (mPosition.x - hero->getPosition().x) , dist(hero->getPosition(), mPosition) );
+                oscManager.eatPlankton( mPlanktonType, (mPosition.x - hero->getPosition().x) , dist(hero->getPosition(), mPosition) );
                 if( ptrPredator == hero )
                 {
                     if( static_cast<Player*>(hero)->incEaten( mType )  )
@@ -61,10 +74,8 @@ public:
             
         }
     }
-    
-    static int ENTITY_COUNT;
-    const static int SPAWN_FREQUENCY = 100;
 
+    
 private:
     int mPlanktonType;
     float mRotation = 0.0f;

@@ -40,6 +40,7 @@ public:
 	void update( );
     void updateHero( const vec2 & mouseLoc, bool canMove );
     void drawEntities();
+    void printEntityStats();
     
     void quit();
     

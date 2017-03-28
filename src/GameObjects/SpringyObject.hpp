@@ -32,6 +32,7 @@ public:
     bool collide(const vec2 & colliderPosition, float collideDist)
     {
         if(dist(colliderPosition, mPosition) > collideDist) return false;
+    
         
 
         vec2 d = colliderPosition - mPosition;

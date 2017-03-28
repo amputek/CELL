@@ -17,7 +17,7 @@ public:
     void avoidColliders( const vector<GameObject*> & gameObjects );
 
     
-    void collide( vector<GameObject*> & gameObjects, GameObject * hero, EnvironmentManager & environment, OSCManager & oscManager );
+    void collide( vector<GameObject*> * gameObjects, GameObject * hero, EnvironmentManager & environment, OSCManager & oscManager );
     
 protected:
 
@@ -28,9 +28,14 @@ protected:
         mIgnoreTypes.push_back(type);
     }
     
+    bool shouldIgnore( GameObject * entity )
+    {
+        return find(mIgnoreTypes.begin(), mIgnoreTypes.end(), entity->mType) != mIgnoreTypes.end();
+    }
+    
     
 private:
-    bool checkInSpace(const vec2 & loc, const vector<GameObject*> & movers);
+    bool checkInSpace(const vec2 & loc, const vector<GameObject*> * movers);
     vector<EntityType> mIgnoreTypes;
 
 

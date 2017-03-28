@@ -41,21 +41,22 @@ public:
     }
     
     //Default collider function
-    void collide( vector<GameObject*> & gameObjects, GameObject * hero, EnvironmentManager & environment, OSCManager & oscManager )
+    void collide( vector<GameObject*> * gameObjects, GameObject * hero, EnvironmentManager & environment, OSCManager & oscManager )
     {
         mFeelersInContact = 0;
         
-        for( vector<GameObject*>::iterator itCollider = gameObjects.begin(); itCollider < gameObjects.end(); ++itCollider )
+        for( vector<GameObject*>::iterator itCollider = gameObjects->begin(); itCollider < gameObjects->end(); ++itCollider )
         {
             GameObject * ptrCollider = *itCollider;
             if( ptrCollider == this ) continue;
             ICollideable * isCollider = dynamic_cast<ICollideable*>( ptrCollider );
             if( !isCollider ) continue;
-            
+            if( ptrCollider->mType == SPORE ) continue;
+            if( ptrCollider->mType == EGG ) continue;
             if( ptrCollider->mType == PLANKTON ) continue;
             
             for(int i = 0; i < mFeelers.size(); i++){
-                if( mFeelers.at(i)->collide(ptrCollider->getPosition(), ptrCollider->getSize() * 4 ) )
+                if( mFeelers.at(i)->collide(ptrCollider->getPosition(), ptrCollider->getSize() + 15 ) )
                 {
                     mFeelersInContact++;
                 }

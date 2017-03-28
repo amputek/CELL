@@ -5,15 +5,25 @@
 #include "Swimmer.hpp"
 #include "Tail.hpp"
 
-class Friendly : public Swimmer, public IDrawable {
+
+class Friendly : public Swimmer, public IDrawable, public IPredates {
 public:
+    
+    
+    static int TIME_SINCE_SPAWN;
+    static int ENTITY_COUNT;
+    static const int DESPAWN_OFF_SCREEN_BY = 1200;
+
     
     Friendly(vec2 loc) : Swimmer(loc, 6.0f, randFloat(0.4f,0.6f) )
     {
         GameObject::mType = FRIENDLY;
-        GameObject::mPermanent = true;
+        GameObject::mPermanent = false;
+        GameObject::mDespawnOffScreenDist = DESPAWN_OFF_SCREEN_BY;
         
         tail = new Tail( 2, false, 0.6f, false );
+        
+        id = randInt(0, 1024);
         
         ENTITY_COUNT++;
     }
@@ -49,7 +59,7 @@ public:
         }
     }
     
-    void collide( vector<GameObject*> & gameObjects, GameObject * hero, EnvironmentManager & environment, OSCManager & oscManager )
+    void collide( vector<GameObject*> * gameObjects, GameObject * hero, EnvironmentManager & environment, OSCManager & oscManager )
     {
         
         float distToHero = dist( hero->getPosition(), mPosition );
@@ -60,7 +70,7 @@ public:
             
             
             int planktonCounter = 0;
-            for( vector<GameObject*>::iterator itCollider = gameObjects.begin(); itCollider < gameObjects.end(); ++itCollider )
+            for( vector<GameObject*>::iterator itCollider = gameObjects->begin(); itCollider < gameObjects->end(); ++itCollider )
             {
                 GameObject * ptrCollider = *itCollider;
                 if( ptrCollider == this ) continue; //dont collide with yourself!
@@ -73,7 +83,7 @@ public:
             
             if( distToHero < 1000 ){
                 float pan = ( mPosition.x - hero->getPosition().x);
-                oscManager.updateFriendly( ENTITY_COUNT-1, pan, distToHero );
+                oscManager.updateFriendly( id, pan, distToHero );
             }
             
         }
@@ -84,7 +94,7 @@ public:
             if( distToHero < 40)
             {
                 birth();
-                oscManager.bornFriendly(ENTITY_COUNT-1);
+                oscManager.bornFriendly(id);
                 setDestination( mPosition + vrand(500) );
             }
         }
@@ -103,6 +113,7 @@ public:
         if(!mBorn){
             mBorn = true;
             mBirthCounter = 0.0f;
+            GameObject::mPermanent = true; //It becomes permanent
         }
     }
     
@@ -111,9 +122,7 @@ public:
     //getters
     bool isBorn(){ return mBorn; };
     
-    static int SEENCOUNT;
-    static int ENTITY_COUNT;
-
+    int id;
     
 private:
     float levelCounter = 0.0f;

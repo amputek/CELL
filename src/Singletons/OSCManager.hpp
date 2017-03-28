@@ -33,8 +33,8 @@ public:
     void floor();
     void newSpark(int type);
     void newFriendly();
-    void bornFriendly( int index );
-    void updateFriendly(int index, float pan, float dist);
+    void bornFriendly( int id );
+    void updateFriendly(int id, float pan, float dist);
     
 private:
     void sendMessage(osc::Message message, string addr);

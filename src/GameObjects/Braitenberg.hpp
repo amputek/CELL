@@ -21,7 +21,14 @@ public:
     void update(){
 
         //Safety Checks! Shouldn't really be needed
-        if( isnan( mPosition.x ) ) mPosition = mTargetDestination;
+        if( isnan( mPosition.x ) ){
+            mPosition = mTargetDestination;
+            leftMotorSpeed = 0.5f;
+            rightMotorSpeed = 0.5f;
+            mDirection = 0.0f;
+            mSpeed = 0.1f;
+            cout << "SAFETY FAIL! NAN" << endl;
+        }
         if( isinf( abs(mPosition.x) ) ) mTargetDestination = mPosition + vec2(1,1);
         if( mPosition == mTargetDestination ) mTargetDestination += vec2(1,1);
         
@@ -101,7 +108,7 @@ protected:
 
     void debugDraw( CellRenderer & renderer )
     {
-        renderer.debugDestination(mPosition, mTargetDestination);
+        if( DEBUG_MODE ) renderer.debugDestination(mPosition, mTargetDestination);
     }
     
 

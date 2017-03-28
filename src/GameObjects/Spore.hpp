@@ -17,11 +17,25 @@ using namespace std;
 
 class Spore : public PhysicsObject, public IDrawable, public ICollideable{
 public:
-    Spore(vec2 loc, float depth, SporeType type) : PhysicsObject(loc, depth, randFloat(20,40) * depth, 4.0f ){
+    
+    static int TIME_SINCE_ON_SCREEN;
+    static int ENTITY_COUNT;
+    static int sparksSpawned;
+    const static int SPAWN_FREQUENCY = 1400;
+    const static int SPAWN_OFF_SCREEN_BY = 500;
+    const static int DESPAWN_OFF_SCREEN_BY = 1000;
+    
+    
+    Spore(vec2 loc, float depth, SporeType type) : PhysicsObject(loc, depth, randFloat(20,40) * depth, 4.0f )
+    {
         mHealth = randInt(4,8);
         mSporeType = type;
-        mType = EntityType::SPORE;
+        
+        GameObject::mType = EntityType::SPORE;
+        GameObject::mDespawnOffScreenDist = DESPAWN_OFF_SCREEN_BY;
+        
         ENTITY_COUNT++;
+        TIME_SINCE_ON_SCREEN = 0;
     }
     
     ~Spore()
@@ -39,7 +53,7 @@ public:
     
 
     
-    void collide( vector<GameObject*> & gameObjects, GameObject * hero, EnvironmentManager & environment, OSCManager & oscManager )
+    void collide( vector<GameObject*> * gameObjects, GameObject * hero, EnvironmentManager & environment, OSCManager & oscManager )
     {
         
         if( abs( mDepth - 1 ) > 0.2f ) return;
@@ -59,18 +73,7 @@ public:
             {
                 mDeleteMe = true;
                 environment.bubble( mPosition, 6 );
-                environment.splash( mPosition + vrand(10), mRadius, mRadius * 2.5f );
-               // if( sparksSpawned == 0 || randFloat() < 0.5f )
-               // {
-                //    gameObjects.push_back(new Spark(mPosition, mSporeType));
-                //    oscManager.newSpark( mSporeType );
-                //    sparksSpawned++;
-                //}
-                
-                gameObjects.push_back(new Spark(mPosition, mSporeType));
-                oscManager.newSpark( mSporeType );
-                sparksSpawned++;
-                
+                environment.splash( mPosition + vrand(10), mRadius, mRadius * 2.5f );                
             }
             
         }
@@ -79,16 +82,21 @@ public:
     
     void draw( CellRenderer & renderer )
     {
-        renderer.drawSpore( mPosition, mRadius, mDepth, mSporeType );
+        bool drawn = renderer.drawSpore( mPosition, mRadius, mDepth, mSporeType );
+        if( drawn ) TIME_SINCE_ON_SCREEN = 0;
     }
     
 
+    bool isDead() const
+    {
+        return mHealth <= 0;
+    }
     
-    static int SEENCOUNT;
-    static int ENTITY_COUNT;
-    static int sparksSpawned;
-    const static int SPAWN_FREQUENCY = 1400;
-    
+    SporeType getSporeType() const
+    {
+        return mSporeType;
+    }
+
 private:
     int mHealth;
     SporeType mSporeType;      //three different types of Spore
