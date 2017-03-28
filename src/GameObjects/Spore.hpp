@@ -21,9 +21,9 @@ public:
     static int TIME_SINCE_ON_SCREEN;
     static int ENTITY_COUNT;
     static int sparksSpawned;
-    const static int SPAWN_FREQUENCY = 1400;
-    const static int SPAWN_OFF_SCREEN_BY = 500;
-    const static int DESPAWN_OFF_SCREEN_BY = 1000;
+    const static int SPAWN_FREQUENCY = 900;
+    const static int SPAWN_OFF_SCREEN_BY = 400;
+    const static int DESPAWN_OFF_SCREEN_BY = 800;
     
     
     Spore(vec2 loc, float depth, SporeType type) : PhysicsObject(loc, depth, randFloat(20,40) * depth, 4.0f )

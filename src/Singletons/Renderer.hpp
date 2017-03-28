@@ -80,7 +80,7 @@ public:
         gl::enableAlphaBlending();  //no additive blending when drawing to Fbo
         
         gl::clear(ColorA(0,0,0,0.5));
-        gl::color( ColorA(1.0f, 1.0f, 1.0f, 0.65f) );
+        gl::color( ColorA(1.0f, 1.0f, 1.0f, 0.55f) );
         
         gl::draw( maskImg, vec2(384,384) );
         
@@ -88,8 +88,49 @@ public:
         
     }
     
+    void drawDust()
+    {
+        return;
+        gl::ScopedBlendAdditive add;
+        gl::color( ColorA(0.8,0.95,1, 0.1f));
+        
+        int i = 0;
+        for( float d = 0.2f; d < 2.8; d+=0.4f)
+        {
+            float x = -globals::offset.x * d;
+            float y = -globals::offset.y * d;
+            
+            x += getWindowWidth() / 2;
+            y += getWindowHeight() / 2;
+
+            x += d * 400;
+            y += d * 400;
+
+            float w = 1280 * d;
+            float h = 800 * d;
+            
+            x = remainder(x, w);
+            y = remainder(y, h);
+            for( int ax = -2; ax < 2; ax++)
+                for( int ay = -2; ay < 2; ay++)
+                    gl::draw( dustImgs[i % 4], Rectf( x + ax * w, y + ay * h, x + (ax+1) * w, y + (ay+1) * h ) );
+
+     
+        
+            i++;
+        }
+        
+       
+    }
+    
     void drawMask( const vec2 & position, FboRef & mFbo, float depthMod )
     {
+        
+        
+        
+
+        
+        
         //center of mask will sit above the player's location (which is not neccesarily the center of the screen)
         //mask's size will increase in shallower waters
         
@@ -217,6 +258,7 @@ private:
     gl::TextureRef title4;
     gl::TextureRef maskImg;
     gl::TextureRef splashImg;
+    gl::TextureRef dustImgs[4];
     
     
     gl::FboRef miniMap;

@@ -16,7 +16,7 @@ public:
     
     static int ENTITY_COUNT;
     const static int SPAWN_FREQUENCY = 100;
-    const static int SPAWN_OFF_SCREEN_BY = 100;
+    const static int SPAWN_OFF_SCREEN_BY = 180;
     const static int DESPAWN_OFF_SCREEN_BY = 400;
 
     

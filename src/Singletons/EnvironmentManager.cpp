@@ -20,6 +20,11 @@ EnvironmentManager :: EnvironmentManager( CellRenderer * r, vector<GameObject*> 
         entities->push_back( new Bubble( pos, vrand(300), depth ) );
     }
     
+    for( int i = 0 ; i < 5; i ++)
+    {
+        entities->push_back( new Beam( vec2(offset.x - (getWindowWidth()/2) + randFloat(-600,600), 500) ) );
+    }
+    
 }
 
 
@@ -50,6 +55,7 @@ void EnvironmentManager :: update( const vec2 & heroPosition ){
 }
 
 void EnvironmentManager :: drawMask(){
+    renderer->drawDust();
     glBlendFunc(GL_DST_COLOR, GL_SRC_COLOR);
     mask->draw( *renderer );
 }

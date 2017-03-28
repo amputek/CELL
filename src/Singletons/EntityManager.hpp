@@ -41,18 +41,16 @@ public:
     void updateHero( const vec2 & mouseLoc, bool canMove );
     void drawEntities();
     void printEntityStats();
-    
     void quit();
     
-    
-    
     vector<PulseEvent> * pulseEvents;
+    
+    EnvironmentManager environment;
     
 private:
     
     //private update/draw functions
     void updateOffset();
-    void drawBackground();
     
     //Reference to player gameObject
     Player * hero;
@@ -63,8 +61,10 @@ private:
     //Managers etc
     OSCManager * oscManager;
     CellRenderer * renderer;
+    
+    //Subsystems
     EntityGenerator entityGenerator;
-    EnvironmentManager environment;
+
 };
 
 #endif

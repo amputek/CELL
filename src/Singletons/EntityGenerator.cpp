@@ -186,9 +186,9 @@ bool EntityGenerator::generateEgg( )
 
 void EntityGenerator::generateBeams()
 {
-    if(getElapsedFrames() % 40 == 0){
+    if(getElapsedFrames() % 80 == 0){
         if(Beam::ENTITY_COUNT < 25){
-            entities->push_back( new Beam( vec2(offset.x + randFloat(-1000,1000), 500) ) );
+            entities->push_back( new Beam( vec2(offset.x - (getWindowWidth()/2) + randFloat(-800,800), 500) ) );
         }
     }
 }

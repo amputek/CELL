@@ -33,7 +33,6 @@ void OSCManager :: recieveMessage(){
         
         listener.getNextMessage(&message);
         if(message.getAddress() == "/friendlyPulse"){
-            cout << "Friendly pulse " << message.getArgAsInt32(0) << endl;
             entities->pulseEvents->push_back( * new PulseEvent( FRIENDLY, message.getArgAsInt32(0) ) );
         }
         
@@ -129,7 +128,6 @@ void OSCManager :: surface(int where){
 }
 
 void OSCManager :: bornFriendly( int id ){
-    cout << "FRIENDLY BORN: " << id << endl;
     osc::Message msg;
     msg.addIntArg(id);
     sendMessage(msg, "/bornFriendly");

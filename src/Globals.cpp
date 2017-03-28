@@ -39,4 +39,6 @@ namespace globals {
     float dist(vec2 locA, vec2 locB){
         return length(locA - locB);
     }
+    
+    
 }

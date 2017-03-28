@@ -46,6 +46,12 @@ CellRenderer :: CellRenderer(){
     title2 = loadPngImage( "title/2" );
     title3 = loadPngImage( "title/3" );
     title4 = loadPngImage( "title/4" );
+    
+    dustImgs[0] = loadPngImage( "environment/dust" );
+    dustImgs[1] = loadPngImage( "environment/dust-h" );
+    dustImgs[2] = loadPngImage( "environment/dust-v" );
+    dustImgs[3] = loadPngImage( "environment/dust-r" );
+    
 
 
 
@@ -64,7 +70,7 @@ void CellRenderer::drawBeam( const vec2 & global, float depth, float op ){
     float x = toLocal( global, depth ).x;
     
     entityDrawCount++;
-    gl::color(ColorA(1.0,1.0,1.0,op));
+    gl::color(ColorA(1.0,1.0,0.9,op));
     gl::ScopedModelMatrix modelScope;
     gl::translate(vec2(x,0));
     
@@ -347,7 +353,7 @@ bool CellRenderer::drawEgg( const vec2 & global, float ratio, float counter, con
         entityDrawCount++;
         
         
-        gl::color(ColorA(1,1,1,0.5 + (sin(counter)*0.20f)) );
+        gl::color(ColorA(1,1,1,0.3 + (sin(counter) * 0.2f)) );
         gl::draw( eggImg, Rectf(local.x - ratio, local.y - ratio, local.x + ratio, local.y + ratio) );
         
         
@@ -558,13 +564,14 @@ Shape2d CellRenderer::drawFeeler( const FeelerStruct & feeler )
     {
         if( n > 0 )
         {
+            //Dont draw duplicate positions - can result in tesselation bug!
             if( drawPositions.at(n-1).x != drawPositions.at(n).x )
             {
                 mShape.lineTo( drawPositions.at(n) );
             }
             else
             {
-                cout << "FEELER SHAPE BUG!" << endl;
+               // cout << "FEELER SHAPE BUG!" << endl;
             }
         }
 

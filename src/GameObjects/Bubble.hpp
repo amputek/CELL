@@ -10,6 +10,8 @@ public:
     
     static int ENTITY_COUNT;
     static const int DESPAWN_OFF_SCREEN_BY = 600;
+    static const int SPAWN_OFF_SCREEN_BY = 200;
+    
     
     Bubble( const vec2 & loc, const vec2 & vel, float depth ) : PhysicsObject( loc, depth, randFloat(3,9) * depth * depth, 4.0f, vel )
     {

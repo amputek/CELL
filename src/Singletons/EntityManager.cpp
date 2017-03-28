@@ -28,17 +28,14 @@ EntityManager :: EntityManager( CellRenderer * img ){
     oscManager->entities = this;
     
     gameObjects = new vector<GameObject*>();
-    cout << "Init: " << &gameObjects << endl;
 
     //set up managers, singletons
     renderer = img;
     environment = * new EnvironmentManager( renderer, gameObjects );
     
     //first entities: the hero (player) and the starting egg
-    hero = new Player(vec2(-400,-1500) );
-  //  offset = hero->global;
-//    
-//    
+    hero = new Player(vec2(-400,-4000) );
+  
     entityGenerator = * new EntityGenerator( gameObjects );
     entityGenerator.hero = hero;
     entityGenerator.image = renderer;
@@ -46,9 +43,6 @@ EntityManager :: EntityManager( CellRenderer * img ){
 
     
     gameObjects->push_back( hero );
-
-    entityGenerator.generateSpores(0, vec2(-400,-1000));
-
 
  
     for(int i = 0; i < 20; i++)
@@ -85,7 +79,7 @@ void EntityManager :: update( ){
     
     oscManager->recieveMessage();
 
-    entityGenerator.generate();
+    if( getElapsedFrames() > 400 ) entityGenerator.generate();
     
 
 
@@ -127,10 +121,8 @@ void EntityManager :: update( ){
                 
                 if( pulse.entityType == FRIENDLY )
                 {
-                    cout << static_cast<Friendly*>( ptrEntity )->id << " " << pulse.index << endl;
                     if( static_cast<Friendly*>( ptrEntity )->id == pulse.index )
                     {
-                        cout << "Pulse handled!" << endl;
                         environment.splash( ptrEntity->getPosition(), ptrEntity->getSize(), ptrEntity->getSize() * 5 );
                     }
                 }
@@ -139,7 +131,6 @@ void EntityManager :: update( ){
                 
                     if( count == (*itPulse).index )
                     {
-                        cout << "Pulse handled!" << endl;
                         environment.splash( ptrEntity->getPosition(), ptrEntity->getSize(), ptrEntity->getSize() * 2 );
                         if( pulse.entityType == SPARK ) static_cast<Spark*>(ptrEntity)->pulse();
                         break;
@@ -213,11 +204,7 @@ void EntityManager :: update( ){
 
 void EntityManager :: updateHero( const vec2 & mousePos, bool canMove ){
 
-    
-    
-    
-    hero->setDestination( globalise( canMove ? mousePos : vec2( getWindowWidth() / 2, getWindowHeight() / 2 - 50), 1 ) );
-//    hero->update();
+    hero->setDestination( globalise( canMove ? mousePos : vec2( getWindowWidth() / 2, getWindowHeight() / 2 + 50), 1 ) );
 
     oscManager->setDepth( (-hero->getPosition().y) / 7000 );
     
@@ -297,17 +284,19 @@ void EntityManager :: drawEntities()
     
     gl::enableAlphaBlending();
 
-    drawBackground();
     
+    float widthMod = sin(hero->getPosition().x*0.0001)*0.1;
+    float depth = (-hero->getPosition().y) / 7000;
+    float r = 0.006 + (depth * 0.06 -widthMod);
+    float g = 0.03 + (depth * 0.3 + widthMod);
+    float b = 0.08 + (depth * 0.8);
     
-    string entityString = "";
+    gl::clear( Color( r,g,b ) );
     
     
     for( vector<GameObject*>::iterator entity = gameObjects->begin(); entity < gameObjects->end(); ++entity ){
-        
-        entityString = entityString + to_string((*entity)->mType);
-        
         IDrawable * drawableEntity = dynamic_cast<IDrawable*>(*entity);
+        
         if( drawableEntity )
         {
             if( (*entity)->getPosition() == vec2(NAN,NAN) ) continue;
@@ -335,21 +324,6 @@ void EntityManager:: printEntityStats()
     gl::drawString( "Plankton: " + printStatsSimple<Plankton>(), vec2( 10.0f, 85.0f ) );
     gl::drawString( "Friendly: " + printStatsSimple<Friendly>(), vec2( 10.0f, 100.0f ) );
     gl::drawString( "Spark: " + printStatsSimple<Spark>(), vec2( 10.0f, 115.0f ) );
-}
-
-
-void EntityManager :: drawBackground(){
-
-    //background colour changes depending on X and Y position
-    float widthMod = sin(hero->getPosition().x*0.0001)*0.1;
-    float depth = (-hero->getPosition().y) / 7000;
-    
-    float r = 0.006 + (depth * 0.06 -widthMod);
-    float g = 0.03 + (depth * 0.3 + widthMod);
-    float b = 0.08 + (depth * 0.8);
-
-    gl::clear( Color( r,g,b ) );
-
 }
 
 

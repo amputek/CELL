@@ -27,7 +27,7 @@ public:
             rightMotorSpeed = 0.5f;
             mDirection = 0.0f;
             mSpeed = 0.1f;
-            cout << "SAFETY FAIL! NAN" << endl;
+            //cout << "SAFETY FAIL! NAN" << endl;
         }
         if( isinf( abs(mPosition.x) ) ) mTargetDestination = mPosition + vec2(1,1);
         if( mPosition == mTargetDestination ) mTargetDestination += vec2(1,1);

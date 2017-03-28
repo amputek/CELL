@@ -20,6 +20,8 @@ public:
     void update( const vec2 & heroPosition );
     void drawMask();
     
+
+    
 private:
 
     //Pointer to renderer's mask

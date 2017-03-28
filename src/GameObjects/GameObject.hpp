@@ -53,7 +53,7 @@ public:
     float getDepth() const { return mDepth; }
     vec2 getPosition() const { return mPosition; }
     
-    void offScreenBy( CellRenderer * renderer )
+    virtual void offScreenBy( CellRenderer * renderer )
     {
         if( mPermanent ) return;
         if( !mDeleteMe ){
