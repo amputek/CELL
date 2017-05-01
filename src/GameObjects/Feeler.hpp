@@ -9,9 +9,9 @@ using namespace ci;
 class Feeler : public IDynamic {
     
 public:
-    Feeler();
+    Feeler(){ };
     Feeler(vec2 loc, float depth, int jointCount, float baseWidth = 4.0f, float tipWidth = 0.2f, float stiff = 2.0f )
-        : baseWidth( baseWidth ), tipWidth( tipWidth )
+        : baseWidth( baseWidth ), tipWidth( tipWidth ), mJointCount(jointCount)
     {
         
         
@@ -21,38 +21,39 @@ public:
         
         vec2 dir = randVec2();
         
-        for(int i = 0; i < jointCount; i++){
+        springs = new SpringyObject[mJointCount];
+        
+        for(int i = 0; i < mJointCount; i++){
             vec2 springPosition = loc + (dir * (float)i);
             float springStiffness = i == 0 ? 10.0f : stiffness;
-            springs.push_back( new SpringyObject(springPosition, depth, springStiffness, mass, damping ) );
+            springs[i] = SpringyObject(springPosition, depth, springStiffness, mass, damping );
         }
         update();
         
     };
 
 
-    ~Feeler(){
-        for( vector<SpringyObject*>::iterator p = springs.begin(); p != springs.end(); ++p){
-            delete *p;
-        }
+    ~Feeler()
+    {
+        delete[] springs;
     }
     
     vec2 getPosition() const
     {
-        return springs.at(0)->getPosition();
+        return springs[0].getPosition();
     }
     
     void setHomePosition( vec2 homePosition )
     {
-        if(springs.size() > 0){
-            springs.at(0)->setPosition( homePosition );
+        if(mJointCount > 0){
+            springs[0].setPosition( homePosition );
         }
     }
 
     void addForce(const vec2 & force)
     {
-        for(int i = 1; i < springs.size(); i++){
-            springs.at(i)->addForce(force);
+        for(int i = 1; i < mJointCount; i++){
+            springs[i].addForce(force);
         }
     }
 
@@ -67,10 +68,10 @@ public:
         positions.clear();
         
         //all other springs gets updated against the prior spring
-        for(int i = 0; i < springs.size(); i++){
-            if( i > 0) springs.at(i)->moveTowards(springs.at(i-1)->getPosition());
-            springs.at(i)->update();
-            positions.push_back( springs.at(i)->getPosition() );
+        for(int i = 0; i < mJointCount; i++){
+            if( i > 0) springs[i].moveTowards(springs[i-1].getPosition());
+            springs[i].update();
+            positions.push_back( springs[i].getPosition() );
         }
         
     }
@@ -81,8 +82,8 @@ public:
         
         bool feelerInContact = false;
         
-        for(int i = 1; i < springs.size(); i++){
-            if( springs.at(i)->collide(entityPosition, colliderSize) )
+        for(int i = 1; i < mJointCount; i++){
+            if( springs[i].collide(entityPosition, colliderSize) )
             {
                 feelerInContact = true;
             }
@@ -101,21 +102,20 @@ public:
         
         bool feelerActivated = false;
         
-        for(int i = 1; i < springs.size(); i++){
+        for(int i = 1; i < mJointCount; i++){
             
-            float alongRatio = (float)i / springs.size();
-            
-            SpringyObject * spring = springs.at(i);
+            float alongRatio = (float)i / mJointCount;
+
             
             if( !feelerActivated )
             {
-                if( glm::distance( spring->getPosition(), colliderPos ) < minDist ) feelerActivated = true;
+                if( glm::distance( springs[i].getPosition(), colliderPos ) < minDist ) feelerActivated = true;
             }
             
             //All feelers above the 'activated' point feel towards the positions
             if( feelerActivated )
             {
-                spring->addForce( (colliderPos - spring->getPosition()) * force * alongRatio );
+                springs[i].addForce( (colliderPos - springs[i].getPosition()) * force * alongRatio );
             }
         }
         return feelerActivated;
@@ -127,9 +127,9 @@ public:
     
 private:
 
-    vector<SpringyObject*> springs;
+    SpringyObject * springs;
     vector<vec2> positions;
-    
+    int mJointCount = 10;
     float baseWidth = 4.0f;
     float tipWidth = 0.2f;
     

@@ -55,8 +55,8 @@ public:
 
 void CellApp::setup(){
     
-    image = * new CellRenderer();
-    entityManager = * new EntityManager( &image );
+    image = CellRenderer();
+    entityManager = EntityManager( &image );
 
     //Open Cell-Audio.app
     if( RUN_AUDIO )
@@ -71,9 +71,7 @@ void CellApp::setup(){
     
     gl::enableAdditiveBlending( );
     
-    auto a = vec3(0,1,0);
-    auto b = vec3(1,1,0);
-    cout << dot(a,b) << endl;
+    entityManager.init();
     
 }
 
@@ -107,8 +105,9 @@ void CellApp::keyDown( KeyEvent event ){
 }
 
 
-void CellApp::update(){
-
+void CellApp::update()
+{
+    
     //Recalculate delta time
     float currentTime = app::getElapsedSeconds();
     deltaTime = currentTime - lastStepTime;
@@ -125,8 +124,8 @@ void CellApp::update(){
 
 }
 
-void CellApp::draw(){
-
+void CellApp::draw()
+{
 
     image.refresh();
 
@@ -214,7 +213,8 @@ inline vec2 CellApp::mousePosition()
 
 CINDER_APP( CellApp, RendererGl( RendererGl::Options().msaa( 4 ) ), [&]( App::Settings *settings )
 {
-    settings->setFullScreen();
+    settings->setWindowSize(800, 600);
+   //settings->setFullScreen();
     settings->setFrameRate(60.0f);
     settings->setHighDensityDisplayEnabled();
     settings->setTitle( "CELL v1.1" );

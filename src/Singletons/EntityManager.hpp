@@ -37,13 +37,15 @@ public:
     EntityManager(){ }
     EntityManager( CellRenderer * img );
     
+    void init();
+    
 	void update( );
     void updateHero( const vec2 & mouseLoc, bool canMove );
     void drawEntities();
     void printEntityStats();
     void quit();
     
-    vector<PulseEvent> * pulseEvents;
+    vector<PulseEvent> pulseEvents;
     
     EnvironmentManager environment;
     
@@ -56,10 +58,10 @@ private:
     Player * hero;
 
     //Entity collection -- its a pointer so other subsystems can reference it
-    vector<GameObject*> * gameObjects;
+    vector<GameObject*> gameObjects;
     
     //Managers etc
-    OSCManager * oscManager;
+    OSCManager oscManager;
     CellRenderer * renderer;
     
     //Subsystems

@@ -1,7 +1,10 @@
 #include "OSCManager.hpp"
 #include "EntityManager.hpp"
 
-OSCManager :: OSCManager(){
+
+
+
+OSCManager :: OSCManager( EntityManager * e ) : entities(e) {
     host = "localhost";
     port = 57120;
     sender.setup(host, port);
@@ -33,15 +36,15 @@ void OSCManager :: recieveMessage(){
         
         listener.getNextMessage(&message);
         if(message.getAddress() == "/friendlyPulse"){
-            entities->pulseEvents->push_back( * new PulseEvent( FRIENDLY, message.getArgAsInt32(0) ) );
+            entities->pulseEvents.emplace_back( FRIENDLY, message.getArgAsInt32(0) );
         }
         
         if(message.getAddress() == "/twirlPulse"){
-            entities->pulseEvents->push_back( * new PulseEvent( URCHIN, message.getArgAsInt32(0) ) );
+            entities->pulseEvents.emplace_back( URCHIN, message.getArgAsInt32(0) );
         }
         
         if(message.getAddress() == "/sparkPulse"){
-            entities->pulseEvents->push_back( * new PulseEvent( SPARK, message.getArgAsInt32(0) ) );
+            entities->pulseEvents.emplace_back( SPARK, message.getArgAsInt32(0) );
         }
         
         if(message.getAddress() == "/audioFinishedLoading"){
@@ -57,7 +60,8 @@ void OSCManager :: recieveMessage(){
             
             sendMessage("/startLoop");
             initialised = true;
-        } 
+        }
+        
     }
     
   

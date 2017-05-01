@@ -30,7 +30,7 @@ EnvironmentManager :: EnvironmentManager( CellRenderer * r, vector<GameObject*> 
 
 //create a splash at specified point
 void EnvironmentManager :: splash( const vec2 & loc, int start, int end ){
-    entities->push_back( new Splash( loc, start, end, 1  ) );
+    entities->push_back( new Splash(loc,start,end,1) );
 }
 
 //create a number of bubbles, at random depths - used for eating plankton etc

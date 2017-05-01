@@ -24,27 +24,26 @@ int Spore::sparksSpawned = 0;
 EntityManager :: EntityManager( CellRenderer * img ){
     
     //set up OSC
-    oscManager = new OSCManager();
-    oscManager->entities = this;
-    
-    gameObjects = new vector<GameObject*>();
 
     //set up managers, singletons
     renderer = img;
-    environment = * new EnvironmentManager( renderer, gameObjects );
-    
+
     //first entities: the hero (player) and the starting egg
     hero = new Player(vec2(-400,-4000) );
-  
-    entityGenerator = * new EntityGenerator( gameObjects );
+    
+    gameObjects.push_back( hero );
+
+}
+
+void EntityManager :: init()
+{
+    oscManager = OSCManager(this);
+
+    entityGenerator = EntityGenerator( &gameObjects );
     entityGenerator.hero = hero;
     entityGenerator.image = renderer;
+    environment = EnvironmentManager( renderer, &gameObjects );
     
-
-    
-    gameObjects->push_back( hero );
-
- 
     for(int i = 0; i < 20; i++)
     {
         vec2 pos = vec2(-400,-2000);
@@ -57,16 +56,13 @@ EntityManager :: EntityManager( CellRenderer * img ){
         }
     }
     
-   
-
-    pulseEvents = new vector<PulseEvent>();
     
-
 }
 
 void EntityManager :: quit(){
-    oscManager->quit();
+    oscManager.quit();
 }
+
 
 
 //Update loop called from the Main App class
@@ -75,18 +71,20 @@ void EntityManager :: quit(){
 //and activates PCG
 void EntityManager :: update( ){
     
+    
 
     
-    oscManager->recieveMessage();
+    oscManager.recieveMessage();
 
-    if( getElapsedFrames() > 400 ) entityGenerator.generate();
+    if( getElapsedFrames() > 0 ) entityGenerator.generate();
+//    cout << "Main: " << gameObjects.size() << endl;
     
 
 
     
     //Temporary collection of collideable-only entities
     vector<GameObject*> colliders;
-    for( vector<GameObject*>::iterator itEntity = gameObjects->begin(); itEntity < gameObjects->end(); ++itEntity )
+    for( vector<GameObject*>::iterator itEntity = gameObjects.begin(); itEntity < gameObjects.end(); ++itEntity )
     {
         ICollideable * isCollideable = dynamic_cast<ICollideable*>( *itEntity );
         if( isCollideable ) colliders.push_back( *itEntity );
@@ -95,7 +93,7 @@ void EntityManager :: update( ){
     
     //Update
     
-    for( vector<GameObject*>::iterator itEntity = gameObjects->begin(); itEntity < gameObjects->end(); ++itEntity )
+    for( vector<GameObject*>::iterator itEntity = gameObjects.begin(); itEntity < gameObjects.end(); ++itEntity )
     {
         IDynamic * isDyanmic = dynamic_cast<IDynamic*>( *itEntity );
         if( isDyanmic ) isDyanmic->update();
@@ -104,7 +102,7 @@ void EntityManager :: update( ){
     
     //Handle Events from OSC
     
-    for( vector<PulseEvent>::iterator itPulse = pulseEvents->begin(); itPulse < pulseEvents->end(); ++itPulse )
+    for( vector<PulseEvent>::iterator itPulse = pulseEvents.begin(); itPulse < pulseEvents.end(); ++itPulse )
     {
         PulseEvent pulse = *itPulse;
         int count = 0;
@@ -144,7 +142,7 @@ void EntityManager :: update( ){
     }
     
     //Clear events list
-    pulseEvents->clear();
+    pulseEvents.clear();
 
     
     //Collisions...
@@ -152,15 +150,15 @@ void EntityManager :: update( ){
     for( vector<GameObject*>::iterator itEntity = colliders.begin(); itEntity < colliders.end(); ++itEntity )
     {
         ICollideable * isCollideable = dynamic_cast<ICollideable*>( *itEntity );
-        isCollideable->collide( &colliders, hero, environment, *oscManager );
+        isCollideable->collide( &colliders, hero, environment, oscManager );
         
         if( (*itEntity)->mType == SPORE )
         {
             Spore * spore = static_cast<Spore*>(*itEntity);
             if( spore->isDead() )
             {
-                gameObjects->push_back(new Spark(spore->getPosition(), spore->getSporeType() ));
-                oscManager->newSpark( spore->getSporeType()  );
+                gameObjects.push_back(new Spark(spore->getPosition(), spore->getSporeType() ));
+                oscManager.newSpark( spore->getSporeType()  );
                 Spore::sparksSpawned++;
             }
         }
@@ -171,7 +169,7 @@ void EntityManager :: update( ){
 
     //Delete...
         
-    for( vector<GameObject*>::iterator itEntity = gameObjects->begin(); itEntity < gameObjects->end(); )
+    for( vector<GameObject*>::iterator itEntity = gameObjects.begin(); itEntity < gameObjects.end(); )
     {
         GameObject * ptrEntity = *itEntity;
         
@@ -182,7 +180,7 @@ void EntityManager :: update( ){
         if(ptrEntity->mDeleteMe)
         {
             delete ptrEntity;
-            itEntity = gameObjects->erase( itEntity );
+            itEntity = gameObjects.erase( itEntity );
         } else {
             ++itEntity;
         }
@@ -206,7 +204,7 @@ void EntityManager :: updateHero( const vec2 & mousePos, bool canMove ){
 
     hero->setDestination( globalise( canMove ? mousePos : vec2( getWindowWidth() / 2, getWindowHeight() / 2 + 50), 1 ) );
 
-    oscManager->setDepth( (-hero->getPosition().y) / 7000 );
+    oscManager.setDepth( (-hero->getPosition().y) / 7000 );
     
     //constantly make splashes around hero
     environment.splash( hero->getPosition(), hero->getSize() * 1.8, hero->getSize() * 2.4);
@@ -226,7 +224,7 @@ void EntityManager :: updateOffset(){
 
     vec2 offsetPos = renderer->toLocal(hero->getPosition(),1);
     
-    for( vector<GameObject*>::iterator itEntity = gameObjects->begin(); itEntity < gameObjects->end(); ++itEntity )
+    for( vector<GameObject*>::iterator itEntity = gameObjects.begin(); itEntity < gameObjects.end(); ++itEntity )
     {
         GameObject * ptrEntity = *itEntity;
         if( ptrEntity->mType == EGG )
@@ -294,7 +292,7 @@ void EntityManager :: drawEntities()
     gl::clear( Color( r,g,b ) );
     
     
-    for( vector<GameObject*>::iterator entity = gameObjects->begin(); entity < gameObjects->end(); ++entity ){
+    for( vector<GameObject*>::iterator entity = gameObjects.begin(); entity < gameObjects.end(); ++entity ){
         IDrawable * drawableEntity = dynamic_cast<IDrawable*>(*entity);
         
         if( drawableEntity )

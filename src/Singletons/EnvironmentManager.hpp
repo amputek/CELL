@@ -20,16 +20,16 @@ public:
     void update( const vec2 & heroPosition );
     void drawMask();
     
-
+    //Pointer to actual entity collection
+    vector<GameObject*> * entities;
+    
     
 private:
 
     //Pointer to renderer's mask
     Mask * mask;
     
-    //Pointer to actual entity collection
-    vector<GameObject*> * entities;
-    
+
     //Pointer to renderer
     CellRenderer * renderer;
     

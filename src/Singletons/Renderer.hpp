@@ -32,6 +32,27 @@ public:
     int entityDrawCount = 0;
     bool miniMapActive = false;
     
+    GlslProgRef mShader;
+    
+    void loadShader( const std::string &path )
+    {
+        // Load the geometry shader as a text file into memory and prepend the header
+        DataSourceRef geomFile = loadAsset( path );
+        
+        // Load vertex and fragments shaders as text files and compile the shader
+        try {
+            DataSourceRef vertFile = loadAsset( "shaders/lines.vert" );
+            
+            DataSourceRef fragFile = loadAsset( "shaders/lines.frag" );
+            
+            mShader = gl::GlslProg::create( vertFile, fragFile, geomFile );
+        }
+        catch( const std::exception &e ) {
+            console() << "Could not compile shader:" << e.what() << std::endl;
+        }
+    }
+    
+    
     void drawCursor( const vec2 & mousePos )
     {
         gl::ScopedBlendAlpha alpha;

@@ -27,10 +27,12 @@ public:
         float stiffness = 5.0f;
         float mass = 10.0f;
         
+        springs2 = new SpringyObject[numSprings];
+     
         //create new springs with damp, stiffness, mass parameters
         for(int i = 0; i < numSprings; i++){
             float pos =  2 * M_PI * i / numSprings;
-            springs.push_back( new SpringyObject( loc + vec2(sin(pos) * mRadius, cos(pos) * mRadius ) , 1, stiffness, mass, damping  ) );
+            springs2[i] = SpringyObject( loc + vec2(sin(pos) * mRadius, cos(pos) * mRadius ) , 1, stiffness, mass, damping );
         }
         
         //update a few times upon arrival.... shouldn't need to do this I think?
@@ -49,26 +51,26 @@ public:
     }
     
     ~Egg(){
-        for( vector<SpringyObject*>::iterator p = springs.begin(); p != springs.end(); ++p ){
-            delete *p;
-        }
+        delete[] springs2;
         ENTITY_COUNT--;
     }
     
     
     
     
-    void update(){
+    void update()
+    {
         
+
         mPulseCounter += deltaTime * 3.0f;
         
         for(int i = 0; i < numSprings; i++){
             if( randFloat() < 0.2f)
             {
                 float pos =  2 * M_PI * i / numSprings;
-                springs.at(i)->moveTowards( mPosition + vec2(sin(pos) * getSize(), cos(pos) * getSize() ) );
+                springs2[i].moveTowards( mPosition + vec2(sin(pos) * getSize(), cos(pos) * getSize() ) );
             }
-            springs.at(i)->update();
+            springs2[i].update();
         }
         
         
@@ -80,14 +82,14 @@ public:
         for(int i = randInt( numSprings-1 ); j < numSprings; i++, j++){
             int t = i % numSprings;
             int t2 = (i+1) % numSprings;
-            springs.at( t )->moveTowards( springs.at( t2 )->getPosition() );
+            springs2[t].moveTowards( springs2[t2].getPosition() );
         }
         
         j = 0;
         for(int i = numSprings + randInt( numSprings-1); j < numSprings; i--, j++){
             int t = i % numSprings;
             int t2 = (i+1) % numSprings;
-            springs.at( t2 )->moveTowards( springs.at( t )->getPosition() );
+            springs2[t2].moveTowards( springs2[t].getPosition() );
         }
         
     }
@@ -113,9 +115,9 @@ public:
             
             if( ptrCollider->mType == PLAYER || ptrCollider->mType == FRIENDLY || ptrCollider->mType == SPARK )
             {            
-                for( auto spring : springs )
+                for(int i = 0; i < numSprings; i++)
                 {
-                    spring->collide( ptrCollider->getPosition(), ptrCollider->getSize() * 3 );
+                    springs2[i].collide( ptrCollider->getPosition(), ptrCollider->getSize() * 3 );
                 }
             }
         }
@@ -148,10 +150,11 @@ public:
     
     void draw( CellRenderer & renderer )
     {
+        
         vector<vec2> pos;
         
-        for( int n = 0; n < springs.size(); n++)
-            pos.push_back( springs[n]->getPosition() );
+        for( int n = 0; n < numSprings; n++)
+            pos.push_back( springs2[n].getPosition() );
         
         bool drawn = renderer.drawEgg( mPosition, mDrawSize, mPulseCounter, pos );
         if( drawn ) TIME_SINCE_ON_SCREEN = 0;
@@ -167,11 +170,12 @@ public:
 
 private:
     
-    vector<SpringyObject*> springs;;
+    //vector<SpringyObject> springs;;
     int mDrawSize;          //constant value - ratio between png and shape size
     bool mPlayerInside = false;           //allows EntityManager to check if player is inside
     float mPulseCounter = 0.0f;
-    const int numSprings = 80;
+    static const int numSprings = 80;
+    SpringyObject * springs2;
 };
 
 #endif

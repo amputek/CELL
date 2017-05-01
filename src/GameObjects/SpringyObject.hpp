@@ -14,6 +14,7 @@ using namespace std;
 class SpringyObject : public PhysicsObject{
     
 public:
+    SpringyObject() : PhysicsObject(vec2(0,0),1,1,0.2f) { } 
     SpringyObject(vec2 startLocation, float depth, float stiffness, float mass, float damping )
         : PhysicsObject(startLocation, 1, 1, damping), mStiffness(stiffness), mMass(mass){ }
 

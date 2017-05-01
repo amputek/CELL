@@ -59,7 +59,7 @@ CellRenderer :: CellRenderer(){
     miniMap = gl::Fbo::create( 800, 600, format );
     
 
-
+    //loadShader( "shaders/lines1.geom" );
     
 //    loadPngImage( "mask-3"            );
 }

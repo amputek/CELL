@@ -385,16 +385,16 @@
 		D4FA58131C95B26C00B579B0 /* Singletons */ = {
 			isa = PBXGroup;
 			children = (
-				FC771C151E5A64BE00D14ABD /* EntityGenerator.cpp */,
+				D43623AD1C97A86D0068AA89 /* EntityManager.hpp */,
+				D43623AC1C97A86D0068AA89 /* EntityManager.cpp */,
 				FC771C161E5A64BE00D14ABD /* EntityGenerator.hpp */,
+				FC771C151E5A64BE00D14ABD /* EntityGenerator.cpp */,
+				D43623B61C97ADE80068AA89 /* EnvironmentManager.hpp */,
+				D43623B51C97ADE80068AA89 /* EnvironmentManager.cpp */,
 				D43623EE1C97C6080068AA89 /* OSCManager.hpp */,
 				D43623ED1C97C6080068AA89 /* OSCManager.cpp */,
 				D43623DA1C97BC6C0068AA89 /* Mask.cpp */,
 				D43623DB1C97BC6C0068AA89 /* Mask.hpp */,
-				D43623B51C97ADE80068AA89 /* EnvironmentManager.cpp */,
-				D43623B61C97ADE80068AA89 /* EnvironmentManager.hpp */,
-				D43623AC1C97A86D0068AA89 /* EntityManager.cpp */,
-				D43623AD1C97A86D0068AA89 /* EntityManager.hpp */,
 				D4FA58111C95B23400B579B0 /* Renderer.hpp */,
 				D4FA58101C95B23400B579B0 /* Renderer.cpp */,
 			);

@@ -13,8 +13,8 @@ class EntityManager;
 
 class OSCManager{
 public:
-    OSCManager();
-    
+    OSCManager() { };
+    OSCManager( EntityManager * e );
     EntityManager* entities;
     void recieveMessage();
     
