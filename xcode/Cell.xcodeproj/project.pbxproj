@@ -33,7 +33,6 @@
 		D43623DC1C97BC6C0068AA89 /* Mask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623DA1C97BC6C0068AA89 /* Mask.cpp */; };
 		D43623EF1C97C6080068AA89 /* OSCManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43623ED1C97C6080068AA89 /* OSCManager.cpp */; };
 		D4531B761C967E900096D85D /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4531B741C967E900096D85D /* Player.cpp */; };
-		D48B79991C95A561004BB8A7 /* images in Resources */ = {isa = PBXBuildFile; fileRef = D48B79981C95A561004BB8A7 /* images */; };
 		D4FA58121C95B23400B579B0 /* Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4FA58101C95B23400B579B0 /* Renderer.cpp */; };
 		D4FA581A1C95B9CF00B579B0 /* Globals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4FA58181C95B9CF00B579B0 /* Globals.cpp */; };
 		EE35AE5AD7D648F08EC2EFD9 /* OscTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2B47B582D8A45AC9652590B /* OscTypes.cpp */; };
@@ -111,7 +110,6 @@
 		D4531B751C967E900096D85D /* Player.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Player.hpp; path = GameObjects/Player.hpp; sourceTree = "<group>"; };
 		D47D1F4914C74A3A9C7249E5 /* OscTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OscTypes.h; path = ../blocks/OSC/src/osc/OscTypes.h; sourceTree = "<group>"; };
 		D47FD5F529264CDCAB3BAE11 /* OscPacketListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OscPacketListener.h; path = ../blocks/OSC/src/osc/OscPacketListener.h; sourceTree = "<group>"; };
-		D48B79981C95A561004BB8A7 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; name = images; path = ../resources/images; sourceTree = "<group>"; };
 		D4FA58101C95B23400B579B0 /* Renderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Renderer.cpp; path = Singletons/Renderer.cpp; sourceTree = "<group>"; };
 		D4FA58111C95B23400B579B0 /* Renderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Renderer.hpp; path = Singletons/Renderer.hpp; sourceTree = "<group>"; };
 		D4FA58161C95B90500B579B0 /* GameObject.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = GameObject.hpp; path = GameObjects/GameObject.hpp; sourceTree = "<group>"; };
@@ -131,7 +129,7 @@
 		FC771C151E5A64BE00D14ABD /* EntityGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EntityGenerator.cpp; path = Singletons/EntityGenerator.cpp; sourceTree = "<group>"; };
 		FC771C161E5A64BE00D14ABD /* EntityGenerator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = EntityGenerator.hpp; path = Singletons/EntityGenerator.hpp; sourceTree = "<group>"; };
 		FC787A8C1E59633100DBB5AE /* Cell-Audio.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; name = "Cell-Audio.app"; path = "../resources/Cell-Audio.app"; sourceTree = "<group>"; };
-		FCCBB0A61E8724640068939C /* FeelerCreature.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FeelerCreature.hpp; sourceTree = "<group>"; };
+		FCCBB0A61E8724640068939C /* FeelerCreature.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = FeelerCreature.hpp; path = GameObjects/FeelerCreature.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -258,7 +256,6 @@
 			children = (
 				FC20564B1E68C924007EE6B3 /* cell.icns */,
 				FC787A8C1E59633100DBB5AE /* Cell-Audio.app */,
-				D48B79981C95A561004BB8A7 /* images */,
 				A68A9A54267444D6ACAF86A4 /* Info.plist */,
 			);
 			name = Resources;
@@ -499,7 +496,6 @@
 			files = (
 				FC20564C1E68C924007EE6B3 /* cell.icns in Resources */,
 				FC787A8D1E59633100DBB5AE /* Cell-Audio.app in Resources */,
-				D48B79991C95A561004BB8A7 /* images in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -5,16 +5,16 @@
 
 class EntityManager;
 
-#include "Plankton.hpp"
-#include "Egg.hpp"
-#include "Feeler.hpp"
-#include "Jelly.hpp"
-#include "Spore.hpp"
-#include "Urchin.hpp"
-#include "Starfish.hpp"
-#include "Friendly.hpp"
-#include "Player.hpp"
-#include "Spark.hpp"
+#include "../GameObjects/Plankton.hpp"
+#include "../GameObjects/Egg.hpp"
+#include "../GameObjects/Feeler.hpp"
+#include "../GameObjects/Jelly.hpp"
+#include "../GameObjects/Spore.hpp"
+#include "../GameObjects/Urchin.hpp"
+#include "../GameObjects/Starfish.hpp"
+#include "../GameObjects/Friendly.hpp"
+#include "../GameObjects/Player.hpp"
+#include "../GameObjects/Spark.hpp"
 #include "Renderer.hpp"
 
 

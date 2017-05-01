@@ -8,8 +8,8 @@
 #define GameObject_hpp
 
 #include <iostream>
-#include "Globals.hpp"
-#include "Renderer.hpp"
+#include "../Globals.hpp"
+#include "../Singletons/Renderer.hpp"
 
 class EnvironmentManager;
 class OSCManager;

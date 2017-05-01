@@ -5,7 +5,7 @@
 #include "cinder/ImageIo.h"
 #include "cinder/gl/Texture.h"
 #include "cinder/Log.h"
-#include "Globals.hpp"
+#include "../Globals.hpp"
 
 using namespace std;
 using namespace ci::app;
@@ -255,7 +255,7 @@ private:
     cinder::gl::TextureRef loadPngImage( string src ){
         string fullsrc = "images/" + src + ".png";
         try {
-            return gl::Texture::create( loadImage( loadResource( fullsrc ) ) );
+            return gl::Texture::create( loadImage( loadAsset( fullsrc ) ) );
         } catch( std::exception &exc ) {
             CI_LOG_EXCEPTION( "failed to load image.", exc );
             return nullptr;

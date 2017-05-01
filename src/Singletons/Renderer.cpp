@@ -61,7 +61,7 @@ CellRenderer :: CellRenderer(){
 
     //loadShader( "shaders/lines1.geom" );
     
-//    loadPngImage( "mask-3"            );
+    //loadPngImage( "mask-3"            );
 }
 
 void CellRenderer::drawBeam( const vec2 & global, float depth, float op ){

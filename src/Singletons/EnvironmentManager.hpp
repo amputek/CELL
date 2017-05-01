@@ -2,9 +2,9 @@
 #define EnvironmentManager_hpp
 
 #include <iostream>
-#include "Splash.hpp"
-#include "Beam.hpp"
-#include "Bubble.hpp"
+#include "../GameObjects/Splash.hpp"
+#include "../GameObjects/Beam.hpp"
+#include "../GameObjects/Bubble.hpp"
 #include "Renderer.hpp"
 #include "Mask.hpp"
 

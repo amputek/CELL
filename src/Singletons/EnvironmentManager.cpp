@@ -10,9 +10,7 @@ EnvironmentManager :: EnvironmentManager( CellRenderer * r, vector<GameObject*> 
     for( int i = 0; i < 30; i++)
     {
         float depth = randFloat(0.2, 3.0);
-        int img = 0;
-        if( depth < 0.8 || depth > 1.2 ) img = 1;
-        if( depth < 0.5 || depth > 1.5 ) img = 2;
+
         
         vec2 pos = vec2(-400,-2000);
         pos.x += randFloat( -getWindowWidth() / 2, getWindowWidth() / 2 );
